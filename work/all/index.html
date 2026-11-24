@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Work — JCG Studio</title>
+<meta name="description" content="Case studies by JCG Studio.">
+<link rel="icon" href="../../favicon.ico" sizes="32x32">
+<link rel="icon" href="../../assets/mark/jcg-favicon.svg" type="image/svg+xml">
+<script>(function () { var r = document.documentElement, q = location.search, t = null; try { t = /[?&]dark\b/.test(q) ? 'dark' : /[?&]light\b/.test(q) ? 'light' : localStorage.getItem('jcg-next-theme'); } catch (e) {} r.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); })();</script>
+
+<style>
+  @font-face { font-family: 'Archivo'; src: url('../../assets/fonts/Archivo-VF.woff2') format('woff2'); font-weight: 400 700; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: 'Departure Mono'; src: url('../../assets/fonts/DepartureMono-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  :root { --bg: #eef0f2; --ink: #0b0c0e; --dim: #5d636c; --line: rgba(11, 12, 14, .15); --box: #e0e3e7; --box-2: #d8dce1; --signal: #ff5b35; --pad: clamp(16px, 1.6vw, 26px); --gap: clamp(8px, .8vw, 12px); --r: 4px; --cell: 9.6px; color-scheme: light; }
+  :root[data-theme="dark"] { --bg: #0b0c0e; --ink: #e6e9ed; --dim: #8a919b; --line: rgba(230, 233, 237, .15); --box: #14171b; --box-2: #191d22; color-scheme: dark; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.5 'Archivo', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; } h1, p, ul { margin: 0; padding: 0; } ul { list-style: none; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  .hud { font: 400 11px/1.3 'Departure Mono', ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+  .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; height: 60px; padding: 0 var(--pad); padding-top: env(safe-area-inset-top); box-sizing: content-box; background: color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .brand { display: inline-flex; align-items: center; gap: var(--cell); min-height: 44px; margin-right: auto; }
+  .brand-pixel { line-height: 0; } .brand-pixel svg { display: block; height: calc(var(--cell) * 3); width: auto; fill: currentColor; overflow: visible; } .brand-pixel .neck { display: none; }
+  .brand-word svg { display: block; width: calc(var(--cell) * 5.625); height: var(--cell); overflow: visible; }
+  .links { display: flex; align-items: center; gap: clamp(0px, 1.2vw, 18px); font: 500 17px/1 'Archivo', sans-serif; letter-spacing: -.01em; text-transform: lowercase; }
+  .links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; color: var(--dim); transition: color .2s; } .links a:hover, .links a[aria-current] { color: var(--ink); }
+  main { padding: 0 var(--pad) clamp(56px, 8vw, 120px); }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: clamp(22px, 2.6vw, 38px) 0 clamp(12px, 1.2vw, 18px); }
+  .grid { display: grid; grid-template-columns: 1fr; gap: clamp(18px, 2vw, 30px) var(--gap); }
+  @media (min-width: 560px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .item { display: grid; gap: 10px; }
+  .card { position: relative; display: block; aspect-ratio: 10 / 7; border-radius: var(--r); background: var(--box); } li:nth-child(3n + 2) .card--tbc { background: var(--box-2); }
+  .card img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: var(--r); }
+  .cap { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 2px; } .cap b { font: 500 17px/1.2 'Archivo', sans-serif; letter-spacing: -.01em; } .cap { min-height: 21px; }
+  .ticks { position: relative; }
+  .ticks::before { --c: var(--ink); --t: 7px; content: ""; position: absolute; inset: -5px; pointer-events: none; background:
+    linear-gradient(var(--c), var(--c)) left top / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) left top / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) right top / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) left bottom / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) right bottom / 1px var(--t) no-repeat; }
+  .card.ticks::before { inset: 9px; --t: 12px; z-index: 2; opacity: 0; transform: scale(1.06, 1.1); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .12s linear; }
+  .item:hover .card.ticks::before, .item:focus-visible .card.ticks::before { opacity: 1; transform: none; } .item .card.ticks::before { --c: #f7f4ee; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding: 22px var(--pad) calc(28px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); }
+  @media (max-width: 559px) { .links a:not([aria-current]) { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .card.ticks::before, .links a { transition: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../../next/" aria-label="JCG Studio — home"><span class="brand-mark brand-pixel" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 180" width="450" height="180" aria-hidden="true" focusable="false"><rect class="neck" x="180" y="60" width="98" height="60"/><path style="--i:0" d="M78 0H102a18 18 0 0 1 18 18V102a18 18 0 0 1 -18 18H60V18a18 18 0 0 1 18 -18Z"/><path style="--i:1" d="M18 120H60V162a18 18 0 0 1 -18 18H18a18 18 0 0 1 -18 -18V138a18 18 0 0 1 18 -18Z"/><path style="--i:2" d="M153 60H195V120H153a18 18 0 0 1 -18 -18V78a18 18 0 0 1 18 -18Z"/><path style="--i:3" d="M213 0H237a18 18 0 0 1 18 18V42a18 18 0 0 1 -18 18H195V18a18 18 0 0 1 18 -18Z"/><path style="--i:4" d="M195 120H237a18 18 0 0 1 18 18V162a18 18 0 0 1 -18 18H213a18 18 0 0 1 -18 -18V120Z"/><path style="--i:5" d="M288 60H330V120H288a18 18 0 0 1 -18 -18V78a18 18 0 0 1 18 -18Z"/><path style="--i:6" d="M348 0H372a18 18 0 0 1 18 18V42a18 18 0 0 1 -18 18H330V18a18 18 0 0 1 18 -18Z"/><path style="--i:7" d="M330 120H390V162a18 18 0 0 1 -18 18H348a18 18 0 0 1 -18 -18V120Z"/><path style="--i:8" d="M405 90H435a15 15 0 0 1 15 15V105a15 15 0 0 1 -15 15H390V105a15 15 0 0 1 15 -15Z"/></svg></span><span class="brand-word" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 8" width="67.5" height="12" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="butt"><g transform="translate(0 0)" stroke-linejoin="round"><path d="M4.5 2V1.75A1.25 1.25 0 0 0 3.25 0.5H1.75A1.25 1.25 0 0 0 0.5 1.75V2.25A1.25 1.25 0 0 0 1.75 3.5H3.25A1.25 1.25 0 0 1 4.5 4.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V6"/></g><g transform="translate(8 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V8"/></g><g transform="translate(16 0)" stroke-linejoin="round"><path d="M.5 0V6.25A1.25 1.25 0 0 0 1.75 7.5H3.25A1.25 1.25 0 0 0 4.5 6.25V0"/></g><g transform="translate(24 0)" stroke-linejoin="miter"><path d="M.5 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H.5Z"/></g><g transform="translate(32 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V7.5M0 7.5H5"/></g><g transform="translate(40 0)" stroke-linejoin="round"><path d="M1.75 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V1.75A1.25 1.25 0 0 1 1.75 0.5Z"/></g></svg></span></a>
+  <nav class="links" aria-label="Main"><a href="./" aria-current="page">Work</a><a href="../../next/#membership">Membership</a><a href="../../next/#about">About</a></nav>
+</header>
+<main>
+  <div class="head"><h1 class="hud">Case studies</h1></div>
+  <ul class="grid">
+      <li><a class="item" href="../719-studios/deck.html"><span class="card ticks"><img src="../../assets/img/work/719/deck/cover-719-1000.webp?v=3" srcset="../../assets/img/work/719/deck/cover-719-1000.webp?v=3 1000w, ../../assets/img/work/719/deck/cover-719.webp?v=3 2000w" sizes="(min-width: 1000px) 33vw, (min-width: 560px) 50vw, 100vw" width="1000" height="700" alt="Three rooms seen through a circle, an upside-down arch and an arch, above the 719 Studios logo" fetchpriority="high"></span><span class="cap"><b>719 Studios</b><span class="hud">2021 to 2026</span></span></a></li>
+      <li><a class="item" href="../ethos-therapy/"><span class="card ticks"><img src="../../assets/img/work/ethos/cover-ethos-1000.webp?v=20261123c" srcset="../../assets/img/work/ethos/cover-ethos-1000.webp?v=20261123c 1000w, ../../assets/img/work/ethos/cover-ethos.webp?v=20261123c 2000w" sizes="(min-width: 1000px) 33vw, (min-width: 560px) 50vw, 100vw" width="1000" height="700" alt="The Ethos Therapy home page over the Marshall Building entrance" loading="lazy"></span><span class="cap"><b>Ethos Therapy</b><span class="hud">2026</span></span></a></li>
+  </ul>
+</main>
+<footer class="foot"><p class="hud">JCG Studio</p><p class="hud">hello@jcg.studio</p></footer>
+</body>
+</html>

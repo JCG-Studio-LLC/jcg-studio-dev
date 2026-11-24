@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JCG Studio</title>
+<meta name="description" content="Your team's senior designer, on membership. Product and brand design for teams launching something new.">
+<link rel="stylesheet" href="../assets/css/footer-game.css">
+<script>(function () { var r = document.documentElement, q = location.search, t = null; try { t = /[?&]dark\b/.test(q) ? 'dark' : /[?&]light\b/.test(q) ? 'light' : localStorage.getItem('jcg-next-theme'); } catch (e) {} r.dataset.theme = t || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); r.classList.add('js', 'mark-intro'); })();</script>
+
+<style>
+  @font-face { font-family: 'Archivo'; src: url('../assets/fonts/Archivo-VF.woff2') format('woff2'); font-weight: 400 700; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: 'Departure Mono'; src: url('../assets/fonts/DepartureMono-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  :root { --bg: #eef0f2; --ink: #0b0c0e; --dim: #5d636c; --line: rgba(11, 12, 14, .15); --box: #e0e3e7; --box-2: #d8dce1; --signal: #ff5b35; --pad: clamp(16px, 1.6vw, 26px); --gap: clamp(8px, .8vw, 12px); --r: 4px; --cell: 9.6px; color-scheme: light; }
+  :root[data-theme="dark"] { --bg: #0b0c0e; --ink: #e6e9ed; --dim: #8a919b; --line: rgba(230, 233, 237, .15); --box: #14171b; --box-2: #191d22; color-scheme: dark; }
+  * { box-sizing: border-box; } html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.5 'Archivo', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; transition: background-color .25s ease, color .25s ease; }
+  h1, h2, h3, p, ul, ol { margin: 0; padding: 0; font: inherit; } ul, ol { list-style: none; } a { color: inherit; text-decoration: none; } img { display: block; max-width: 100%; } button { font: inherit; color: inherit; }
+  .skip { position: absolute; left: -999px; } .skip:focus { left: 12px; top: 12px; z-index: 9; padding: 8px 12px; background: var(--ink); color: var(--bg); }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  /* three styles and a label: the sentence, the title, the line; labels in Departure Mono */
+  .big { font: 560 clamp(36px, 5.9vw, 96px)/.98 'Archivo', sans-serif; font-stretch: 118%; letter-spacing: -.04em; text-wrap: balance; }
+  .mid { font: 540 clamp(24px, 2.7vw, 40px)/1.04 'Archivo', sans-serif; font-stretch: 118%; letter-spacing: -.03em; }
+  .hud { font: 400 11px/1.3 'Departure Mono', ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+  .dim { color: var(--dim); }
+  /* the top bar: the logo on the left, the three links in the middle, the sun switch and Subscribe on the right */
+  .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; height: 60px; padding: 0 var(--pad); background: color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: background-color .25s ease; }
+  .brand { display: inline-flex; align-items: center; gap: var(--cell); min-height: 44px; margin-right: auto; } .brand-pixel { line-height: 0; }
+  .brand-pixel svg { display: block; height: calc(var(--cell) * 3); width: auto; fill: currentColor; overflow: visible; } .brand-word svg { display: block; width: calc(var(--cell) * 5.625); height: var(--cell); overflow: visible; }
+  /* the readout: where the studio is, the time there and the weather there, all real (script). Beside the logo on wide screens, a line over the sentence on narrow ones, and in the footer. */
+  .status { display: none; gap: 3px; margin: 0 0 0 clamp(16px, 1.8vw, 28px); color: var(--dim); line-height: 1.2; } .status > span, .hero-status { display: flex; align-items: center; gap: 0 7px; white-space: nowrap; } .status > span:last-child { color: var(--ink); }
+  .hero-status { flex-wrap: wrap; margin: 0 0 clamp(12px, 3vw, 18px); color: var(--dim); white-space: normal; } .hero-status [data-now], .hero-status [data-wx] { color: var(--ink); }
+  .status i, .hero-status i, .now i { flex: none; width: 6px; height: 6px; background: var(--signal); animation: creed-blink 2s steps(1) infinite; } [data-wx]::before, .hero-status [data-now]::before { content: "· "; color: var(--dim); } [data-wx][hidden] { display: none; }
+  .links { display: none; position: absolute; left: 50%; top: 0; height: 100%; transform: translateX(-50%); align-items: center; gap: clamp(4px, 1.2vw, 18px); font: 500 17px/1 'Archivo', sans-serif; letter-spacing: -.01em; text-transform: lowercase; }   /* centred on the page, whatever sits left and right */
+  .links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--dim); transition: color .2s; } .links a:hover { color: var(--ink); }
+  /* the theme switch: a square button with one pixel icon in its centre, drawn by script on an 11 x 11 grid (one canvas pixel
+     per cell): a sun in the light theme, a moon in the dark one. Between the two the icon recompiles in a diagonal sweep of
+     noise, like the ASCII, then pops. At rest the sun's rays turn and the moon's two stars take turns. */
+  .sun { all: unset; box-sizing: border-box; position: relative; flex: none; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--line); border-radius: var(--r); cursor: pointer; color: var(--ink); transition: border-color .25s; -webkit-tap-highlight-color: transparent; }
+  .sun::after { content: ""; position: absolute; inset: -3px; } .sun:hover { border-color: var(--ink); } .sun:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; } .sun:active canvas { transform: translateY(1px); }
+  .sun canvas { display: block; width: 22px; height: 22px; image-rendering: pixelated; } .sun canvas.pop { animation: pop .34s steps(4, end); } @keyframes pop { 0% { transform: scale(.7) rotate(-12deg); } 50% { transform: scale(1.22) rotate(6deg); } 100% { transform: none; } }
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--ink); color: var(--bg); white-space: nowrap; transition: background-color .25s, color .25s, border-color .25s; -webkit-tap-highlight-color: transparent; }
+  .btn .arr { display: inline-block; transition: transform .25s cubic-bezier(.2, .7, .2, 1); } .btn:hover .arr, .btn:focus-visible .arr { transform: translateX(4px); } .btn:active { transform: translateY(1px); }
+  .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); } .btn--ghost:hover { border-color: var(--ink); }
+  .top .btn { min-height: 40px; padding: 0 14px; }
+  /* the hero: the sentence, and the sun on the horizon */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); padding-bottom: clamp(110px, 32vw, 190px); }   /* short, so a full row of covers and a little of the next show under it */
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .hero-in { position: relative; z-index: 1; padding: clamp(22px, 3.2vw, 46px) var(--pad) 0; } .hero h1 { font-size: clamp(36px, 5.2vw, 84px); } .hero-in h1 + p { margin-top: clamp(14px, 1.5vw, 22px); max-width: 62ch; color: var(--dim); }
+  main { padding: 0 var(--pad); }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: clamp(22px, 2.6vw, 38px) 0 clamp(12px, 1.2vw, 18px); }
+  section { padding-bottom: clamp(56px, 8vw, 120px); scroll-margin-top: 60px; }
+  /* case studies: landscape cards, three across */
+  .grid { display: grid; grid-template-columns: 1fr; gap: var(--gap); }
+  .card { position: relative; display: block; aspect-ratio: 10 / 7; border-radius: var(--r); background: var(--box); overflow: hidden; transition: background-color .25s ease; } .card:nth-child(3n + 2) { background: var(--box-2); }
+  .card span { position: absolute; left: 24px; bottom: 21px; color: var(--dim); } .card img { width: 100%; height: 100%; object-fit: cover; } .card:nth-child(n + 7) { display: none; }
+  /* the offer: plain cards, public prices */
+  .plans { display: grid; gap: var(--gap); } .plan { display: grid; gap: clamp(22px, 3vw, 40px); padding: clamp(18px, 2.2vw, 32px); border: 1px solid var(--line); border-radius: var(--r); transition: border-color .25s ease; }
+  .plan { min-width: 0; } .plan .top-row { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px 16px; } .plan .bot { display: grid; gap: 14px clamp(28px, 4vw, 64px); } .price { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; } .price .hud { color: var(--dim); } .plan ul { display: flex; flex-wrap: wrap; gap: 2px 22px; margin-top: 6px; color: var(--dim); }
+  .terms { display: flex; flex-wrap: wrap; gap: 6px 26px; margin-top: 16px; color: var(--dim); }
+  .cols { display: grid; gap: clamp(26px, 4vw, 60px); border-top: 1px solid var(--line); } .cols > li { display: grid; align-content: start; gap: 12px; padding-top: clamp(16px, 1.8vw, 24px); }
+  .cols p { max-width: 38ch; color: var(--dim); } .cols .n { color: var(--dim); } .cols ul { display: grid; gap: 2px; color: var(--dim); }
+  .about { display: grid; gap: clamp(20px, 4vw, 60px); align-items: end; } .about .mid { max-width: 22em; } .about p + p { margin-top: clamp(14px, 1.6vw, 22px); max-width: 44ch; color: var(--dim); }
+  .end { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; padding: clamp(10px, 3vw, 40px) 0 clamp(50px, 8vw, 110px); }
+  /* the footer is night in both themes: the Breakout game on the logo (assets/js/footer-game.js, the live site's) draws in chrome on the void.
+     The old site's token names are mapped here so its stylesheet (footer-game.css) and its hold-to-play button work unchanged. */
+  footer { --bg: #0b0c0e; --ink: #e6e9ed; --dim: #8a919b; --line: rgba(230, 233, 237, .15); --void: var(--bg); --chrome: var(--ink); --chrome-3: var(--dim); --line-strong: rgba(230, 233, 237, .3); --edge: var(--pad); background: var(--bg); color: var(--dim); color-scheme: dark; }
+  .foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 16px var(--pad); } footer a { color: var(--ink); } footer a:hover { color: var(--signal); }
+  .foot-game canvas { padding-bottom: env(safe-area-inset-bottom); }
+  .btn--sm { min-height: 36px; padding: 0 14px; } .btn--sm::after { content: ""; position: absolute; inset: -4px; } .btn .lamp { width: 6px; height: 6px; flex: none; background: currentColor; opacity: .35; } .btn.is-pressed { transform: translateY(1px); }
+  /* hold to play (press.js fuse): the brackets close in while the lamp fills */
+  [data-fuse] { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; touch-action: manipulation; } .fuse-ticks.ticks { position: absolute; inset: calc(-14px + 9px * var(--fuse, 0)); opacity: 0; pointer-events: none; } .fuse-ticks.ticks::before { inset: 0; --t: 6px; --c: var(--ink); }
+  [data-fuse].is-holding > .fuse-ticks, [data-fuse].is-sprung > .fuse-ticks, [data-fuse].is-fused > .fuse-ticks { opacity: 1; } [data-fuse].is-fused > .fuse-ticks { animation: snap-text .36s steps(3, end) both; } [data-fuse].is-sprung > .fuse-ticks { opacity: calc(var(--fuse, 0) * 2); }
+  .btn[data-fuse] .lamp { opacity: 1; background: linear-gradient(to top, var(--signal) calc(var(--fuse, 0) * 100%), color-mix(in srgb, currentColor 35%, transparent) 0); } [data-fuse].is-holding { transform: translateY(1px); }
+  .fuse-hint { position: absolute; left: 50%; top: -12px; translate: -50% -100%; opacity: 0; pointer-events: none; background: var(--bg); color: var(--ink); } .fuse-hint.is-on { animation: fuse-hint 1.4s ease-out both; }
+  @keyframes fuse-hint { 0% { opacity: 0; translate: -50% calc(-100% + 4px); } 12%, 82% { opacity: 1; translate: -50% -100%; } 100% { opacity: 0; translate: -50% -100%; } }
+  /* ── JCG's own interface moves (from the live site): brackets, split-flap, pixel builds, lamps ── */
+  .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .ticks { position: relative; }
+  .ticks::before { --c: var(--ink); --t: 7px; content: ""; position: absolute; inset: -5px; pointer-events: none; background:
+    linear-gradient(var(--c), var(--c)) left top / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) left top / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) right top / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) left bottom / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) right bottom / 1px var(--t) no-repeat; }
+  /* lock-on: the brackets wait loose and unseen, then seat with the HUD overshoot (buttons on hover, focus and press; covers on hover, or as they cross the middle of a phone screen) */
+  .btn.ticks::before, .card.ticks::before { opacity: 0; transform: scale(1.1, 1.4); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .12s linear; }
+  .btn.ticks:hover::before, .btn.ticks:focus-visible::before, .btn.ticks:active::before, .card.ticks.is-on::before { opacity: 1; transform: none; }
+  .card.ticks::before { inset: 9px; --t: 12px; z-index: 2; transform: scale(1.06, 1.1); } .card span { display: inline-flex; align-items: center; gap: 8px; transition: color .2s; } .card span::after { content: ""; width: 6px; height: 6px; background: var(--signal); opacity: 0; transition: opacity .12s; }
+  .card.is-on span { color: var(--ink); } .card.is-on span::after { opacity: 1; }
+  @media (hover: hover) { .card.ticks:hover::before { opacity: 1; transform: none; } .card:hover span { color: var(--ink); } .card:hover span::after { opacity: 1; } }
+  /* split-flap labels (splitflap.js wraps each glyph) */
+  .flap { display: inline-flex; } .flap-ch { position: relative; display: inline-block; width: 1ch; text-align: center; } .flap-ch.is-flip { animation: flap 70ms steps(2, end); }
+  .flap-ch.is-flip::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: currentColor; opacity: .35; } @keyframes flap { 0% { transform: scaleY(.55); } 100% { transform: none; } }
+  /* section labels snap into their brackets the first time they come into view */
+  .snap { padding: 7px 10px; } .snap::before { --c: var(--dim); --t: 5px; inset: 0; } .js .snap::before { opacity: 0; transform: scale(1.22, 1.9); }
+  .js .snap.is-snapped::before { opacity: 1; transform: none; transition: transform .52s cubic-bezier(.3, 1.4, .5, 1), opacity .18s linear; } .js .snap.is-snapped { animation: snap-text .36s steps(3, end) both; }
+  @keyframes snap-text { 0% { opacity: .2; } 34% { opacity: 1; } 67% { opacity: .55; } 100% { opacity: 1; } }
+  /* covers build out of the pixel grid (script draws the dither); until then the card is empty */
+  .js .card:not(.is-built) { background: transparent; } .js .card:not(.is-built) span { opacity: 0; } .card canvas, .shot canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+  /* a cover with artwork: the picture waits for the build, and its brackets stay dark on the light art in both themes */
+  .js .card--art:not(.is-built) img { opacity: 0; } .card--art.ticks::before { --c: #0b0c0e; }
+  /* plans: square, with brackets on the corners */
+  .plan.ticks { border-radius: 0; } .plan.ticks::before { inset: -1px; --t: 11px; }
+  /* how it works: a signal packet runs the line once and the three lamps light as it passes */
+  /* how it works: one small story told in three ASCII scenes, in order, on a loop (an example queue, labelled as one):
+     the three places get set up, four requests are typed into the queue, and one lands every second working day.
+     A packet moves along the line from scene to scene and each step's lamp lights when its scene starts. */
+  .console { position: relative; border: 1px solid var(--line); margin-bottom: clamp(14px, 1.6vw, 22px); transition: border-color .25s ease; } .console.ticks::before { inset: -1px; --t: 10px; --c: var(--dim); }
+  .console-bar { display: flex; justify-content: space-between; gap: 16px; padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--dim); } .console-bar span { display: inline-flex; align-items: center; gap: 8px; } .console-bar i { width: 6px; height: 6px; background: var(--signal); animation: creed-blink 2s steps(1) infinite; } .console-bar b { font-weight: 400; color: var(--ink); }
+  .console-body { display: grid; } .pane { display: none; place-items: center; padding: 20px 14px; min-height: 140px; overflow: hidden; } .pane.is-now { display: grid; }
+  .pane pre { margin: 0; min-width: 238px; min-height: 98px; font: 400 11px/14px 'Departure Mono', ui-monospace, monospace; letter-spacing: 0; white-space: pre; color: var(--dim); } .pane pre b { font-weight: 400; color: var(--ink); } .pane pre i { font-style: normal; color: var(--signal); }
+  @media (min-width: 1000px) { .console-body { grid-template-columns: repeat(3, minmax(0, 1fr)); } .pane { display: grid; opacity: .45; transition: opacity .4s ease; } .pane.is-now { opacity: 1; } .pane + .pane { border-left: 1px solid var(--line); } }
+  .pipe { position: relative; } .pipe::before { content: ""; position: absolute; top: -2px; left: calc(var(--k, 0) * 33.333%); width: 34px; height: 3px; background: var(--signal); transition: left .7s cubic-bezier(.65, 0, .35, 1); display: none; }
+  .pipe .n { display: inline-flex; align-items: center; gap: 8px; transition: color .2s; } .pipe .n::before { content: ""; width: 6px; height: 6px; background: var(--line); transition: background-color .15s; }
+  .pipe li.is-on .n { color: var(--ink); } .pipe li.is-on .n::before { background: var(--signal); }
+  .pipe { border-top: 0; } .pipe > li { opacity: .42; transition: opacity .4s ease; } .pipe > li.is-now, .pipe.is-still > li { opacity: 1; }
+  @media (min-width: 800px) { .pipe { border-top: 1px solid var(--line); } .pipe::before { display: block; } }
+  /* what's included: three big rows; each one's list runs past as a tape */
+  .rows { border-top: 1px solid var(--line); } .rows > li { display: grid; gap: clamp(8px, 1vw, 14px); padding: clamp(18px, 2.2vw, 30px) 0 clamp(16px, 2vw, 26px); border-bottom: 1px solid var(--line); }
+  .rows .n { display: inline-flex; align-items: center; gap: 8px; color: var(--dim); transition: color .2s; } .rows .n::before { content: ""; width: 6px; height: 6px; background: var(--line); transition: background-color .15s; } .rows h3 { transition: transform .28s cubic-bezier(.2, .7, .2, 1); }
+  .mq { overflow: hidden; margin: 0 calc(var(--pad) * -1); color: var(--dim); transition: color .2s; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+  .mq ul { display: flex; width: max-content; padding-left: var(--pad); } .mq li { display: inline-flex; align-items: center; gap: 26px; padding-right: 26px; white-space: nowrap; } .mq li::after { content: ""; width: 5px; height: 5px; background: currentColor; opacity: .45; }
+  .js .mq ul.is-run { padding-left: 0; animation: mq var(--mq-t, 40s) linear infinite; } .rows > li:nth-child(even) .mq ul.is-run { animation-direction: reverse; } @keyframes mq { to { transform: translateX(-50%); } }
+  .rows > li.is-on .n { color: var(--ink); } .rows > li.is-on .n::before { background: var(--signal); } .rows > li.is-on .mq { color: var(--ink); } .rows > li.is-on h3 { transform: translateX(clamp(8px, 1.4vw, 20px)); }
+  @media (hover: hover) { .rows > li:hover .n { color: var(--ink); } .rows > li:hover .n::before { background: var(--signal); } .rows > li:hover .mq { color: var(--ink); } .rows > li:hover h3 { transform: translateX(clamp(8px, 1.4vw, 20px)); } .rows > li:hover .mq ul { animation-play-state: paused; } }
+  /* the plans: a two-lane meter made of the mark's blocks. Standard runs one lane, Pro runs both, in the orange. */
+  .plan .name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; } .chip { display: inline-flex; align-items: center; gap: 7px; min-height: 24px; padding: 0 8px; border: 1px solid var(--line); color: var(--dim); white-space: nowrap; }
+  .lanes { display: grid; gap: 5px; } .lane { display: grid; grid-template-columns: repeat(24, minmax(0, 1fr)); gap: 3px; } .lane i { aspect-ratio: 1; background: var(--line); transition: background-color .12s; } .lane i.on { background: var(--ink); } .lane.done i.on { background: var(--dim); }
+  .plan--pro { border-color: color-mix(in srgb, var(--signal) 55%, transparent); } .plan--pro.ticks::before { --c: var(--signal); --t: 16px; }
+  .plan--pro .chip { border-color: var(--signal); color: var(--ink); } .plan--pro .chip::before { content: ""; width: 6px; height: 6px; background: var(--signal); } .plan--pro .lane i.on { background: var(--signal); } .plan--pro .lane.done i.on { background: var(--ink); }
+  /* the portrait resolves from a mosaic */
+  .shot { position: relative; width: 100%; max-width: 420px; aspect-ratio: 4 / 5; border-radius: var(--r); overflow: hidden; background: var(--box); } .shot img { width: 100%; height: 100%; object-fit: cover; } .shot canvas { filter: grayscale(1) contrast(1.05); }
+  .js .shot:not(.is-res) img { opacity: 0; }
+  /* the logo's first build (nav-mark.js) and the creed (creed.js) */
+  /* the logo is plain blocks with 30% corners (JC, 2026-11-13); its build is the budding from nav-mark.js (JC, 2026-11-17: "bring back the same bloom animation"), then STUDIO is typed */
+  html.mark-intro .nav .brand-pixel path { opacity: 0; animation: mark-reveal 0s linear 1.5s forwards; } @keyframes mark-reveal { to { opacity: 1; } }
+  .brand-pixel .mark-ghost { opacity: .22; } .brand-word { position: relative; } .brand-cursor { position: absolute; left: 0; background: var(--signal); }
+  .foot-creed { flex: 0 0 39ch; white-space: nowrap; color: var(--dim); }   /* as wide as its longest line, so the items beside it stay put while it types */ .foot-creed-word { color: var(--ink); } .foot-creed-caret { display: inline-block; width: .6em; height: 1em; margin-left: .15em; background: var(--signal); vertical-align: -.15em; animation: creed-blink 1s steps(1) infinite; } .foot-creed.typing .foot-creed-caret { animation: none; } @keyframes creed-blink { 50% { opacity: 0; } }
+  .now { display: inline-flex; align-items: center; gap: 7px; margin-left: 10px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  @media (min-width: 560px) { .grid { grid-template-columns: 1fr 1fr; } .card:nth-child(n + 7) { display: block; } }
+  @media (min-width: 800px) { .links { display: flex; } .hero { padding-bottom: clamp(18px, 2vw, 28px); min-height: clamp(330px, 40svh, 460px); } .hero-in { max-width: 92vw; }
+    .plan .bot { grid-template-columns: auto 1fr; align-items: end; } .cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } .about { grid-template-columns: minmax(220px, 30%) 1fr; } .plans { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1040px) { .status { display: grid; margin-right: auto; } .brand { margin-right: 0; } .hero-status { display: none; } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 374px) { :root { --cell: 8px; } .top .btn .arr { display: none; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } html.mark-intro .nav .brand-pixel path { opacity: 1; animation: none; } body, .top, .card, .plan, .sun canvas, .pipe::before, .lane i, .pane, .pipe > li, .rows h3 { transition: none; animation: none; } .console-bar i { animation: none; } .mq ul { flex-wrap: wrap; row-gap: 6px; }
+    .foot-creed-caret, .now i, .status i, .hero-status i { animation: none; } .btn.ticks::before, .card.ticks::before { transition: none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#work">Skip to the work</a>
+<header class="top nav">
+  <a class="brand" href="#top" aria-label="JCG Studio — home"><span class="brand-mark brand-pixel" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 180" width="450" height="180" aria-hidden="true" focusable="false"><path d="M153 60L195 60L195 120L153 120C143.06 120 135 111.94 135 102L135 78C135 68.06 143.06 60 153 60ZM213 0L237 0C246.94 0 255 8.06 255 18L255 42C255 51.94 246.94 60 237 60L195 60L195 18C195 8.06 203.06 0 213 0ZM195 120L237 120C246.94 120 255 128.06 255 138L255 162C255 171.94 246.94 180 237 180L213 180C203.06 180 195 171.94 195 162L195 120ZM60 60L120 60L120 102C120 111.94 111.94 120 102 120L60 120L60 60ZM288 60L330 60L330 120L288 120C278.06 120 270 111.94 270 102L270 78C270 68.06 278.06 60 288 60ZM78 0L102 0C111.94 0 120 8.06 120 18L120 60L60 60L60 18C60 8.06 68.06 0 78 0ZM348 0L372 0C381.94 0 390 8.06 390 18L390 42C390 51.94 381.94 60 372 60L330 60L330 18C330 8.06 338.06 0 348 0ZM330 120L390 120L390 162C390 171.94 381.94 180 372 180L348 180C338.06 180 330 171.94 330 162L330 120ZM18 120L60 120L60 162C60 171.94 51.94 180 42 180L18 180C8.06 180 0 171.94 0 162L0 138C0 128.06 8.06 120 18 120ZM405 90L435 90C443.28 90 450 96.72 450 105L450 105C450 113.28 443.28 120 435 120L390 120L390 105C390 96.72 396.72 90 405 90Z"/></svg></span><span class="brand-word" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 8" width="67.5" height="12" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="butt"><g transform="translate(0 0)" stroke-linejoin="round"><path d="M4.5 2V1.75A1.25 1.25 0 0 0 3.25 0.5H1.75A1.25 1.25 0 0 0 0.5 1.75V2.25A1.25 1.25 0 0 0 1.75 3.5H3.25A1.25 1.25 0 0 1 4.5 4.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V6"/></g><g transform="translate(8 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V8"/></g><g transform="translate(16 0)" stroke-linejoin="round"><path d="M.5 0V6.25A1.25 1.25 0 0 0 1.75 7.5H3.25A1.25 1.25 0 0 0 4.5 6.25V0"/></g><g transform="translate(24 0)" stroke-linejoin="miter"><path d="M.5 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H.5Z"/></g><g transform="translate(32 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V7.5M0 7.5H5"/></g><g transform="translate(40 0)" stroke-linejoin="round"><path d="M1.75 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V1.75A1.25 1.25 0 0 1 1.75 0.5Z"/></g></svg></span></a>
+  <p class="status hud"><span>Colorado Springs</span><span><i aria-hidden="true"></i><span data-now></span><span data-wx hidden></span></span></p>
+  <nav class="links" aria-label="Main"><a href="#work">Work</a><a href="#membership">Membership</a><a href="#about">About</a></nav>
+  <button class="sun" type="button" id="sun" aria-label="Switch between light and dark" title="Light / dark"><canvas width="11" height="11" aria-hidden="true"></canvas></button>
+  <a class="btn hud ticks" data-flap href="#membership"><span class="flap">Subscribe</span> <span class="arr" aria-hidden="true">→</span></a>
+</header>
+
+<div class="hero" id="top">
+  <canvas aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <p class="hero-status hud"><i aria-hidden="true"></i><span>Colorado Springs</span><span data-now></span><span data-wx hidden></span></p>
+    <h1 class="big">Your team’s senior designer, on membership.</h1>
+    <p>I join ambitious teams to design new products and the brands that launch them. One flat monthly fee. Pause or cancel anytime.</p>
+  </div>
+</div>
+
+<main>
+  <section id="work" aria-labelledby="h-work">
+    <div class="head"><h2 id="h-work" class="hud ticks snap">Case studies</h2><a class="btn btn--ghost hud ticks" data-flap href="../work/all/"><span class="flap">View all</span> <span class="arr" aria-hidden="true">→</span></a></div>
+    <div class="grid">
+      <a class="card card--art ticks" href="../work/719-studios/deck.html" aria-label="719 Studios case study"><img src="../assets/img/work/719/deck/cover-719-1000.webp?v=3" srcset="../assets/img/work/719/deck/cover-719-1000.webp?v=3 1000w, ../assets/img/work/719/deck/cover-719.webp?v=3 2000w" sizes="(min-width: 1000px) 33vw, (min-width: 560px) 50vw, 100vw" width="1000" height="700" alt="The 719 Studios logo inside the orange circle of the Etherea room"></a>
+      <a class="card card--art ticks" href="../work/ethos-therapy/" aria-label="Ethos Therapy case study"><img src="../assets/img/work/ethos/cover-ethos-1000.webp?v=20261123c" srcset="../assets/img/work/ethos/cover-ethos-1000.webp?v=20261123c 1000w, ../assets/img/work/ethos/cover-ethos.webp?v=20261123c 2000w" sizes="(min-width: 1000px) 33vw, (min-width: 560px) 50vw, 100vw" width="1000" height="700" alt="The Ethos Therapy home page over the Marshall Building entrance" loading="lazy"></a>
+    </div>
+  </section>
+
+  <section id="membership" aria-labelledby="h-mem">
+    <div class="head"><h2 id="h-mem" class="hud ticks snap">Membership</h2></div>
+    <div class="plans">
+      <article class="plan ticks">
+        <div class="top-row"><div class="name"><h3 class="mid">Standard</h3><span class="chip hud">1 active</span></div><a class="btn hud ticks" data-flap href="mailto:hello@jcg.studio?subject=Standard"><span class="flap">Book intro</span> <span class="arr" aria-hidden="true">→</span></a></div>
+        <div class="lanes" data-lanes="1" aria-hidden="true"></div>
+        <div class="bot"><p class="price"><b class="mid">$5,000</b><span class="hud">/ month</span></p><div><p>For teams that need a steady system and a steady stream of work.</p><ul><li>1 active request at a time</li><li>Unlimited requests in your queue</li><li>Unlimited revisions</li></ul></div></div>
+      </article>
+      <article class="plan plan--pro ticks">
+        <div class="top-row"><div class="name"><h3 class="mid">Pro</h3><span class="chip hud">2× bandwidth</span></div><a class="btn hud ticks" data-flap href="mailto:hello@jcg.studio?subject=Pro"><span class="flap">Book intro</span> <span class="arr" aria-hidden="true">→</span></a></div>
+        <div class="lanes" data-lanes="2" aria-hidden="true"></div>
+        <div class="bot"><p class="price"><b class="mid">$7,500</b><span class="hud">/ month</span></p><div><p>For teams moving fast that want twice the throughput.</p><ul><li>2 active requests at a time</li><li>Everything in Standard</li><li>A Slack channel, if you want one</li></ul></div></div>
+      </article>
+    </div>
+    <p class="terms hud"><span>Billed monthly</span><span>No contracts</span><span>Pause anytime</span><span>Delivered to your Figma + Drive</span></p>
+  </section>
+
+  <section id="how" aria-labelledby="h-how">
+    <div class="head"><h2 id="h-how" class="hud ticks snap">How it works</h2></div>
+    <div class="console ticks" aria-hidden="true"><div class="console-bar hud"><span><i></i>Your queue · example</span><span><b data-step>01</b> / 03</span></div><div class="console-body"><div class="pane"><pre></pre></div><div class="pane"><pre></pre></div><div class="pane"><pre></pre></div></div></div>
+    <ol class="cols pipe">
+      <li><span class="n hud">01</span><h3 class="mid">Subscribe</h3><p>Standard or Pro, billed monthly. After a short kickoff, your queue, Figma file, and Drive folder are ready.</p></li>
+      <li><span class="n hud">02</span><h3 class="mid">Request</h3><p>Add as many requests as you like. I take them one at a time on Standard, two at a time on Pro.</p></li>
+      <li><span class="n hud">03</span><h3 class="mid">Receive</h3><p>Something lands every ~2 business days. Each piece lands in Figma or Drive, ready to use.</p></li>
+    </ol>
+  </section>
+
+  <section id="included" aria-labelledby="h-inc">
+    <div class="head"><h2 id="h-inc" class="hud ticks snap">What’s included</h2></div>
+    <ul class="rows">
+      <li><span class="n hud">01</span><h3 class="big">Product design</h3><div class="mq hud"><ul><li>App UI</li><li>Prototypes</li><li>Product concepts</li><li>3D renders</li></ul></div></li>
+      <li><span class="n hud">02</span><h3 class="big">Brand systems</h3><div class="mq hud"><ul><li>Tokens</li><li>Components</li><li>Figma libraries</li><li>DESIGN.md</li></ul></div></li>
+      <li><span class="n hud">03</span><h3 class="big">Launch and collateral</h3><div class="mq hud"><ul><li>Decks</li><li>Sites</li><li>Social</li><li>Investor materials</li><li>Sales one-pagers</li></ul></div></li>
+    </ul>
+  </section>
+
+  <section id="about" aria-labelledby="h-about">
+    <div class="head"><h2 id="h-about" class="hud ticks snap">About</h2><a class="btn btn--ghost hud ticks" data-flap href="../about/"><span class="flap">More</span> <span class="arr" aria-hidden="true">→</span></a></div>
+    <div class="about">
+      <div class="shot"><img src="../assets/img/about/jc-portrait.webp" alt="JC Griffith"></div>
+      <div><p class="mid">I’m JC. I design products and brands for teams launching something new, and for ideas of my own.</p><p>I do the product and the brand myself, so they ship as one thing. AI’s in my workflow. The taste is mine.</p></div>
+    </div>
+  </section>
+
+  <div class="end"><p class="big">Tell me what you’re working on.</p><a class="btn hud ticks" data-flap href="mailto:hello@jcg.studio"><span class="flap">Work with me</span> <span class="arr" aria-hidden="true">→</span></a></div>
+</main>
+<footer class="hud">
+  <div class="foot-row">
+  <p class="foot-creed" aria-label="The future is gonna be rad, bruh">The future is gonna be <span class="foot-creed-word" data-creed>rad, bruh</span><span class="foot-creed-caret" aria-hidden="true"></span></p>
+  <a href="mailto:hello@jcg.studio">hello@jcg.studio</a><span>JCG Studio LLC · Colorado Springs<span class="now"><i aria-hidden="true"></i><span data-now></span><span data-wx hidden></span></span></span><span>2026</span>
+  </div>
+  <div class="foot-game" data-footer-game data-wall="WORK"></div>
+</footer>
+<script type="module">
+  import { initSplitFlap } from '../assets/js/splitflap.js'; initSplitFlap();
+  import '../assets/js/creed.js';
+  import '../assets/js/nav-mark.js';       // the logo buds in from one block, then STUDIO is typed; hover or tap buds it again
+  import '../assets/js/footer-game.js';   // Breakout on the logo, as at the foot of the live site's pages
+</script>
+<script>
+(() => {
+  const root = document.documentElement, hero = document.querySelector('.hero'), cv = hero.querySelector('canvas'), g = cv.getContext('2d'), words = hero.querySelector('.hero-in'), btn = document.getElementById('sun');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const BAYER = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+  let W = 0, H = 0, dpr = 1, cell = 5, G = null, stars = [], rise = reduce.matches ? 1 : 0, aim = 1, on = true, raf = 0, last = 0, T = 0;
+  const dark = () => root.dataset.theme === 'dark';
+
+  function size() {
+    const r = hero.getBoundingClientRect(); if (!(r.width > 0 && r.height > 0)) return;
+    dpr = Math.min(devicePixelRatio || 1, 2); W = Math.round(r.width); H = Math.round(r.height); cv.width = W * dpr; cv.height = H * dpr; cell = W < 600 ? 4 : 5;
+    const narrow = W < 800, top = narrow ? words.getBoundingClientRect().bottom - r.top + 20 : 40, room = H - top;
+    G = { narrow, cx: narrow ? W * .5 : W * .8, reach: Math.min(narrow ? W * .7 : W * .29, room * (narrow ? 1.1 : .8)) };
+    let s = 9; const R = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    stars = Array.from({ length: Math.round(W * H / 11000) }, () => [R() * W, top * .4 + R() * (H - top * .4) * .72, .2 + R() * .4, R() * 6.28]);
+  }
+
+  // the sun: the mark's square blocks in an ordered dither. Light theme = sunrise (rounder, higher, orange into the paper);
+  // dark theme = sunset (lower and wider, orange into warm grey into chrome, stars out).
+  function sun(e) {
+    const d = dark(), reach = G.reach * (1 + .014 * Math.sin(T * .6)), cx = G.cx, cy = H + reach * ((d ? .3 : .2) + (1 - e) * 1.05), base = d ? .8 : .9;
+    const sxL = G.narrow ? Math.max(d ? 1.9 : 1.45, cx / (reach * base)) : (d ? 1.9 : 1.45), sxR = Math.max(d ? 1.9 : 1.45, (W - cx) / (reach * base));
+    const c1 = '#FF5B35', c2 = d ? '#C9845F' : 'rgba(255,91,53,.62)', c3 = d ? 'rgba(230,233,237,.5)' : 'rgba(255,91,53,.3)';
+    const x0 = -((cell - (W % cell)) % cell) / 2, y0 = Math.max(0, Math.floor((cy - reach) / cell) * cell);
+    for (let y = y0, j = y0 / cell; y < H; y += cell, j++) for (let x = x0, i = 0; x < W; x += cell, i++) {
+      const v = Math.max(0, 1 - Math.hypot((x - cx) / (x < cx ? sxL : sxR), y - cy) / reach); if (v <= 0) continue;
+      const th = (BAYER[(j % 8) * 8 + (i % 8)] + .5) / 64 + .03 * Math.sin(T * 1.3 + ((i * 73856093) ^ (j * 19349663)) % 628 / 100);
+      if (v > th) { g.fillStyle = v > .62 ? c1 : v > .38 ? c2 : c3; g.fillRect(x, y, cell - 1, cell - 1); }
+    }
+    if (d) for (const [x, y, a, p] of stars) { g.fillStyle = 'rgba(230,233,237,' + (a * e * (.6 + .4 * Math.sin(T * .9 + p))).toFixed(3) + ')'; g.fillRect(Math.round(x), Math.round(y), 2, 2); }
+  }
+
+  function draw() { if (!G) return; g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H); const e = rise * rise * (3 - 2 * rise); sun(e); }
+  function setTheme(t) { root.dataset.theme = t; try { localStorage.setItem('jcg-next-theme', t); } catch (e) {} btn.setAttribute('aria-pressed', t === 'dark'); }
+  function frame(now) { raf = 0; if (!on || document.hidden) return; raf = requestAnimationFrame(frame); const real = (now - last) / 1000, dt = Math.min(.1, real); if (dt < .03) return; last = now; T += dt;
+    if (rise !== aim) { const rd = Math.min(1, real); rise = aim > rise ? Math.min(aim, rise + rd / 1.8) : Math.max(aim, rise - rd / .7); }   // real time: a slow or background tab still finishes the rise on schedule
+    draw(); }
+  const start = () => { if (!raf && !reduce.matches) { last = performance.now(); raf = requestAnimationFrame(frame); } };
+  // the theme changes the moment the switch is pressed, wherever the page is scrolled; the sun then rises again in its new sky
+  btn.addEventListener('click', () => { setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'); if (!reduce.matches) { rise = 0; aim = 1; } draw(); start(); });
+  btn.setAttribute('aria-pressed', dark());
+  new ResizeObserver(() => { size(); draw(); }).observe(hero);
+  new IntersectionObserver((es) => { on = es[es.length - 1].isIntersecting; if (on) start(); }).observe(hero);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { size(); draw(); });
+  size(); draw(); start();
+  setTimeout(() => { if (aim === 1 && rise < 1) { rise = 1; draw(); } }, 3400);   // a starved tab (background, low power) still gets its sun
+})();
+</script>
+<script>
+// The theme switch's icon. It watches the theme itself, so it is right however the theme was changed.
+(() => {
+  const root = document.documentElement, btn = document.getElementById('sun'), cv = btn.querySelector('canvas'), g = cv.getContext('2d'), N = 11, still = matchMedia('(prefers-reduced-motion: reduce)').matches, ORANGE = '#FF5B35';
+  const body = (x, y) => x > 2 && x < 8 && y > 2 && y < 8, plus = (x, y) => (x === 5 && (y < 2 || y > 8)) || (y === 5 && (x < 2 || x > 8)), cross = (x, y) => (x === 1 || x === 9) && (y === 1 || y === 9);
+  const moon = (x, y) => (x - 5) ** 2 + (y - 5) ** 2 <= 27 && (x - 7.6) ** 2 + (y - 3.4) ** 2 > 19.4, STAR = [[8, 1], [7, 5]];
+  // a picture is a function: is this cell lit, in this frame (the sun's rays turn; the moon's stars take turns)
+  const PIC = { light: (x, y, f) => body(x, y) || (f ? cross(x, y) : plus(x, y)), dark: (x, y, f) => moon(x, y) || (x === STAR[f][0] && y === STAR[f][1]) };
+  const ink = (t) => t === 'light' ? ORANGE : getComputedStyle(btn).color;
+  let now = root.dataset.theme === 'dark' ? 'dark' : 'light', f = 0, busy = false;
+  const rest = () => { g.clearRect(0, 0, N, N); g.fillStyle = ink(now); for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (PIC[now](x, y, f)) g.fillRect(x, y, 1, 1); };
+  function change(to) { const from = now; now = to; f = 0; if (still) return rest(); busy = true; const t0 = performance.now(), a = ink(from), b = ink(to);
+    (function step(t) { const q = (t - t0) / 420 * 1.4; g.clearRect(0, 0, N, N);
+      for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const d = (x + y) / (2 * N - 2); let on, col;
+        if (d < q - .4) { on = PIC[to](x, y, 0); col = b; } else if (d < q) { on = Math.random() < .5; col = Math.random() < .5 ? a : b; } else { on = PIC[from](x, y, 0); col = a; }
+        if (on) { g.fillStyle = col; g.fillRect(x, y, 1, 1); } }
+      if (q < 1.4) requestAnimationFrame(step); else { busy = false; rest(); cv.classList.remove('pop'); void cv.offsetWidth; cv.classList.add('pop'); } })(t0);
+    setTimeout(() => { if (busy) { busy = false; rest(); } }, 1500); }   // a starved tab still ends on the right icon
+  new MutationObserver(() => { const t = root.dataset.theme === 'dark' ? 'dark' : 'light'; if (t !== now) change(t); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  rest(); if (!still) setInterval(() => { if (busy || document.hidden) return; f ^= 1; rest(); }, 800);
+})();
+</script>
+<script>
+// JCG's interface moves. Each plays once, then rests; reduced motion (or no IntersectionObserver) shows everything at rest.
+(() => {
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window), $$ = (q) => [...document.querySelectorAll(q)];
+  const seen = (el, fn, margin = '0px 0px -8% 0px') => { if (still) return fn(el); const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); fn(el); } }, { rootMargin: margin }); io.observe(el); };
+  const BAYER = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+  // section labels: the brackets overshoot, then seat
+  $$('.snap').forEach((el) => seen(el, () => setTimeout(() => el.classList.add('is-snapped'), 60)));
+  // covers: the card fills in cell by cell, in the order of the dither, then is itself. One pixel of canvas per cell.
+  $$('.card').forEach((card, i) => seen(card, () => {
+    if (still) return card.classList.add('is-built');
+    const r = card.getBoundingClientRect(), cell = 8, cw = Math.ceil(r.width / cell), ch = Math.ceil(r.height / cell), cv = document.createElement('canvas'), g = cv.getContext('2d');
+    cv.width = cw; cv.height = ch; card.prepend(cv); const t0 = performance.now() + (i % 3) * 80, DUR = 540;
+    (function step(now) { const lin = Math.min(1, (now - t0) / DUR), p = 1 - Math.pow(1 - Math.max(0, lin), 2.2); if (lin > 0) { g.clearRect(0, 0, cw, ch); g.fillStyle = getComputedStyle(card).getPropertyValue(i % 3 === 1 ? '--box-2' : '--box');
+        for (let y = 0; y < ch; y++) for (let x = 0; x < cw; x++) if ((BAYER[(y % 8) * 8 + (x % 8)] + .5) / 64 < p * 1.02) g.fillRect(x, y, 1, 1); }
+      if (lin < 1) requestAnimationFrame(step); else { card.classList.add('is-built'); cv.remove(); } })(performance.now());
+    setTimeout(() => { if (!card.classList.contains('is-built')) { card.classList.add('is-built'); cv.remove(); } }, 2600);   // a starved tab still gets its card
+  }));
+  // on a touch screen the cover crossing the middle of the screen is the one locked on
+  if (!still && matchMedia('(hover: none)').matches) { const io = new IntersectionObserver((es) => es.forEach((e) => e.target.classList.toggle('is-on', e.isIntersecting)), { rootMargin: '-46% 0px -46% 0px' }); $$('.card, .rows > li').forEach((c) => io.observe(c)); }
+  // ── ASCII. NOISE is what a glyph looks like before it resolves.
+  const NOISE = '░▒▓·-/+:', noise = () => NOISE[(Math.random() * NOISE.length) | 0], pad = (t, n) => (t + ' '.repeat(n)).slice(0, n);
+
+  // how it works: three scenes, one clock. Times in seconds; every scene is a pure function of the clock, so it can stop and resume anywhere.
+  $$('.pipe').forEach((pipe) => { const steps = [...pipe.children], con = pipe.previousElementSibling, panes = [...con.querySelectorAll('.pane')], pres = panes.map((el) => el.firstChild), stepOut = con.querySelector('[data-step]');
+    const REQ = [['Q-01', 'Color + type tokens'], ['Q-02', 'Pricing page'], ['Q-03', 'Launch social set'], ['Q-04', 'Board update deck']], DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'MON', 'TUE', 'WED'];
+    const BOX = [['┌ QUEUE ┐', '│ ░░░░░ │', '│ ░░░░░ │'], ['┌ FIGMA ┐', '│ ▒▒ ▒▒ │', '│ ▒▒▒▒▒ │'], ['┌ DRIVE ┐', '│ /logo │', '│ /site │']];
+    const TB = 3.0, CPS = 30, TYPED = REQ.reduce((n, r) => n + r[0].length + 1 + r[1].length, 0) / CPS, TC = TB + TYPED + 1.6, DAY = .46, END = TC + DAYS.length * DAY + 3.4;
+    const row = (r, st) => r[0] + ' ' + pad(r[1], 20) + (st === 'ACTIVE' ? '<i>ACTIVE</i>' : st === 'DELIVERED' ? '<b>DELIVERED</b>' : st);
+    // 01: the queue, the Figma file and the Drive folder compile one after another; each lamp lights and reads READY
+    const A = (t) => { const out = ['', '', '', '', '']; BOX.forEach((b, i) => { const q = (t - i * .62) / .55, gap = i ? ' ' : '';
+        b.forEach((ln, y) => { out[y] += gap + [...ln].map((c, x) => { if (c === ' ' || q >= 1) return c; const d = (x + y * 2) / 13; return q <= 0 ? ' ' : d < q - .3 ? c : d < q ? noise() : ' '; }).join(''); });
+        out[3] += gap + (q >= 1 ? '└───<i>■</i>───┘' : q > 0 ? '└───·───┘' : '         '); out[4] += gap + (q >= 1.25 ? '  <b>READY</b>  ' : '         '); }); return out.join('\n'); };
+    // 02: four requests are typed into the queue; the first goes active
+    const B = (t) => { if (t < 0) return ''; let n = Math.floor(t * CPS); const out = [];
+      for (let i = 0; i < REQ.length; i++) { const r = REQ[i], full = r[0] + ' ' + r[1];
+        if (n >= full.length) { const st = t > TYPED + .25 + i * .16 ? (i ? 'QUEUED' : 'ACTIVE') : ''; out.push(st ? row(r, st) : full); n -= full.length; }
+        else { out.push(full.slice(0, n) + '<i>▌</i>'); break; } }
+      return out.join('\n'); };
+    // 03: the days go by and something lands every second one
+    const C = (t) => { const d = t < 0 ? -1 : Math.min(DAYS.length - 1, Math.floor(t / DAY));
+      const names = DAYS.map((n, j) => j === d ? '<b>' + n + '</b>' : n).join(' '), marks = DAYS.map((n, j) => ' ' + (j % 2 && j <= d ? (j === d ? '<i>■</i>' : '<b>■</b>') : '·') + ' ').join(' ');
+      const rows = t < 0 ? [] : REQ.map((r, k) => row(r, d >= 2 * k + 1 ? 'DELIVERED' : d >= 2 * k - 1 ? 'ACTIVE' : 'QUEUED'));
+      return [names, marks, ...rows, d >= 1 ? '<b>→ FIGMA + DRIVE</b>' : ''].join('\n'); };
+    const show = (t) => { pres[0].innerHTML = A(t); pres[1].innerHTML = B(t - TB); pres[2].innerHTML = C(t - TC); const k = t < TB - .6 ? 0 : t < TC - .6 ? 1 : 2; pipe.style.setProperty('--k', k); steps.forEach((li, i) => { li.classList.toggle('is-on', i <= k); li.classList.toggle('is-now', i === k); }); panes.forEach((el, i) => el.classList.toggle('is-now', i === k)); stepOut.textContent = '0' + (k + 1); };
+    if (still) { pipe.classList.add('is-still'); show(END); panes.forEach((el) => el.classList.add('is-now')); return; }
+    let T = 0, on = false, last = 0; show(0);
+    new IntersectionObserver((es) => { on = es[es.length - 1].isIntersecting; last = performance.now(); }, { rootMargin: '0px 0px -12% 0px' }).observe(con);
+    setInterval(() => { const now = performance.now(); if (!on || document.hidden) { last = now; return; } T += Math.min(.25, (now - last) / 1000); last = now; if (T > END) T = 0; show(T); }, 70); });
+
+  // what's included: each list runs as a tape. The list is repeated to fill the row, then doubled, so a half-length shift loops without a seam.
+  const tapes = () => $$('.mq ul').forEach((ul) => { if (still || ul._set) return; const own = [...ul.children], w = ul.scrollWidth; if (!w) return; ul._set = true; const k = Math.max(1, Math.ceil(ul.parentElement.clientWidth / w)) * 2;
+    for (let n = 1; n < k; n++) own.forEach((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); ul.append(c); }); ul.style.setProperty('--mq-t', Math.round(w * k / 2 / 34) + 's'); ul.classList.add('is-run'); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(tapes); else tapes();
+
+  // the plans: two lanes of blocks. Standard works one request at a time, Pro two; a lane fills, holds as delivered, and starts the next.
+  $$('.lanes').forEach((el) => { const n = +el.dataset.lanes, N = 24, lanes = [0, 1].map(() => { const l = document.createElement('div'); l.className = 'lane'; l.innerHTML = '<i></i>'.repeat(N); el.append(l); return l; });
+    const p = [still ? 15 : 0, still ? 7 : -10], paint = () => lanes.forEach((l, k) => { const v = k < n ? p[k] : 0; l.classList.toggle('done', v >= N); [...l.children].forEach((c, j) => c.classList.toggle('on', j < v)); });
+    paint(); if (still) return; let on = false; new IntersectionObserver((es) => { on = es[es.length - 1].isIntersecting; }).observe(el);
+    setInterval(() => { if (!on || document.hidden) return; for (let k = 0; k < n; k++) if (++p[k] > N + 5) p[k] = 0; paint(); }, 150); });
+  // the portrait: a coarse grey mosaic that sharpens in five steps into the photo (again on a mouse's hover)
+  $$('.shot').forEach((shot) => { const img = shot.querySelector('img'); let busy = false;
+    const res = () => { if (busy) return; if (still || !img.naturalWidth) return shot.classList.add('is-res'); busy = true;
+      const r = shot.getBoundingClientRect(), cv = document.createElement('canvas'), g = cv.getContext('2d'), iw = img.naturalWidth, ih = img.naturalHeight, k = Math.max(r.width / iw, r.height / ih), sw = r.width / k, sh = r.height / k, STEPS = [44, 30, 20, 12, 7]; let n = 0;
+      shot.append(cv); (function step() { if (n >= STEPS.length) { shot.classList.add('is-res'); cv.remove(); busy = false; return; }
+        cv.width = Math.ceil(r.width / STEPS[n]); cv.height = Math.ceil(r.height / STEPS[n]); g.imageSmoothingEnabled = true; g.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, 0, 0, cv.width, cv.height); n++; setTimeout(step, n === 1 ? 260 : 120); })(); };
+    const go = () => seen(shot, res, '0px 0px -20% 0px'); if (img.complete) go(); else { img.addEventListener('load', go, { once: true }); img.addEventListener('error', () => shot.classList.add('is-res'), { once: true }); }
+    shot.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse' && shot.classList.contains('is-res')) res(); });
+    setTimeout(() => { if (!busy) shot.classList.add('is-res'); }, 6000); });
+  // the real time and weather in Colorado Springs. Weather: the latest reading from the airport station (KCOS) in the US National
+  // Weather Service's public feed (no key), kept for ten minutes per visit; if it cannot be read, the readout is the time alone.
+  try { const f = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Denver', hour: '2-digit', minute: '2-digit', hour12: false }), tick = () => { const t = f.format(new Date()) + ' MT'; $$('[data-now]').forEach((el) => { el.textContent = t; }); }; tick(); setInterval(tick, 20000);
+    const wx = (t) => $$('[data-wx]').forEach((el) => { el.textContent = t; el.hidden = !t; }); let kept = null; try { kept = JSON.parse(sessionStorage.getItem('jcg-wx')); } catch (e) {}
+    const load = () => fetch('https://api.weather.gov/stations/KCOS/observations/latest', { headers: { Accept: 'application/geo+json' } }).then((r) => r.ok ? r.json() : Promise.reject()).then((j) => { const p = j.properties || {}, c = p.temperature && p.temperature.value; if (typeof c !== 'number') return;
+      const t = Math.round(c * 9 / 5 + 32) + '°F' + (p.textDescription ? ' ' + p.textDescription : ''); wx(t); try { sessionStorage.setItem('jcg-wx', JSON.stringify({ t, at: Date.now() })); } catch (e) {} }).catch(() => {});
+    if (kept && Date.now() - kept.at < 6e5) wx(kept.t); else load(); setInterval(load, 9e5); } catch (e) {}
+})();
+</script>
+</body>
+</html>

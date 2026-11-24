@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solaris Loft 3D — 719 Studios — JCG Studio</title>
+<meta name="description" content="Walk around the Solaris Loft in 3D, in daylight, golden hour or studio light.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="stylesheet" href="../../../assets/css/tokens.css">
+<link rel="stylesheet" href="../../../assets/css/base.css">
+<link rel="stylesheet" href="../../../assets/css/mark-pixel.css">
+<link rel="stylesheet" href="../../../assets/css/feedback.css">
+<link rel="stylesheet" href="../../../assets/css/play.css">
+<script>document.documentElement.classList.add('js'); if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('is-embed'); if (/[?&]hub\b/.test(location.search)) document.documentElement.classList.add('is-hub'); try { if (!sessionStorage.getItem('jcg-intro')) document.documentElement.classList.add('mark-intro'); } catch (e) {}</script>
+<script type="module" src="../../../assets/js/site-menu.js"></script>
+
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/", "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/", "n8ao": "https://cdn.jsdelivr.net/npm/n8ao@1.9.4/dist/N8AO.js", "postprocessing": "data:text/javascript,export class Pass{}" } }</script>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js" crossorigin>
+<script>if (/[?&]cover\b/.test(location.search)) document.documentElement.classList.add('is-cover');</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<script>
+/* Start the model and the Draco decoder downloading now, in parallel with the module graph (they used to be requested only
+   after every script had loaded). The URLs match the ones the viewer asks for, so its own request is served from this one. */
+(function () {
+  var phone = matchMedia('(max-width: 760px)').matches, coarse = matchMedia('(pointer: coarse)').matches, cover = /[?&]cover\b/.test(location.search);
+  var model = new URL('assets/solaris.glb?v=20261019-1', location.href).href, d = 'https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/libs/draco/gltf/';
+  [model, d + 'draco_wasm_wrapper.js', d + 'draco_decoder.wasm'].forEach(function (u) { var l = document.createElement('link'); l.rel = 'preload'; l.as = 'fetch'; l.crossOrigin = 'anonymous'; l.href = u; document.head.appendChild(l); });
+})();
+</script>
+<style>
+  :root { --void: #0B0C0E; --chrome: #E6E9ED; --chrome-3: #8A919B; --line: rgba(230,233,237,.16); --signal: #FF5B35; color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #c8c4bd; color: var(--chrome); overflow: hidden; }
+  body { font: 15px/1.45 var(--font-sans, Arial, sans-serif); -webkit-tap-highlight-color: transparent; }
+  canvas { display: block; width: 100vw; height: 100dvh; touch-action: none; }
+  /* cover = a backdrop inside another page (hero, Work-floor card): it must never take a touch. iOS/iPadOS WebKit lets a touch-action:none canvas inside an iframe swallow the swipe even when the iframe has pointer-events:none, so the cover itself says pan-y + no hit-testing (!important beats the inline touch-action OrbitControls sets) */
+  html.is-cover, html.is-cover body, html.is-cover canvas { touch-action: pan-y !important; pointer-events: none !important; -webkit-user-select: none; user-select: none; }
+  /* a cover shows nothing until its model is in, then fades it up (a lone wall used to sit there while the rest loaded) */
+  html.is-cover canvas { opacity: 0; transition: opacity .7s ease; }
+  html.is-cover.is-ready canvas { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { html.is-cover canvas { transition: none; } }
+  .hud { font: 11px/1.3 var(--font-hud, monospace); letter-spacing: .08em; text-transform: uppercase; }
+  .bar { position: fixed; left: 0; right: 0; top: 0; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+         padding: calc(env(safe-area-inset-top) + 14px) 16px 14px; pointer-events: none; }
+  .bar > * { pointer-events: auto; }
+  .title { color: #464642; }
+  .title b { color: #252724; font-weight: 400; }
+  @media (max-width: 520px) { .title .more { display: none; } }
+  .switch { display: inline-flex; border: 1px solid var(--line); background: rgba(11,12,14,.72); backdrop-filter: blur(8px); }
+  .switch button { all: unset; cursor: pointer; white-space: nowrap; padding: 0 14px; min-height: 40px; display: inline-flex; align-items: center; color: var(--chrome-3); }
+  .switch button[aria-pressed="true"] { color: var(--void); background: var(--chrome); }
+  .hint { position: fixed; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom) + 16px); text-align: center; color: var(--chrome-3); pointer-events: none; transition: opacity .6s; }
+  .load { position: fixed; inset: 0; display: grid; place-content: center; gap: 12px; text-align: center; color: #464642; transition: opacity .5s; }
+  .load .track { width: 180px; height: 2px; background: var(--line); }
+  .load .fill { height: 100%; width: 0; background: var(--signal); transition: width .2s; }
+  button { font: inherit; }
+  button:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+  button:disabled { opacity: .35; cursor: default; }
+  [hidden] { display: none !important; }
+  /* bottom right: the overview button, always on screen */
+  .corner { position:fixed; right:24px; bottom:24px; display:flex; align-items:flex-end; gap:12px; }
+  .corner .fit { width:44px; height:44px; display:grid; place-items:center; border:1px solid var(--line); background:rgba(20,22,24,.9); color:var(--chrome); border-radius:3px; cursor:pointer; padding:0; }
+  .corner .fit svg { fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:square; }
+  @media(max-width:760px) {
+    .bar { align-items:flex-start; flex-direction:column; gap:10px; padding:14px; }
+    .bar .switch { align-self:flex-end; }
+    .bar .switch button { font-size:10px; padding:0 11px; }
+    .corner { right:14px; bottom:calc(env(safe-area-inset-bottom) + 16px); gap:8px; }
+    .hint { display:none; }
+  }
+  .title,.title b,.hint { transition:color .9s; }
+  .studio-world .title,.studio-world .title b,.studio-world .hint { color:#f0eee8; }
+  @media(prefers-reduced-motion:reduce) { .title,.title b,.hint { transition:none; } }
+  .is-cover, .is-cover body { background: transparent; }
+  .is-cover .bar, .is-cover .hint, .is-cover #load, .is-cover #markers, .is-cover .explore-controls, .is-cover .corner, .is-cover .pick { display: none !important; }
+  body::after { content:none; }
+  .hud-brand .hud-back { display:inline-grid; place-items:center; align-self:stretch; min-width:44px; border-right:1px solid var(--line); color:var(--chrome-2); font:400 15px/1 var(--font-hud); transition:color var(--dur-1) linear, background var(--dur-1) linear; }
+  .hud-brand .hud-back:hover, .hud-brand .hud-back:focus-visible { color:var(--chrome); background:var(--void-3); }
+  .bar { padding:calc(var(--nav-h) + 12px) var(--edge) 0; }
+  .is-cover .hud-brand, .is-cover .hud-actions { display:none !important; }
+  .is-embed .hud-brand, .is-embed .hud-actions { display:none !important; }   /* ?embed: in the Work floor's panel, under the site's own nav */
+  .is-embed .bar { padding:14px 64px 0 16px; }   /* room for the panel's × */
+  .is-hub .bar { padding:12px 16px 0; justify-content:flex-end; }   /* ?hub: inside the 719 Studios page, under its studio switch (JC 2026-10-19) */
+  .is-hub .bar .title { display:none; }
+  @media(max-width:760px) { .is-hub .bar { padding:10px 10px 0; } .is-hub .bar .switch button { padding:0 9px; } }
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="3D model of the Solaris Loft. Drag to turn it, pinch to zoom."></canvas>
+<header class="hud-brand hud-panel ticks">
+  <a class="hud-back" id="back" href="../../../" aria-label="Back to the work">←</a>
+  <a class="brand" href="../../../" aria-label="JCG Studio — home"><span class="brand-mark brand-pixel" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 180" width="450" height="180" aria-hidden="true" focusable="false"><path d="M153 60L195 60L195 120L153 120C143.06 120 135 111.94 135 102L135 78C135 68.06 143.06 60 153 60ZM213 0L237 0C246.94 0 255 8.06 255 18L255 42C255 51.94 246.94 60 237 60L195 60L195 18C195 8.06 203.06 0 213 0ZM195 120L237 120C246.94 120 255 128.06 255 138L255 162C255 171.94 246.94 180 237 180L213 180C203.06 180 195 171.94 195 162L195 120ZM60 60L120 60L120 102C120 111.94 111.94 120 102 120L60 120L60 60ZM288 60L330 60L330 120L288 120C278.06 120 270 111.94 270 102L270 78C270 68.06 278.06 60 288 60ZM78 0L102 0C111.94 0 120 8.06 120 18L120 60L60 60L60 18C60 8.06 68.06 0 78 0ZM348 0L372 0C381.94 0 390 8.06 390 18L390 42C390 51.94 381.94 60 372 60L330 60L330 18C330 8.06 338.06 0 348 0ZM330 120L390 120L390 162C390 171.94 381.94 180 372 180L348 180C338.06 180 330 171.94 330 162L330 120ZM18 120L60 120L60 162C60 171.94 51.94 180 42 180L18 180C8.06 180 0 171.94 0 162L0 138C0 128.06 8.06 120 18 120ZM405 90L435 90C443.28 90 450 96.72 450 105L450 105C450 113.28 443.28 120 435 120L390 120L390 105C390 96.72 396.72 90 405 90Z"/></svg></span><span class="brand-word" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 8" width="67.5" height="12" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="butt"><g transform="translate(0 0)" stroke-linejoin="round"><path d="M4.5 2V1.75A1.25 1.25 0 0 0 3.25 0.5H1.75A1.25 1.25 0 0 0 0.5 1.75V2.25A1.25 1.25 0 0 0 1.75 3.5H3.25A1.25 1.25 0 0 1 4.5 4.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V6"/></g><g transform="translate(8 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V8"/></g><g transform="translate(16 0)" stroke-linejoin="round"><path d="M.5 0V6.25A1.25 1.25 0 0 0 1.75 7.5H3.25A1.25 1.25 0 0 0 4.5 6.25V0"/></g><g transform="translate(24 0)" stroke-linejoin="miter"><path d="M.5 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H.5Z"/></g><g transform="translate(32 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V7.5M0 7.5H5"/></g><g transform="translate(40 0)" stroke-linejoin="round"><path d="M1.75 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V1.75A1.25 1.25 0 0 1 1.75 0.5Z"/></g></svg></span></a>
+</header>
+<div class="hud-actions hud-panel ticks">
+  <details class="site-menu">
+    <summary class="site-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="site-menu-panel">
+      <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>
+    </summary>
+    <nav class="site-menu-panel ticks" id="site-menu-panel" aria-label="Primary">
+      <a href="../../../" aria-current="page">Work</a>
+      <a href="../../../about/">About</a>
+      <div class="site-menu-actions">
+        <a href="mailto:hello@jcg.studio">hello@jcg.studio</a>
+      </div>
+    </nav>
+  </details>
+</div>
+<script>
+// Back: to wherever the visitor came from on this site (the Work floor keeps its place); otherwise to the Work floor.
+document.getElementById('back').addEventListener('click', (e) => {
+  try { if (history.length > 1 && new URL(document.referrer).origin === location.origin) { e.preventDefault(); history.back(); } } catch (err) {}
+});
+</script>
+<div class="bar">
+  <div class="hud title"><b>Solaris</b><span class="more"> · 719 Studios</span></div>
+  <div class="switch hud" role="group" aria-label="Lighting">
+    <button type="button" data-mode="day" aria-pressed="false">Daylight</button>
+    <button type="button" data-mode="golden" aria-pressed="true">Golden hour</button>
+    <button type="button" data-mode="night" aria-pressed="false">Studio</button>
+  </div>
+</div>
+<div class="hud hint" id="hint">Drag to turn · pinch to zoom</div>
+<div class="load hud" id="load" role="status"><span>Loading the loft</span><div class="track"><div class="fill" id="fill"></div></div></div>
+<div class="corner" aria-label="View">
+  <button id="overview" class="fit" disabled aria-label="Back to the overview" title="Overview"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>
+</div>
+<script type="module" src="./main.js?v=20261112-fade"></script>
+</body>
+</html>
