@@ -1,6 +1,6 @@
 // Live grid tiles (2026-11-24). A card with data-tile="<id>"
 // gets the layers from work/<id>/tile.js over its cover picture. The layers are the cover itself taken apart, so the swap is
-// invisible; then the tile stays alive (Ethos: the site's flowers sway and twirl; 719: the light in the circle breathes).
+// invisible; then the tile stays alive (Ethos: the site's own flowers sway and twirl, as they do on her site).
 // With a mouse the layers shift with the pointer for depth and the tile wakes up (screen or logo lifts, flowers twirl);
 // on a phone each tile wakes up once as it scrolls into view. Reduced motion: the layers stay still.
 const ROOT = new URL('../', import.meta.url).href;
@@ -17,8 +17,6 @@ const css = `
 .tl-scr { overflow: clip; } .tl-scr .garden { position: absolute; pointer-events: auto; } .tl-scr .garden.g-clip { overflow: hidden; }
 .tl .garden svg { display: block; width: 100%; height: 100%; overflow: visible; }
 .tl .garden .g-bloom, .tl .garden .g-sway, .tl .garden .g-spin { transform-origin: 0 0; }
-.tl-glow { aspect-ratio: 1; border-radius: 50%; mix-blend-mode: soft-light;
-  background: radial-gradient(circle at var(--gx, 30%) var(--gy, 78%), rgba(255, 196, 120, .95), rgba(255, 140, 60, .35) 32%, transparent 62%); opacity: .55; }
 @media (prefers-reduced-motion: no-preference) {
   [data-tile] .tl .tl-bg, [data-tile] .tl .tl-fg { transition: transform .9s cubic-bezier(.16, 1, .3, 1); }
   [data-tile].tl-wake .tl .tl-bg { transform: translate3d(calc(var(--px, 0) * var(--k) * 1cqw), calc(var(--py, 0) * var(--k) * 1cqw), 0) scale(1.04); }
@@ -28,9 +26,6 @@ const css = `
   .tl .garden .g-flower.twirl .g-spin { transform: rotate(72deg) scale(1.14); }
   .tl .garden .g-lean { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
   @keyframes tl-sway { from { transform: rotate(calc(var(--a, 4deg) * -1)) scale(.95); } to { transform: rotate(var(--a, 4deg)) scale(1.05); } }
-  .tl-glow { animation: tl-breathe 5.5s ease-in-out infinite alternate; }
-  [data-tile].tl-wake .tl-glow { opacity: .95; }
-  @keyframes tl-breathe { from { opacity: .35; } to { opacity: .8; } }
 }`;
 const cards = [...document.querySelectorAll('[data-tile]')];
 if (cards.length) {
@@ -62,13 +57,11 @@ if (cards.length) {
     live.forEach((c) => io.observe(c));
     setInterval(() => seen.forEach((c) => { const fl = c.querySelectorAll('.g-flower'); if (fl.length) twirl(fl[Math.floor(Math.random() * fl.length)]); }), 2600);
     if (mouse) live.forEach((c) => {
-      const glow = c.querySelector('.tl-glow');
       c.addEventListener('pointerenter', () => wake(c, true));
-      c.addEventListener('pointerleave', () => { wake(c, false); c.style.removeProperty('--px'); c.style.removeProperty('--py'); glow?.style.removeProperty('--gx'); glow?.style.removeProperty('--gy'); });
+      c.addEventListener('pointerleave', () => { wake(c, false); c.style.removeProperty('--px'); c.style.removeProperty('--py'); });
       c.addEventListener('pointermove', (e) => {
         const b = c.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
         c.style.setProperty('--px', (x * 2 - 1).toFixed(3)); c.style.setProperty('--py', (y * 2 - 1).toFixed(3));
-        if (glow) { const g = glow.getBoundingClientRect(); glow.style.setProperty('--gx', ((e.clientX - g.left) / g.width * 100).toFixed(1) + '%'); glow.style.setProperty('--gy', ((e.clientY - g.top) / g.height * 100).toFixed(1) + '%'); }
       }, { passive: true });
     });
   }
