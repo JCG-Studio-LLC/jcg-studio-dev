@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flexa by Spiral Health — JCG Studio</title>
+<meta name="description" content="Product and brand design for Flexa by Spiral Health.">
+<meta name="theme-color" content="#F0F9FF">
+<link rel="stylesheet" href="../../assets/css/dawn.css?v=20261020c">
+<script>document.documentElement.classList.add('js'); if (/[?&]embed\b/.test(location.search)) document.documentElement.classList.add('is-embed');</script>
+<style>
+  @font-face { font-family: 'Archivo'; src: url('../../assets/fonts/Archivo-VF.woff2') format('woff2'); font-weight: 400 700; font-stretch: 100% 125%; font-display: swap; }
+  @font-face { font-family: 'Departure Mono'; src: url('../../assets/fonts/DepartureMono-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  /* the page ground is the project's paper (Flexa: Blue 10); the ink, type, buttons and brackets are JCG's */
+  :root { --bg: #F0F9FF; --ink: #0b0c0e; --dim: rgba(11, 12, 14, .62); --line: rgba(11, 12, 14, .16); --signal: #ff5b35; --pad: clamp(16px, 1.6vw, 26px); --gap: clamp(8px, .8vw, 12px); --r: 4px; --cell: 9.6px; color-scheme: light; }
+  * { box-sizing: border-box; } html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.5 'Archivo', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  h1, h2, p, dl, dt, dd, figure { margin: 0; padding: 0; font: inherit; } a { color: inherit; text-decoration: none; } img { display: block; max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  .hud { font: 400 11px/1.3 'Departure Mono', ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; } .dim { color: var(--dim); }
+  .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 8px; height: 60px; padding: 0 max(var(--pad), env(safe-area-inset-right)) 0 max(var(--pad), env(safe-area-inset-left)); background: color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .brand { display: inline-flex; align-items: center; gap: var(--cell); min-height: 44px; margin-right: auto; } .brand-pixel { line-height: 0; }
+  .brand-pixel svg { display: block; height: calc(var(--cell) * 3); width: auto; fill: currentColor; overflow: visible; } .brand-pixel .neck { opacity: 0; } .brand-word svg { display: block; width: calc(var(--cell) * 5.625); height: var(--cell); overflow: visible; }
+  .links { display: none; align-items: center; gap: 4px; margin-right: 8px; font: 500 17px/1 'Archivo', sans-serif; letter-spacing: -.01em; text-transform: lowercase; }
+  .links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--dim); transition: color .2s; } .links a:hover, .links a[aria-current] { color: var(--ink); }
+  .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 1px solid var(--ink); border-radius: var(--r); background: var(--ink); color: var(--bg); white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+  .btn .arr { display: inline-block; transition: transform .25s cubic-bezier(.2, .7, .2, 1); } .btn:hover .arr, .btn:focus-visible .arr { transform: translateX(4px); } .btn:active { transform: translateY(1px); }
+  .top .btn { min-height: 40px; padding: 0 14px; }
+  .ticks { position: relative; }
+  .ticks::before { --c: var(--ink); --t: 7px; content: ""; position: absolute; inset: -5px; pointer-events: none; background:
+    linear-gradient(var(--c), var(--c)) left top / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) left top / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) right top / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) left bottom / 1px var(--t) no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--t) 1px no-repeat, linear-gradient(var(--c), var(--c)) right bottom / 1px var(--t) no-repeat; }
+  .btn.ticks::before { opacity: 0; transform: scale(1.1, 1.4); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .12s linear; }
+  .btn.ticks:hover::before, .btn.ticks:focus-visible::before, .btn.ticks:active::before { opacity: 1; transform: none; }
+  .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .flap { display: inline-flex; } .flap-ch { position: relative; display: inline-block; width: 1ch; text-align: center; } .flap-ch.is-flip { animation: flap 70ms steps(2, end); }
+  .flap-ch.is-flip::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: currentColor; opacity: .35; } @keyframes flap { 0% { transform: scaleY(.55); } 100% { transform: none; } }
+  main { padding: 0 max(var(--pad), env(safe-area-inset-right)) clamp(88px, 13vw, 200px) max(var(--pad), env(safe-area-inset-left)); }
+  /* the opening: the name as large as the page allows, then the sentence beside the spec panel */
+  .open { padding: clamp(28px, 5vw, 76px) 0 clamp(24px, 3vw, 44px); }
+  .open h1 { margin: 10px 0 clamp(22px, 3vw, 44px); font: 560 clamp(52px, 12.4vw, 200px)/.9 'Archivo', sans-serif; font-stretch: 118%; letter-spacing: -.045em; }
+  .open-row { display: grid; gap: clamp(22px, 3vw, 40px); align-items: end; }
+  .say { max-width: 44ch; font-size: clamp(16px, 1.25vw, 19px); line-height: 1.45; text-wrap: pretty; } .say + .btn { margin-top: 22px; }
+  .spec { display: grid; border-top: 1px solid var(--line); } .spec div { display: grid; grid-template-columns: 9ch minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .spec dt { color: var(--dim); } .spec dd { font-size: 15px; line-height: 1.3; }
+  /* the slides on a mixed grid: full rows, pairs, and the posters as three upright cards */
+  .g { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap); }
+  .cell { grid-column: span 12; border-radius: var(--r); overflow: hidden; box-shadow: 0 0 0 1px var(--line); background: color-mix(in srgb, var(--ink) 6%, var(--bg)); aspect-ratio: 16 / 9; } .cell.tall { aspect-ratio: 732 / 1100; }
+  .cell img { width: 100%; height: 100%; object-fit: cover; }
+  /* Flexa's own footage plays over its still while on screen (the still is the poster and the fallback) */
+  .vid { position: relative; } .vid > img { position: absolute; inset: 0; }
+  .vid video { position: absolute; object-fit: cover; opacity: 0; transition: opacity .5s ease; } .vid video.on { opacity: 1; }
+  .vid .over { position: absolute; inset: 0; pointer-events: none; }
+  .vid .over img { height: auto; object-fit: contain; }   /* the wordmark keeps its own shape (not the cells' cover fill) */
+  .js [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .7s cubic-bezier(.2, .7, .2, 1); } .js [data-reveal].in-view { opacity: 1; transform: none; }
+  .fine { max-width: 96ch; margin-top: 14px; color: var(--dim); text-transform: none; letter-spacing: .02em; line-height: 1.5; }
+  .big { font: 560 clamp(36px, 5.9vw, 96px)/.98 'Archivo', sans-serif; font-stretch: 118%; letter-spacing: -.04em; text-wrap: balance; }
+  /* the ending stays on the page's paper (JC 2026-11-23, after Ethos: the night band felt "clunky and boring" on light pages): the
+     closing line, the sunrise coming up behind it in orange (../dawn-light.js; dawn.css sets the band's height and padding), then the footer row */
+  .end-in { display: flex; flex-direction: column; align-items: center; text-align: center; gap: clamp(24px, 2.6vw, 40px); padding: 0 max(var(--pad), env(safe-area-inset-right)) 0 max(var(--pad), env(safe-area-inset-left)); }
+  .end, footer { --void: var(--bg); --chrome: var(--ink); --chrome-3: var(--dim); --line-strong: color-mix(in srgb, var(--ink) 30%, transparent); --edge: var(--pad); background: var(--bg); color: var(--dim); }
+  .end { color: var(--ink); } footer { border-top: 1px solid var(--line); }
+  .foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; padding: 16px var(--pad) calc(16px + env(safe-area-inset-bottom)); } footer a { color: var(--ink); } footer a:hover { color: var(--signal); }
+  /* inside the home page's case-study panel (?embed) the page shows without its own bar, closing line and footer */
+  .is-embed .top, .is-embed .end, .is-embed footer { display: none; }
+  @media (min-width: 800px) { .links { display: flex; } .open-row { grid-template-columns: minmax(0, 1fr) minmax(320px, 38%); } .c6 { grid-column: span 6; } .c4 { grid-column: span 4; } }
+  @media (prefers-reduced-motion: reduce) { .js [data-reveal] { opacity: 1; transform: none; transition: none; } .btn.ticks::before { transition: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../../next/" aria-label="JCG Studio — home"><span class="brand-mark brand-pixel" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 180" width="450" height="180" aria-hidden="true" focusable="false"><rect class="neck" x="180" y="60" width="98" height="60"/><path style="--i:0" d="M78 0H102a18 18 0 0 1 18 18V102a18 18 0 0 1 -18 18H60V18a18 18 0 0 1 18 -18Z"/><path style="--i:1" d="M18 120H60V162a18 18 0 0 1 -18 18H18a18 18 0 0 1 -18 -18V138a18 18 0 0 1 18 -18Z"/><path style="--i:2" d="M153 60H195V120H153a18 18 0 0 1 -18 -18V78a18 18 0 0 1 18 -18Z"/><path style="--i:3" d="M213 0H237a18 18 0 0 1 18 18V42a18 18 0 0 1 -18 18H195V18a18 18 0 0 1 18 -18Z"/><path style="--i:4" d="M195 120H237a18 18 0 0 1 18 18V162a18 18 0 0 1 -18 18H213a18 18 0 0 1 -18 -18V120Z"/><path style="--i:5" d="M288 60H330V120H288a18 18 0 0 1 -18 -18V78a18 18 0 0 1 18 -18Z"/><path style="--i:6" d="M348 0H372a18 18 0 0 1 18 18V42a18 18 0 0 1 -18 18H330V18a18 18 0 0 1 18 -18Z"/><path style="--i:7" d="M330 120H390V162a18 18 0 0 1 -18 18H348a18 18 0 0 1 -18 -18V120Z"/><path style="--i:8" d="M405 90H435a15 15 0 0 1 15 15V105a15 15 0 0 1 -15 15H390V105a15 15 0 0 1 15 -15Z"/></svg></span><span class="brand-word" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 8" width="67.5" height="12" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="butt"><g transform="translate(0 0)" stroke-linejoin="round"><path d="M4.5 2V1.75A1.25 1.25 0 0 0 3.25 0.5H1.75A1.25 1.25 0 0 0 0.5 1.75V2.25A1.25 1.25 0 0 0 1.75 3.5H3.25A1.25 1.25 0 0 1 4.5 4.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V6"/></g><g transform="translate(8 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V8"/></g><g transform="translate(16 0)" stroke-linejoin="round"><path d="M.5 0V6.25A1.25 1.25 0 0 0 1.75 7.5H3.25A1.25 1.25 0 0 0 4.5 6.25V0"/></g><g transform="translate(24 0)" stroke-linejoin="miter"><path d="M.5 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H.5Z"/></g><g transform="translate(32 0)" stroke-linejoin="miter"><path d="M0 .5H5M2.5 .5V7.5M0 7.5H5"/></g><g transform="translate(40 0)" stroke-linejoin="round"><path d="M1.75 .5H3.25A1.25 1.25 0 0 1 4.5 1.75V6.25A1.25 1.25 0 0 1 3.25 7.5H1.75A1.25 1.25 0 0 1 0.5 6.25V1.75A1.25 1.25 0 0 1 1.75 0.5Z"/></g></svg></span></a>
+  <nav class="links" aria-label="Main"><a href="../all/" aria-current="page">Work</a><a href="../../next/#about">About</a></nav>
+  <a class="btn hud ticks" data-flap href="mailto:hello@jcg.studio"><span class="flap">Work with me</span> <span class="arr" aria-hidden="true">→</span></a>
+</header>
+<main>
+  <section class="open">
+    <p class="hud dim">Case study · Health</p>
+    <h1>Flexa</h1>
+    <div class="open-row">
+      <p class="say">Since 2020, I have designed the product and the brand for Flexa by Spiral Health. The app reads how you move through your phone camera, builds a daily movement program, and coaches you through short sessions, with support from a human Care Team.</p>
+      <dl class="spec">
+        <div><dt class="hud">Role</dt><dd>Product and brand design</dd></div>
+        <div><dt class="hud">Services</dt><dd>App · Brand · Website · Film</dd></div>
+        <div><dt class="hud">Years</dt><dd>Since 2020</dd></div>
+      </dl>
+    </div>
+  </section>
+  <div class="g">
+    <figure class="cell c12 vid" data-reveal role="img" aria-label="The Flexa wordmark in white over a nurse stretching, from the Flexa film"><img src="../../assets/img/work/flexa/deck/01-cover-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/01-cover-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/01-cover-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" decoding="async"><video muted loop playsinline preload="none" data-src="../../assets/video/flexa/cover-loop.mp4?v=20261125a" aria-hidden="true" style="left:0.000%;top:0.000%;width:100.000%;height:100.000%;"></video><div class="over" style="background:rgba(12,74,111,.28)"></div><div class="over"><img src="../../assets/img/work/flexa/flexa-white.svg?v=20261125a" alt="" style="position:absolute;left:50%;top:50%;width:38.281%;transform:translate(-50%,-50%)"></div></figure>
+    <figure class="cell c12" data-reveal role="img" aria-label="The Flexa wordmark in its three colourways: blue on paper, white on blue, white on ink"><img src="../../assets/img/work/flexa/deck/02-logo-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/02-logo-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/02-logo-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="cell c12" data-reveal role="img" aria-label="The Flexa palette, each hue as wide as its share of the site and app, each its own ladder from 10 to 100: mostly Gray, Blue and Purple"><img src="../../assets/img/work/flexa/deck/03-palette-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/03-palette-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/03-palette-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="cell c12 vid" data-reveal role="img" aria-label="Blue, for moving: the exercise player beside a deep squat assessment clip"><img src="../../assets/img/work/flexa/deck/04-blue-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/04-blue-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/04-blue-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="../../assets/video/flexa/asmt-deep-squat.mp4?v=20261125a" aria-hidden="true" style="left:50.781%;top:20.833%;width:25.000%;height:62.222%;border-radius:6.250% / 4.464%;"></video></figure>
+    <figure class="cell c6" data-reveal role="img" aria-label="Purple, for check-ins: six moves with your camera, and where it bothers you"><img src="../../assets/img/work/flexa/deck/05-purple-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/05-purple-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/05-purple-1920.webp?v=20261125a 1920w" sizes="(max-width: 799px) 100vw, 50vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="cell c6" data-reveal role="img" aria-label="Yellow, for habits: today and the plan"><img src="../../assets/img/work/flexa/deck/07-yellow-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/07-yellow-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/07-yellow-1920.webp?v=20261125a 1920w" sizes="(max-width: 799px) 100vw, 50vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="cell c12" data-reveal role="img" aria-label="Orange, for people: the Care Team screen beside a practitioner guiding a client"><img src="../../assets/img/work/flexa/deck/06-orange-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/06-orange-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/06-orange-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="cell c12 vid" data-reveal role="img" aria-label="The Flexa film"><img src="../../assets/img/work/flexa/deck/08-film-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/08-film-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/08-film-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"><video muted loop playsinline preload="none" data-src="../../assets/video/flexa/film.mp4?v=20261125a" aria-hidden="true" style="left:0.000%;top:0.000%;width:100.000%;height:100.000%;"></video></figure>
+    <figure class="cell c12" data-reveal role="img" aria-label="The flexa.health home and science pages on Blue 10"><img src="../../assets/img/work/flexa/deck/09-site-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/09-site-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/09-site-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="cell c12" data-reveal role="img" aria-label="Flexa, the coach, in her white ring, beside the chat where she talks you through a session"><img src="../../assets/img/work/flexa/deck/10-coach-1920.webp?v=20261125a" srcset="../../assets/img/work/flexa/deck/10-coach-960.webp?v=20261125a 960w, ../../assets/img/work/flexa/deck/10-coach-1920.webp?v=20261125a 1920w" sizes="100vw" width="1920" height="1080" alt="" loading="lazy" decoding="async"></figure>
+  </div>
+  <p class="hud fine">App screens show demo data, not real patients. The films use my own footage, and Flexa, the coach, is a character I made.</p>
+</main>
+<section class="dawn dawn-close end" data-dawn data-rise="scroll" data-x=".5" aria-label="Work with me">
+  <div class="end-in"><p class="big">Tell me what you’re working on.</p><a class="btn hud ticks" data-flap href="mailto:hello@jcg.studio"><span class="flap">Work with me</span> <span class="arr" aria-hidden="true">→</span></a></div>
+</section>
+<footer class="hud">
+  <div class="foot-row"><a href="mailto:hello@jcg.studio">hello@jcg.studio</a><span>By JCG Studio · Colorado Springs</span><span>2026</span></div>
+</footer>
+<script type="module">
+  import { initSplitFlap } from '../../assets/js/splitflap.js'; initSplitFlap();
+  if (!document.documentElement.classList.contains('is-embed')) import('../dawn-light.js?v=20261123a');
+</script>
+<script>
+(() => { const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -6% 0px' }); document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const vo = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target;
+    if (e.isIntersecting) { if (v.preload !== 'auto') { v.preload = 'auto'; v.src = v.dataset.src; } v.play().then(() => v.classList.add('on')).catch(() => {}); } else v.pause(); }), { rootMargin: '120px 0px' });
+  document.querySelectorAll('.vid video').forEach((v) => vo.observe(v)); })();
+</script>
+</body>
+</html>
