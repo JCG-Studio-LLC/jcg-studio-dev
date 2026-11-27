@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kolossal — JCG Studio</title>
+<meta name="description" content="Kolossal, an ocean exploration and conservation nonprofit in Venice, California. One dive, from the Southern Ocean surface down to the colossal squid.">
+<meta name="theme-color" content="#cfdadf">
+<link rel="preload" href="../../../assets/fonts/kolossal/SofiaSansExtraCondensed-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script>document.documentElement.classList.add('js'); if (/[?&]cover\b/.test(location.search)) document.documentElement.classList.add('is-cover'); if (/[?&]cover=hero\b/.test(location.search)) document.documentElement.classList.add('is-hero');</script>
+
+<style>
+  @font-face { font-family: 'Sofia XC'; src: url('../../../assets/fonts/kolossal/SofiaSansExtraCondensed-normal.woff2') format('woff2'); font-weight: 1 1000; font-display: swap; }
+  @font-face { font-family: 'Newsreader'; src: url('../../../assets/fonts/kolossal/Newsreader-normal.woff2') format('woff2'); font-weight: 200 800; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Newsreader'; src: url('../../../assets/fonts/kolossal/Newsreader-italic.woff2') format('woff2'); font-weight: 200 800; font-style: italic; font-display: swap; }
+  @font-face { font-family: 'DM Mono'; src: url('../../../assets/fonts/kolossal/DMMono-normal.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+
+  :root {
+    --sky-1: #c6d3da; --sky-2: #e4eaec; --sky-3: #f3f0e9;
+    --ink: #0a2738; --foam: #eef6f7; --text: rgba(232,243,246,.84); --dim: rgba(232,243,246,.56);
+    --w0: #8ed0d3; --w1: #2b7f97; --w2: #165875; --w3: #0d415e; --w4: #092e48; --w5: #061d30; --w6: #020d16;
+    --coral: #ff6a3d; --glow: #8fe6ff;
+    --edge: 20px; --wl: 54svh; --u: min(41vw, 26svh);
+    --f-display: 'Sofia XC', 'Arial Narrow', sans-serif; --f-body: 'Newsreader', Georgia, serif; --f-label: 'DM Mono', ui-monospace, monospace;
+  }
+  @media (min-width: 900px) { :root { --edge: 48px; } }
+  * { box-sizing: border-box; }
+  html { background: #000; -webkit-text-size-adjust: 100%; overflow-x: clip; }
+  html { scrollbar-width: none; } html::-webkit-scrollbar { display: none; }   /* the depth gauge is the scroll bar */
+  body { margin: 0; background: #000; color: var(--text); font: 400 19px/1.55 var(--f-body); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3, p, ul, dl, dd, figure { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  a { color: inherit; }
+  svg { display: block; }
+  .label { font: 400 11px/1.4 var(--f-label); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+  .display { font: 800 clamp(72px, 19vw, 216px)/.77 var(--f-display); letter-spacing: -.018em; text-transform: uppercase; color: var(--foam); text-wrap: balance; }
+  .display.sm { font-size: clamp(56px, 13vw, 132px); }
+  .say { font: italic 300 clamp(30px, 7.2vw, 64px)/1.14 var(--f-body); letter-spacing: -.012em; color: var(--foam); text-wrap: balance; }
+  .wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 var(--edge); }
+  .copy { max-width: 34em; display: grid; gap: 1.1em; }
+  .sec { position: relative; padding: clamp(96px, 16svh, 180px) 0; }
+  .sec > .wrap { position: relative; z-index: 2; display: grid; gap: clamp(28px, 5svh, 56px); }
+  .btn { display: inline-flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 26px; border: 1px solid rgba(232,243,246,.5); border-radius: 100px; background: none; cursor: pointer;
+         font: 400 12px/1 var(--f-label); letter-spacing: .14em; text-transform: uppercase; color: var(--foam); text-decoration: none; transition: background .25s, color .25s, border-color .25s; }
+  .btn:hover { background: var(--foam); color: var(--w6); border-color: var(--foam); }
+  .btn.hot { background: var(--coral); border-color: var(--coral); color: #1a0500; }
+  .btn.hot:hover { background: #ff8a63; border-color: #ff8a63; }
+  :focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+
+  /* the bar: back to the studio, the logo, donate. Ink over the sky, foam under water */
+  .bar { position: fixed; z-index: 30; inset: 0 0 auto 0; display: flex; align-items: center; gap: 14px; padding: calc(env(safe-area-inset-top) + 12px) var(--edge) 12px; color: var(--ink); transition: color .5s; pointer-events: none; }
+  .bar > * { pointer-events: auto; }
+  .deep .bar { color: var(--foam); }
+  .bar { transition: color .5s, transform .45s cubic-bezier(.2,.7,.2,1); }
+  .bar.away { transform: translateY(-110%); }
+  .deep .bar > * { background: rgba(4,22,34,.42); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .deep .logo { padding: 9px 16px 9px 12px; border-radius: 100px; }
+  .back { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid currentColor; border-radius: 50%; text-decoration: none; font: 400 15px/1 var(--f-label); opacity: .75; }
+  .back:hover { opacity: 1; }
+  .logo { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font: 800 26px/1 var(--f-display); letter-spacing: .06em; text-transform: uppercase; }
+  .logo svg { width: 11.3px; height: 30px; }
+  .bar .give { margin-left: auto; min-height: 44px; display: inline-flex; align-items: center; padding: 0 18px; border: 1px solid currentColor; border-radius: 100px; text-decoration: none;
+               font: 400 11px/1 var(--f-label); letter-spacing: .14em; text-transform: uppercase; }
+  .is-embed .back { display: none; }
+
+  /* the gauge: a rail on the right edge and a reading in the corner */
+  .gauge { position: fixed; z-index: 29; right: 10px; top: 28svh; height: 44svh; width: 2px; background: currentColor; color: rgba(10,39,56,.28); transition: color .5s; pointer-events: none; }
+  .deep .gauge { color: rgba(232,243,246,.2); }
+  .gauge i { position: absolute; left: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); transform: translateY(-50%); box-shadow: 0 0 0 3px rgba(255,106,61,.22); }
+  .reading { position: fixed; z-index: 29; right: var(--edge); bottom: calc(env(safe-area-inset-bottom) + 14px); text-align: right; color: var(--ink); transition: color .5s; pointer-events: none; text-shadow: 0 0 12px rgba(0,0,0,0); }
+  .reading { padding: 8px 12px; border-radius: 14px; margin: 0 -12px -8px 0; }
+  .deep .reading { color: var(--foam); background: rgba(4,22,34,.5); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .reading b { display: block; font: 800 34px/.9 var(--f-display); letter-spacing: .03em; font-variant-numeric: tabular-nums; }
+  .reading span { font: 400 10px/1.4 var(--f-label); letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+
+  /* particles: marine snow, and sparks in the dark */
+  #snow { position: fixed; z-index: 20; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* 0. the surface: a sticky view; scrolling raises the waterline over the name */
+  .surface { position: relative; height: 230svh; background: var(--w1); }
+  .view { position: sticky; top: 0; height: 100svh; overflow: hidden; background: linear-gradient(to bottom, var(--sky-1) 0, var(--sky-2) 38%, var(--sky-3) 62%); }
+  .sun { position: absolute; left: 50%; top: calc(var(--wl) - 46svh); width: 130vmax; height: 60svh; transform: translateX(-50%); background: radial-gradient(50% 60% at 50% 100%, rgba(255,250,238,.95), rgba(255,250,238,0) 70%); }
+  .under { position: absolute; left: 0; right: 0; top: var(--wl); height: 160svh; background: linear-gradient(to bottom, var(--w0) 0, #4ba3b3 10svh, var(--w1) 46svh); overflow: hidden; }
+  .ray { position: absolute; top: -4svh; height: 92svh; transform-origin: 50% 0; transform: skewX(-17deg); background: linear-gradient(to bottom, rgba(255,255,255,.34), rgba(255,255,255,0)); filter: blur(7px); mix-blend-mode: soft-light; animation: ray 9s ease-in-out infinite; }
+  @keyframes ray { 50% { opacity: .35; transform: skewX(-13deg) translateX(18px); } }
+  .berg { position: absolute; right: 6vw; top: calc(var(--wl) - var(--bw) * .5); width: var(--bw); --bw: clamp(120px, 30vw, 300px); aspect-ratio: 600 / 900; }
+  .wm { position: absolute; inset: 0; display: grid; justify-items: center; align-content: start; pointer-events: none; }
+  .wm span { margin-top: 30svh; font: 800 min(27.5vw, 50svh)/.8 var(--f-display); letter-spacing: .012em; text-transform: uppercase; white-space: nowrap; }
+  .wm.above { clip-path: inset(0 0 calc(100% - var(--wl)) 0); color: var(--ink); }
+  .wm.below { clip-path: inset(var(--wl) 0 0 0); color: #eafcfc; opacity: .86; filter: url(#refract); }
+  .wave { position: absolute; left: 0; top: calc(var(--wl) - 16px); width: 3600px; height: 72px; pointer-events: none; }
+  .wave.b { animation: slide 26s linear infinite; opacity: .55; margin-top: -5px; }
+  .wave.f { animation: slide 15s linear infinite; }
+  @keyframes slide { to { transform: translateX(-1800px); } }
+  .tag { position: absolute; left: var(--edge); right: var(--edge); top: calc(env(safe-area-inset-top) + 88px); text-align: center; color: rgba(10,39,56,.8); opacity: var(--fade, 1); }
+  .plunge { position: absolute; left: 50%; bottom: calc(env(safe-area-inset-bottom) + 26px); transform: translateX(-50%); display: grid; justify-items: center; gap: 10px; text-decoration: none; color: var(--foam); opacity: var(--fade, 1); }
+  .plunge .label { color: inherit; }
+  .plunge i { width: 1px; height: 44px; background: linear-gradient(to bottom, currentColor, transparent); animation: drop 2.2s ease-in-out infinite; transform-origin: 50% 0; }
+  @keyframes drop { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* the water gets darker section by section */
+  .z1 { background: linear-gradient(to bottom, var(--w1), var(--w2)); }
+  .z2 { background: linear-gradient(to bottom, var(--w2), var(--w3)); }
+  .z3 { background: linear-gradient(to bottom, var(--w3), var(--w4)); }
+  .z4 { background: linear-gradient(to bottom, var(--w4), var(--w5)); }
+  .z5 { background: linear-gradient(to bottom, var(--w5), var(--w6)); }
+  .z6 { background: linear-gradient(to bottom, var(--w6) 0, #000 60svh); }
+  .z7 { background: #000; }
+
+  /* 1. mission */
+  #jelly { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* 2. 95% */
+  .ninety { display: grid; grid-template-columns: 44px 1fr; gap: 24px; align-items: center; }
+  .ruler { display: grid; gap: 4px; }
+  .ruler i { height: 2px; width: 40%; background: var(--foam); opacity: .2; }
+  .ruler i:nth-child(10n+1) { width: 100%; }
+  .ruler i:nth-child(-n+5) { opacity: 1; background: var(--coral); }
+  .js .ruler:not(.in) i { transform: scaleX(0); }
+  .ruler i { transform-origin: 0 50%; transition: transform .5s cubic-bezier(.2,.7,.2,1); transition-delay: calc(var(--i) * 14ms); }
+  .ninety .keys { display: grid; gap: 6px; margin-top: 28px; }
+  .ninety .keys span::before { content: ''; display: inline-block; width: 18px; height: 2px; margin-right: 10px; vertical-align: middle; background: var(--foam); opacity: .3; }
+  .ninety .keys span:first-child::before { background: var(--coral); opacity: 1; }
+  @media (min-width: 900px) { .ninety { grid-template-columns: 90px 1fr; gap: 64px; } .ruler { gap: 5px; } }
+
+  /* 4. the expedition */
+  .rig { width: 100%; max-width: 700px; }
+  .rig svg { width: 100%; height: auto; overflow: visible; }
+  .rig text { font: 400 15px var(--f-label); letter-spacing: .1em; text-transform: uppercase; fill: rgba(232,243,246,.62); }
+  .rig figcaption { margin-top: 14px; }
+  @media (max-width: 700px) { .rig text { font-size: 22px; } .fish { opacity: calc(var(--fo, .5) * .5); } }
+  .rig-beam { animation: rigbeam 5s ease-in-out infinite; } @keyframes rigbeam { 50% { opacity: .62; } }
+  .rig-visitor { opacity: 0; animation: rigvisit 14s ease-in-out infinite; } @keyframes rigvisit { 0%, 30% { opacity: 0; transform: translate(26px, -14px); } 55%, 75% { opacity: .7; transform: none; } 100% { opacity: 0; transform: translate(-8px, 10px); } }
+  .prize { display: grid; gap: 10px; padding-top: 28px; border-top: 1px solid rgba(232,243,246,.18); }
+  .prize b { font: 800 clamp(88px, 24vw, 240px)/.76 var(--f-display); color: var(--foam); letter-spacing: -.02em; }
+  .rows { border-top: 1px solid rgba(232,243,246,.18); }
+  .rows li { display: grid; gap: 4px; padding: 16px 0; border-bottom: 1px solid rgba(232,243,246,.18); }
+  .rows li b { font: 400 19px/1.35 var(--f-body); color: var(--foam); }
+  @media (min-width: 900px) { .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; } .rows li { grid-template-columns: 1fr auto; align-items: baseline; gap: 24px; } }
+
+  /* 5. conservation: toothfish go by */
+  .fish { position: absolute; z-index: 1; left: 100%; width: var(--fw, 240px); opacity: var(--fo, .5); animation: swim var(--fd, 38s) linear infinite; animation-delay: var(--fl, 0s); pointer-events: none; }
+  @keyframes swim { to { transform: translateX(calc(-100vw - 140%)); } }
+  .list { display: grid; gap: 0; border-top: 1px solid rgba(232,243,246,.18); max-width: 34em; }
+  .list li { padding: 12px 0; border-bottom: 1px solid rgba(232,243,246,.18); }
+
+  /* 6. the colossal squid: a canvas pinned to the screen, the animal scrolls through the lamp */
+  .stage { position: relative; height: calc(var(--u) * 11.4); margin-top: 8svh; }
+  #sq { position: sticky; top: 0; display: block; width: 100%; height: 100svh; }
+  .co { position: absolute; z-index: 2; max-width: min(46vw, 300px); display: grid; gap: 6px; text-shadow: 0 0 22px #000, 0 0 6px rgba(0,0,0,.8); }
+  .co.l { left: var(--edge); } .co.r { right: calc(var(--edge) + 8px); text-align: right; justify-items: end; }
+  .co b { font: 800 clamp(40px, 10.5vw, 84px)/.8 var(--f-display); letter-spacing: -.012em; text-transform: uppercase; color: var(--foam); }
+  .co .label { color: rgba(232,243,246,.8); }
+  .scale { position: absolute; z-index: 2; left: 10px; top: calc(var(--u) * 2.1); height: calc(var(--u) * 1.8); width: 9px; border: 1px solid var(--foam); border-right: 0; opacity: .8; }
+  .scale span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%) rotate(180deg); writing-mode: vertical-rl; white-space: nowrap; color: var(--foam); text-shadow: 0 0 12px #000; }
+  @media (min-width: 900px) {
+    .co.l { left: max(var(--edge), calc(50% - var(--u) * 1.75 - 300px)); text-align: right; justify-items: end; width: 300px; }
+    .co.r { right: max(var(--edge), calc(50% - var(--u) * 1.75 - 300px)); text-align: left; justify-items: start; width: 300px; }
+    .scale { left: calc(50% - var(--u) * 1.72); }
+  }
+
+  /* 7. the close */
+  .crew { display: grid; grid-template-columns: 1fr; border-top: 1px solid rgba(232,243,246,.18); }
+  .crew li { display: grid; grid-template-columns: 1fr; gap: 2px; padding: 14px 0; border-bottom: 1px solid rgba(232,243,246,.18); }
+  .crew b { font: 400 21px/1.3 var(--f-body); color: var(--foam); }
+  @media (min-width: 700px) { .crew li { grid-template-columns: 1fr 1fr; align-items: baseline; } }
+  /* a photo follows the pointer over a name; on a phone, a tap shows it beside the row */
+  [data-img] { cursor: pointer; transition: opacity .3s, padding .35s cubic-bezier(.2,.7,.2,1); }
+  @media (hover: hover) { .crew:hover li, .rows:hover li[data-img] { opacity: .45; } .crew li:hover, .rows li[data-img]:hover { opacity: 1; padding-left: 14px; } }
+  [data-img].open { padding-left: 14px; }
+  [data-img] b::after { content: '+'; display: inline-block; margin-left: 10px; font: 400 13px/1 var(--f-label); color: var(--coral); transform: translateY(-2px); transition: transform .3s; }
+  [data-img].open b::after, [data-img]:hover b::after { transform: translateY(-2px) rotate(45deg); }
+  .peek { position: fixed; z-index: 40; left: 0; top: 0; width: var(--pw, 240px); margin: 0; overflow: hidden; border-radius: 4px; pointer-events: none; opacity: 0; box-shadow: 0 24px 60px rgba(0,0,0,.6); transition: opacity .25s; will-change: transform; background: var(--w5); }
+  .peek.on { opacity: 1; }
+  .peek img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.04); transform: scale(1.12); transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+  .peek.on img { transform: none; }
+  .acts { display: flex; flex-wrap: wrap; gap: 12px; }
+  .lockup { display: flex; align-items: center; gap: .16em; font: 800 clamp(72px, 21vw, 300px)/.8 var(--f-display); letter-spacing: .03em; text-transform: uppercase; color: var(--foam); white-space: nowrap; }
+  .lockup svg { flex: none; height: 1.56em; width: .52em; color: var(--coral); }
+  .foot { display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; padding-top: 20px; border-top: 1px solid rgba(232,243,246,.18); padding-bottom: calc(env(safe-area-inset-bottom) + 70px); }
+  .foot a { text-underline-offset: 3px; }
+
+  /* ?cover: the grid card. Only the surface, the whole dive in one picture: sky, the name in the waterline, jellies,
+     and the squid coming up out of the dark. The grid tells it when the pointer is over the card (cover:hover). */
+  .is-cover, .is-cover body { overflow: hidden; background: var(--w1); }
+  .is-cover .bar, .is-cover .gauge, .is-cover .reading, .is-cover #snow, .is-cover .tag, .is-cover .plunge, .is-cover .peek, .is-cover main > :not(.surface) { display: none !important; }
+  .is-cover .surface { height: 100svh; }
+  .is-cover .view { position: relative; }
+  .is-cover .under { background: linear-gradient(to bottom, var(--w0) 0, #4ba3b3 8svh, var(--w1) 24svh, var(--w3) 44svh, #05182a 66svh, #010a12 86svh); }
+  .is-cover .wm span { margin-top: 19svh; font-size: min(23.5vw, 34svh); }
+  .is-cover .berg { --bw: min(25vw, 36svh); right: 8vw; }
+  .is-cover .ray { height: 58svh; }
+  #coverfx { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .cov-l { position: absolute; margin: 0; font: 400 clamp(7px, 2.5vw, 13px)/1 var(--f-label); letter-spacing: .14em; text-transform: uppercase; color: rgba(10,39,56,.78); }
+  .cov-l.tl { left: 8.3%; top: 7.2%; } .is-hero .cov-l.tl { left: max(8.3%, 72px); } .is-hero .cov-l { top: auto; } .is-hero .cov-l.tl, .is-hero .cov-l.tr { top: 30px; } .is-hero .cov-l.bl, .is-hero .cov-l.br { bottom: 26px; } .cov-l.tr { right: 8.3%; top: 7.2%; }
+  .cov-l.bl { left: 8.3%; bottom: 5.6%; color: rgba(232,243,246,.8); } .cov-l.br { right: 8.3%; bottom: 5.6%; color: rgba(232,243,246,.8); }
+  .is-embed .bar { padding-right: 84px; }
+
+  /* reveal */
+  .js .rv { opacity: 0; transform: translateY(26px); transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
+  .js .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .js .rv { opacity: 1; transform: none; transition: none; } .js .ruler:not(.in) i { transform: none; }
+    .ray, .wave, .plunge i, .fish, .rig-beam, .rig-visitor { animation: none; } .rig-visitor { opacity: .6; } .fish { left: 55%; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="refract" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.022" numOctaves="1" seed="4" result="n">
+      <animate attributeName="baseFrequency" dur="11s" values="0.006 0.022;0.009 0.03;0.006 0.022" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="11" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <symbol id="ksq" viewBox="-1.6 -.4 3.2 9.6"><mask id="ksq-m" maskUnits="userSpaceOnUse" x="-1.6" y="-.4" width="3.2" height="9.6"><g fill="#fff"><path d="M0 -.1C.14 .55 .80 1.55 .80 2.75C.80 3.50 .68 4.08 .59 4.50Q0 4.72 -.59 4.50C-.68 4.08 -.80 3.50 -.80 2.75C-.80 1.55 -.14 .55 0 -.1Z"/><path d="M0 -.1C0.42 .30 1.08 .92 1.36 1.56C1.46 1.80 1.24 2.02 0.98 2.10C0.84 2.15 0.74 2.24 0.66 2.42L0.3 1.00Z"/><path d="M0 -.1C-0.42 .30 -1.08 .92 -1.36 1.56C-1.46 1.80 -1.24 2.02 -0.98 2.10C-0.84 2.15 -0.74 2.24 -0.66 2.42L-0.3 1.00Z"/><path d="M-.46 4.66C-.63 4.90 -.62 5.26 -.42 5.50Q0 5.62 .42 5.50C.62 5.26 .63 4.90 .46 4.66Q0 4.85 -.46 4.66Z"/><path d="M0.271 5.400L0.287 5.437L0.305 5.476L0.324 5.513L0.343 5.549L0.364 5.585L0.385 5.619L0.407 5.653L0.429 5.686L0.452 5.718L0.476 5.750L0.499 5.781L0.524 5.811L0.548 5.841L0.573 5.870L0.598 5.899L0.623 5.927L0.649 5.955L0.674 5.983L0.700 6.010L0.725 6.037L0.750 6.064L0.776 6.090L0.801 6.117L0.825 6.143L0.850 6.169L0.874 6.196L0.898 6.222L0.921 6.248L0.944 6.274L0.967 6.301L0.989 6.327L1.010 6.354L1.031 6.381L1.050 6.408L1.070 6.435L1.088 6.463L1.106 6.491L1.123 6.520L1.138 6.549L1.153 6.578L1.167 6.608L1.180 6.639L1.192 6.670L1.202 6.702L1.211 6.734L1.219 6.768L1.226 6.802L1.231 6.837L1.235 6.872L1.237 6.909L1.238 6.946L1.237 6.985L1.234 7.024L1.229 7.065L1.223 7.106L1.214 7.149L1.226 7.151L1.237 7.109L1.246 7.068L1.253 7.027L1.259 6.987L1.264 6.948L1.266 6.909L1.267 6.871L1.267 6.834L1.265 6.797L1.261 6.761L1.256 6.725L1.250 6.690L1.243 6.655L1.234 6.621L1.224 6.587L1.213 6.554L1.200 6.521L1.187 6.488L1.172 6.456L1.157 6.424L1.141 6.393L1.124 6.361L1.106 6.330L1.088 6.300L1.069 6.269L1.049 6.239L1.029 6.209L1.009 6.179L0.988 6.150L0.967 6.120L0.945 6.091L0.923 6.061L0.901 6.032L0.880 6.003L0.858 5.974L0.836 5.944L0.814 5.915L0.792 5.885L0.771 5.856L0.749 5.826L0.729 5.796L0.708 5.767L0.688 5.736L0.668 5.706L0.649 5.676L0.631 5.645L0.613 5.614L0.596 5.583L0.580 5.551L0.564 5.520L0.549 5.488L0.536 5.455L0.523 5.423L0.511 5.389L0.500 5.356L0.489 5.320Z"/><path d="M0.165 5.436L0.174 5.486L0.185 5.537L0.196 5.587L0.208 5.636L0.221 5.684L0.235 5.731L0.249 5.778L0.264 5.824L0.279 5.869L0.295 5.914L0.311 5.958L0.328 6.001L0.345 6.044L0.363 6.086L0.381 6.127L0.399 6.168L0.417 6.209L0.435 6.249L0.454 6.289L0.472 6.328L0.491 6.367L0.509 6.406L0.527 6.444L0.545 6.482L0.563 6.520L0.581 6.557L0.599 6.595L0.616 6.632L0.633 6.669L0.649 6.706L0.665 6.743L0.681 6.779L0.696 6.816L0.710 6.853L0.724 6.890L0.737 6.926L0.750 6.963L0.762 7.000L0.773 7.037L0.783 7.075L0.792 7.112L0.800 7.150L0.808 7.188L0.814 7.226L0.820 7.265L0.824 7.304L0.827 7.343L0.829 7.383L0.830 7.423L0.829 7.464L0.827 7.505L0.824 7.547L0.819 7.589L0.812 7.631L0.804 7.675L0.794 7.719L0.806 7.721L0.818 7.678L0.829 7.635L0.838 7.592L0.846 7.550L0.853 7.508L0.858 7.466L0.862 7.425L0.864 7.383L0.866 7.342L0.866 7.302L0.865 7.261L0.863 7.221L0.860 7.181L0.856 7.141L0.851 7.101L0.845 7.062L0.839 7.022L0.831 6.983L0.823 6.943L0.813 6.904L0.804 6.865L0.793 6.826L0.782 6.786L0.770 6.747L0.758 6.708L0.745 6.669L0.732 6.630L0.719 6.591L0.705 6.551L0.692 6.512L0.677 6.472L0.663 6.433L0.649 6.393L0.634 6.353L0.620 6.313L0.606 6.273L0.591 6.233L0.577 6.192L0.563 6.151L0.549 6.110L0.536 6.069L0.523 6.027L0.510 5.985L0.497 5.943L0.485 5.900L0.474 5.858L0.463 5.814L0.453 5.771L0.443 5.727L0.434 5.682L0.425 5.637L0.418 5.592L0.411 5.546L0.405 5.500L0.399 5.453L0.395 5.404Z"/><path d="M0.054 5.464L0.059 5.525L0.064 5.586L0.069 5.646L0.076 5.705L0.082 5.763L0.089 5.821L0.097 5.877L0.105 5.933L0.113 5.988L0.122 6.042L0.131 6.096L0.141 6.148L0.150 6.200L0.160 6.252L0.170 6.302L0.180 6.352L0.190 6.402L0.201 6.450L0.211 6.498L0.222 6.546L0.233 6.593L0.243 6.639L0.254 6.685L0.264 6.730L0.274 6.775L0.285 6.819L0.295 6.863L0.305 6.907L0.315 6.950L0.324 6.992L0.333 7.034L0.342 7.076L0.351 7.118L0.359 7.159L0.367 7.200L0.374 7.240L0.382 7.280L0.388 7.320L0.394 7.360L0.400 7.400L0.405 7.439L0.409 7.478L0.413 7.517L0.416 7.556L0.419 7.595L0.421 7.634L0.422 7.672L0.423 7.711L0.422 7.749L0.421 7.788L0.419 7.826L0.416 7.865L0.412 7.903L0.407 7.942L0.401 7.980L0.394 8.019L0.406 8.021L0.415 7.983L0.423 7.944L0.431 7.906L0.437 7.867L0.443 7.829L0.448 7.790L0.452 7.751L0.456 7.712L0.459 7.673L0.461 7.634L0.462 7.594L0.462 7.555L0.462 7.515L0.462 7.475L0.461 7.435L0.459 7.394L0.457 7.354L0.454 7.313L0.451 7.272L0.447 7.230L0.443 7.189L0.438 7.147L0.434 7.104L0.428 7.062L0.423 7.019L0.417 6.976L0.411 6.932L0.405 6.888L0.399 6.844L0.392 6.799L0.386 6.754L0.379 6.709L0.372 6.663L0.366 6.616L0.359 6.569L0.352 6.522L0.345 6.474L0.339 6.426L0.332 6.377L0.326 6.328L0.320 6.278L0.314 6.228L0.308 6.177L0.302 6.125L0.297 6.073L0.292 6.020L0.288 5.967L0.283 5.913L0.280 5.858L0.276 5.803L0.273 5.747L0.271 5.690L0.269 5.633L0.267 5.575L0.266 5.516L0.266 5.456Z"/><path d="M-0.041 5.480L-0.039 5.535L-0.037 5.589L-0.035 5.642L-0.032 5.695L-0.029 5.748L-0.026 5.799L-0.023 5.850L-0.019 5.901L-0.015 5.951L-0.012 6.000L-0.008 6.048L-0.004 6.096L0.001 6.144L0.005 6.191L0.009 6.237L0.014 6.283L0.018 6.328L0.023 6.372L0.028 6.416L0.032 6.460L0.037 6.503L0.041 6.545L0.046 6.587L0.051 6.628L0.055 6.669L0.060 6.709L0.064 6.749L0.068 6.788L0.072 6.827L0.077 6.865L0.080 6.903L0.084 6.940L0.088 6.976L0.091 7.013L0.095 7.048L0.098 7.084L0.101 7.118L0.103 7.153L0.106 7.187L0.108 7.220L0.110 7.253L0.111 7.286L0.112 7.318L0.113 7.349L0.114 7.381L0.114 7.412L0.114 7.442L0.114 7.472L0.113 7.502L0.112 7.531L0.110 7.560L0.108 7.588L0.105 7.617L0.102 7.644L0.098 7.672L0.094 7.699L0.106 7.701L0.112 7.674L0.118 7.647L0.123 7.619L0.128 7.591L0.132 7.562L0.136 7.533L0.140 7.504L0.144 7.474L0.147 7.444L0.150 7.413L0.152 7.382L0.154 7.350L0.156 7.318L0.158 7.286L0.159 7.253L0.160 7.219L0.161 7.185L0.161 7.151L0.162 7.116L0.162 7.081L0.162 7.045L0.161 7.009L0.161 6.972L0.160 6.935L0.160 6.898L0.159 6.860L0.158 6.821L0.157 6.782L0.156 6.742L0.154 6.702L0.153 6.662L0.152 6.621L0.150 6.579L0.149 6.537L0.148 6.495L0.146 6.452L0.145 6.408L0.143 6.364L0.142 6.320L0.141 6.275L0.140 6.229L0.139 6.183L0.138 6.136L0.137 6.089L0.136 6.041L0.136 5.993L0.135 5.944L0.135 5.895L0.135 5.845L0.135 5.795L0.136 5.744L0.136 5.692L0.137 5.640L0.138 5.587L0.139 5.534L0.141 5.480Z"/><path d="M-0.489 5.320L-0.500 5.356L-0.511 5.389L-0.523 5.423L-0.536 5.455L-0.549 5.488L-0.564 5.520L-0.580 5.551L-0.596 5.583L-0.613 5.614L-0.631 5.645L-0.649 5.676L-0.668 5.706L-0.688 5.736L-0.708 5.767L-0.729 5.796L-0.749 5.826L-0.771 5.856L-0.792 5.885L-0.814 5.915L-0.836 5.944L-0.858 5.974L-0.880 6.003L-0.901 6.032L-0.923 6.061L-0.945 6.091L-0.967 6.120L-0.988 6.150L-1.009 6.179L-1.029 6.209L-1.049 6.239L-1.069 6.269L-1.088 6.300L-1.106 6.330L-1.124 6.361L-1.141 6.393L-1.157 6.424L-1.172 6.456L-1.187 6.488L-1.200 6.521L-1.213 6.554L-1.224 6.587L-1.234 6.621L-1.243 6.655L-1.250 6.690L-1.256 6.725L-1.261 6.761L-1.265 6.797L-1.267 6.834L-1.267 6.871L-1.266 6.909L-1.264 6.948L-1.259 6.987L-1.253 7.027L-1.246 7.068L-1.237 7.109L-1.226 7.151L-1.214 7.149L-1.223 7.106L-1.229 7.065L-1.234 7.024L-1.237 6.985L-1.238 6.946L-1.237 6.909L-1.235 6.872L-1.231 6.837L-1.226 6.802L-1.219 6.768L-1.211 6.734L-1.202 6.702L-1.192 6.670L-1.180 6.639L-1.167 6.608L-1.153 6.578L-1.138 6.549L-1.123 6.520L-1.106 6.491L-1.088 6.463L-1.070 6.435L-1.050 6.408L-1.031 6.381L-1.010 6.354L-0.989 6.327L-0.967 6.301L-0.944 6.274L-0.921 6.248L-0.898 6.222L-0.874 6.196L-0.850 6.169L-0.825 6.143L-0.801 6.117L-0.776 6.090L-0.750 6.064L-0.725 6.037L-0.700 6.010L-0.674 5.983L-0.649 5.955L-0.623 5.927L-0.598 5.899L-0.573 5.870L-0.548 5.841L-0.524 5.811L-0.499 5.781L-0.476 5.750L-0.452 5.718L-0.429 5.686L-0.407 5.653L-0.385 5.619L-0.364 5.585L-0.343 5.549L-0.324 5.513L-0.305 5.476L-0.287 5.437L-0.271 5.400Z"/><path d="M-0.395 5.404L-0.399 5.453L-0.405 5.500L-0.411 5.546L-0.418 5.592L-0.425 5.637L-0.434 5.682L-0.443 5.727L-0.453 5.771L-0.463 5.814L-0.474 5.858L-0.485 5.900L-0.497 5.943L-0.510 5.985L-0.523 6.027L-0.536 6.069L-0.549 6.110L-0.563 6.151L-0.577 6.192L-0.591 6.233L-0.606 6.273L-0.620 6.313L-0.634 6.353L-0.649 6.393L-0.663 6.433L-0.677 6.472L-0.692 6.512L-0.705 6.551L-0.719 6.591L-0.732 6.630L-0.745 6.669L-0.758 6.708L-0.770 6.747L-0.782 6.786L-0.793 6.826L-0.804 6.865L-0.813 6.904L-0.823 6.943L-0.831 6.983L-0.839 7.022L-0.845 7.062L-0.851 7.101L-0.856 7.141L-0.860 7.181L-0.863 7.221L-0.865 7.261L-0.866 7.302L-0.866 7.342L-0.864 7.383L-0.862 7.425L-0.858 7.466L-0.853 7.508L-0.846 7.550L-0.838 7.592L-0.829 7.635L-0.818 7.678L-0.806 7.721L-0.794 7.719L-0.804 7.675L-0.812 7.631L-0.819 7.589L-0.824 7.547L-0.827 7.505L-0.829 7.464L-0.830 7.423L-0.829 7.383L-0.827 7.343L-0.824 7.304L-0.820 7.265L-0.814 7.226L-0.808 7.188L-0.800 7.150L-0.792 7.112L-0.783 7.075L-0.773 7.037L-0.762 7.000L-0.750 6.963L-0.737 6.926L-0.724 6.890L-0.710 6.853L-0.696 6.816L-0.681 6.779L-0.665 6.743L-0.649 6.706L-0.633 6.669L-0.616 6.632L-0.599 6.595L-0.581 6.557L-0.563 6.520L-0.545 6.482L-0.527 6.444L-0.509 6.406L-0.491 6.367L-0.472 6.328L-0.454 6.289L-0.435 6.249L-0.417 6.209L-0.399 6.168L-0.381 6.127L-0.363 6.086L-0.345 6.044L-0.328 6.001L-0.311 5.958L-0.295 5.914L-0.279 5.869L-0.264 5.824L-0.249 5.778L-0.235 5.731L-0.221 5.684L-0.208 5.636L-0.196 5.587L-0.185 5.537L-0.174 5.486L-0.165 5.436Z"/><path d="M-0.266 5.456L-0.266 5.516L-0.267 5.575L-0.269 5.633L-0.271 5.690L-0.273 5.747L-0.276 5.803L-0.280 5.858L-0.283 5.913L-0.288 5.967L-0.292 6.020L-0.297 6.073L-0.302 6.125L-0.308 6.177L-0.314 6.228L-0.320 6.278L-0.326 6.328L-0.332 6.377L-0.339 6.426L-0.345 6.474L-0.352 6.522L-0.359 6.569L-0.366 6.616L-0.372 6.663L-0.379 6.709L-0.386 6.754L-0.392 6.799L-0.399 6.844L-0.405 6.888L-0.411 6.932L-0.417 6.976L-0.423 7.019L-0.428 7.062L-0.434 7.104L-0.438 7.147L-0.443 7.189L-0.447 7.230L-0.451 7.272L-0.454 7.313L-0.457 7.354L-0.459 7.394L-0.461 7.435L-0.462 7.475L-0.462 7.515L-0.462 7.555L-0.462 7.594L-0.461 7.634L-0.459 7.673L-0.456 7.712L-0.452 7.751L-0.448 7.790L-0.443 7.829L-0.437 7.867L-0.431 7.906L-0.423 7.944L-0.415 7.983L-0.406 8.021L-0.394 8.019L-0.401 7.980L-0.407 7.942L-0.412 7.903L-0.416 7.865L-0.419 7.826L-0.421 7.788L-0.422 7.749L-0.423 7.711L-0.422 7.672L-0.421 7.634L-0.419 7.595L-0.416 7.556L-0.413 7.517L-0.409 7.478L-0.405 7.439L-0.400 7.400L-0.394 7.360L-0.388 7.320L-0.382 7.280L-0.374 7.240L-0.367 7.200L-0.359 7.159L-0.351 7.118L-0.342 7.076L-0.333 7.034L-0.324 6.992L-0.315 6.950L-0.305 6.907L-0.295 6.863L-0.285 6.819L-0.274 6.775L-0.264 6.730L-0.254 6.685L-0.243 6.639L-0.233 6.593L-0.222 6.546L-0.211 6.498L-0.201 6.450L-0.190 6.402L-0.180 6.352L-0.170 6.302L-0.160 6.252L-0.150 6.200L-0.141 6.148L-0.131 6.096L-0.122 6.042L-0.113 5.988L-0.105 5.933L-0.097 5.877L-0.089 5.821L-0.082 5.763L-0.076 5.705L-0.069 5.646L-0.064 5.586L-0.059 5.525L-0.054 5.464Z"/><path d="M-0.141 5.480L-0.139 5.534L-0.138 5.587L-0.137 5.640L-0.136 5.692L-0.136 5.744L-0.135 5.795L-0.135 5.845L-0.135 5.895L-0.135 5.944L-0.136 5.993L-0.136 6.041L-0.137 6.089L-0.138 6.136L-0.139 6.183L-0.140 6.229L-0.141 6.275L-0.142 6.320L-0.143 6.364L-0.145 6.408L-0.146 6.452L-0.148 6.495L-0.149 6.537L-0.150 6.579L-0.152 6.621L-0.153 6.662L-0.154 6.702L-0.156 6.742L-0.157 6.782L-0.158 6.821L-0.159 6.860L-0.160 6.898L-0.160 6.935L-0.161 6.972L-0.161 7.009L-0.162 7.045L-0.162 7.081L-0.162 7.116L-0.161 7.151L-0.161 7.185L-0.160 7.219L-0.159 7.253L-0.158 7.286L-0.156 7.318L-0.154 7.350L-0.152 7.382L-0.150 7.413L-0.147 7.444L-0.144 7.474L-0.140 7.504L-0.136 7.533L-0.132 7.562L-0.128 7.591L-0.123 7.619L-0.118 7.647L-0.112 7.674L-0.106 7.701L-0.094 7.699L-0.098 7.672L-0.102 7.644L-0.105 7.617L-0.108 7.588L-0.110 7.560L-0.112 7.531L-0.113 7.502L-0.114 7.472L-0.114 7.442L-0.114 7.412L-0.114 7.381L-0.113 7.349L-0.112 7.318L-0.111 7.286L-0.110 7.253L-0.108 7.220L-0.106 7.187L-0.103 7.153L-0.101 7.118L-0.098 7.084L-0.095 7.048L-0.091 7.013L-0.088 6.976L-0.084 6.940L-0.080 6.903L-0.077 6.865L-0.072 6.827L-0.068 6.788L-0.064 6.749L-0.060 6.709L-0.055 6.669L-0.051 6.628L-0.046 6.587L-0.041 6.545L-0.037 6.503L-0.032 6.460L-0.028 6.416L-0.023 6.372L-0.018 6.328L-0.014 6.283L-0.009 6.237L-0.005 6.191L-0.001 6.144L0.004 6.096L0.008 6.048L0.012 6.000L0.015 5.951L0.019 5.901L0.023 5.850L0.026 5.799L0.029 5.748L0.032 5.695L0.035 5.642L0.037 5.589L0.039 5.535L0.041 5.480Z"/><path d="M0.063 5.480L0.063 5.528L0.064 5.575L0.065 5.622L0.067 5.669L0.070 5.715L0.073 5.761L0.076 5.807L0.080 5.852L0.085 5.898L0.090 5.942L0.095 5.987L0.100 6.031L0.106 6.076L0.112 6.119L0.119 6.163L0.126 6.206L0.133 6.249L0.141 6.292L0.148 6.335L0.156 6.377L0.164 6.419L0.173 6.461L0.181 6.503L0.190 6.544L0.199 6.585L0.208 6.626L0.217 6.667L0.227 6.708L0.236 6.748L0.246 6.789L0.255 6.829L0.265 6.869L0.274 6.908L0.284 6.948L0.293 6.987L0.303 7.026L0.312 7.065L0.322 7.104L0.331 7.143L0.340 7.182L0.350 7.220L0.359 7.259L0.368 7.297L0.376 7.335L0.385 7.373L0.393 7.411L0.401 7.448L0.409 7.486L0.417 7.524L0.424 7.561L0.431 7.599L0.438 7.636L0.445 7.673L0.451 7.710L0.457 7.747L0.462 7.784L0.467 7.821L0.472 7.858L0.476 7.895L0.480 7.932L0.484 7.968L0.487 8.005L0.489 8.042L0.491 8.078L0.493 8.115L0.494 8.152L0.485 8.188L0.468 8.224L0.454 8.260L0.440 8.296L0.428 8.331L0.416 8.365L0.405 8.400L0.395 8.435L0.385 8.469L0.376 8.504L0.368 8.538L0.361 8.573L0.354 8.608L0.348 8.643L0.343 8.679L0.338 8.716L0.334 8.753L0.330 8.791L0.327 8.830L0.323 8.869L0.320 8.910L0.318 8.951L0.316 8.994L0.331 9.046L0.349 9.054L0.398 9.029L0.428 8.996L0.455 8.961L0.480 8.926L0.504 8.890L0.525 8.853L0.544 8.815L0.561 8.777L0.576 8.738L0.589 8.699L0.600 8.660L0.608 8.620L0.615 8.581L0.619 8.541L0.620 8.501L0.620 8.461L0.618 8.421L0.613 8.381L0.607 8.342L0.599 8.303L0.588 8.264L0.575 8.226L0.559 8.188L0.549 8.151L0.549 8.113L0.548 8.076L0.546 8.038L0.543 8.001L0.541 7.964L0.538 7.926L0.534 7.889L0.530 7.851L0.525 7.814L0.520 7.776L0.515 7.739L0.509 7.701L0.503 7.663L0.497 7.625L0.491 7.588L0.484 7.550L0.476 7.512L0.469 7.474L0.461 7.436L0.453 7.398L0.445 7.360L0.437 7.321L0.428 7.283L0.420 7.244L0.411 7.206L0.402 7.167L0.393 7.128L0.384 7.090L0.375 7.051L0.366 7.011L0.356 6.972L0.347 6.933L0.338 6.893L0.328 6.853L0.319 6.814L0.310 6.774L0.301 6.733L0.292 6.693L0.283 6.653L0.274 6.612L0.265 6.571L0.257 6.530L0.248 6.489L0.240 6.448L0.232 6.406L0.224 6.364L0.217 6.322L0.209 6.280L0.202 6.238L0.195 6.195L0.189 6.152L0.183 6.109L0.177 6.066L0.171 6.022L0.166 5.979L0.161 5.935L0.157 5.890L0.153 5.846L0.149 5.801L0.146 5.756L0.143 5.711L0.141 5.665L0.139 5.619L0.138 5.573L0.138 5.527L0.137 5.480Z"/><path d="M-0.137 5.480L-0.138 5.527L-0.138 5.573L-0.139 5.619L-0.141 5.665L-0.143 5.711L-0.146 5.756L-0.149 5.801L-0.153 5.846L-0.157 5.890L-0.161 5.935L-0.166 5.979L-0.171 6.022L-0.177 6.066L-0.183 6.109L-0.189 6.152L-0.195 6.195L-0.202 6.238L-0.209 6.280L-0.217 6.322L-0.224 6.364L-0.232 6.406L-0.240 6.448L-0.248 6.489L-0.257 6.530L-0.265 6.571L-0.274 6.612L-0.283 6.653L-0.292 6.693L-0.301 6.733L-0.310 6.774L-0.319 6.814L-0.328 6.853L-0.338 6.893L-0.347 6.933L-0.356 6.972L-0.366 7.011L-0.375 7.051L-0.384 7.090L-0.393 7.128L-0.402 7.167L-0.411 7.206L-0.420 7.244L-0.428 7.283L-0.437 7.321L-0.445 7.360L-0.453 7.398L-0.461 7.436L-0.469 7.474L-0.476 7.512L-0.484 7.550L-0.491 7.588L-0.497 7.625L-0.503 7.663L-0.509 7.701L-0.515 7.739L-0.520 7.776L-0.525 7.814L-0.530 7.851L-0.534 7.889L-0.538 7.926L-0.541 7.964L-0.543 8.001L-0.546 8.038L-0.548 8.076L-0.549 8.113L-0.549 8.151L-0.559 8.188L-0.575 8.226L-0.588 8.264L-0.599 8.303L-0.607 8.342L-0.613 8.381L-0.618 8.421L-0.620 8.461L-0.620 8.501L-0.619 8.541L-0.615 8.581L-0.608 8.620L-0.600 8.660L-0.589 8.699L-0.576 8.738L-0.561 8.777L-0.544 8.815L-0.525 8.853L-0.504 8.890L-0.480 8.926L-0.455 8.961L-0.428 8.996L-0.398 9.029L-0.349 9.054L-0.331 9.046L-0.316 8.994L-0.318 8.951L-0.320 8.910L-0.323 8.869L-0.327 8.830L-0.330 8.791L-0.334 8.753L-0.338 8.716L-0.343 8.679L-0.348 8.643L-0.354 8.608L-0.361 8.573L-0.368 8.538L-0.376 8.504L-0.385 8.469L-0.395 8.435L-0.405 8.400L-0.416 8.365L-0.428 8.331L-0.440 8.296L-0.454 8.260L-0.468 8.224L-0.485 8.188L-0.494 8.152L-0.493 8.115L-0.491 8.078L-0.489 8.042L-0.487 8.005L-0.484 7.968L-0.480 7.932L-0.476 7.895L-0.472 7.858L-0.467 7.821L-0.462 7.784L-0.457 7.747L-0.451 7.710L-0.445 7.673L-0.438 7.636L-0.431 7.599L-0.424 7.561L-0.417 7.524L-0.409 7.486L-0.401 7.448L-0.393 7.411L-0.385 7.373L-0.376 7.335L-0.368 7.297L-0.359 7.259L-0.350 7.220L-0.340 7.182L-0.331 7.143L-0.322 7.104L-0.312 7.065L-0.303 7.026L-0.293 6.987L-0.284 6.948L-0.274 6.908L-0.265 6.869L-0.255 6.829L-0.246 6.789L-0.236 6.748L-0.227 6.708L-0.217 6.667L-0.208 6.626L-0.199 6.585L-0.190 6.544L-0.181 6.503L-0.173 6.461L-0.164 6.419L-0.156 6.377L-0.148 6.335L-0.141 6.292L-0.133 6.249L-0.126 6.206L-0.119 6.163L-0.112 6.119L-0.106 6.076L-0.100 6.031L-0.095 5.987L-0.090 5.942L-0.085 5.898L-0.080 5.852L-0.076 5.807L-0.073 5.761L-0.070 5.715L-0.067 5.669L-0.065 5.622L-0.064 5.575L-0.063 5.528L-0.063 5.480Z"/><circle cx="0.64" cy="5.08" r="0.3"/><circle cx="-0.64" cy="5.08" r="0.3"/><circle cx="0.68" cy="5.08" r="0.13" fill="#000"/><circle cx="-0.68" cy="5.08" r="0.13" fill="#000"/></g></mask><rect x="-1.6" y="-.4" width="3.2" height="9.6" fill="currentColor" mask="url(#ksq-m)"/></symbol><symbol id="ksqc" viewBox="-1.6 -.4 3.2 8.5"><mask id="ksqc-m" maskUnits="userSpaceOnUse" x="-1.6" y="-.4" width="3.2" height="8.5"><g fill="#fff"><path d="M0 -.1C.14 .55 .80 1.55 .80 2.75C.80 3.50 .68 4.08 .59 4.50Q0 4.72 -.59 4.50C-.68 4.08 -.80 3.50 -.80 2.75C-.80 1.55 -.14 .55 0 -.1Z"/><path d="M0 -.1C0.42 .30 1.08 .92 1.36 1.56C1.46 1.80 1.24 2.02 0.98 2.10C0.84 2.15 0.74 2.24 0.66 2.42L0.3 1.00Z"/><path d="M0 -.1C-0.42 .30 -1.08 .92 -1.36 1.56C-1.46 1.80 -1.24 2.02 -0.98 2.10C-0.84 2.15 -0.74 2.24 -0.66 2.42L-0.3 1.00Z"/><path d="M-.46 4.66C-.63 4.90 -.62 5.26 -.42 5.50Q0 5.62 .42 5.50C.62 5.26 .63 4.90 .46 4.66Q0 4.85 -.46 4.66Z"/><path d="M0.195 5.442L0.213 5.479L0.232 5.517L0.253 5.555L0.274 5.591L0.296 5.627L0.319 5.661L0.342 5.695L0.366 5.728L0.391 5.760L0.415 5.792L0.441 5.823L0.466 5.853L0.492 5.883L0.518 5.912L0.544 5.941L0.570 5.970L0.596 5.998L0.623 6.026L0.649 6.053L0.675 6.081L0.701 6.108L0.727 6.135L0.752 6.162L0.778 6.189L0.803 6.215L0.828 6.242L0.852 6.269L0.876 6.296L0.899 6.323L0.922 6.351L0.944 6.378L0.966 6.406L0.987 6.434L1.007 6.462L1.027 6.491L1.046 6.520L1.064 6.549L1.081 6.579L1.097 6.610L1.112 6.641L1.126 6.672L1.140 6.705L1.152 6.738L1.162 6.772L1.172 6.806L1.180 6.842L1.187 6.878L1.192 6.915L1.196 6.953L1.199 6.992L1.199 7.033L1.198 7.074L1.195 7.116L1.190 7.159L1.183 7.203L1.174 7.249L1.186 7.251L1.198 7.207L1.209 7.163L1.219 7.119L1.226 7.077L1.232 7.035L1.237 6.993L1.239 6.953L1.241 6.913L1.240 6.873L1.238 6.834L1.235 6.795L1.231 6.757L1.225 6.719L1.217 6.682L1.209 6.645L1.199 6.609L1.188 6.573L1.176 6.537L1.163 6.502L1.149 6.467L1.134 6.432L1.118 6.398L1.102 6.364L1.084 6.330L1.066 6.297L1.048 6.264L1.029 6.231L1.009 6.199L0.989 6.167L0.969 6.134L0.948 6.102L0.928 6.071L0.907 6.039L0.886 6.008L0.865 5.976L0.844 5.945L0.823 5.914L0.802 5.883L0.782 5.852L0.762 5.820L0.742 5.789L0.723 5.758L0.704 5.727L0.686 5.696L0.668 5.665L0.651 5.634L0.634 5.603L0.619 5.572L0.604 5.541L0.590 5.510L0.577 5.478L0.565 5.447L0.553 5.416L0.543 5.384L0.534 5.352L0.525 5.318Z"/><path d="M0.045 5.455L0.053 5.510L0.062 5.566L0.073 5.621L0.084 5.674L0.095 5.727L0.108 5.779L0.121 5.830L0.135 5.880L0.149 5.930L0.164 5.978L0.179 6.026L0.195 6.074L0.210 6.120L0.227 6.166L0.243 6.211L0.260 6.256L0.277 6.300L0.294 6.343L0.311 6.386L0.328 6.429L0.345 6.471L0.362 6.512L0.379 6.554L0.396 6.594L0.413 6.635L0.429 6.675L0.445 6.715L0.461 6.755L0.477 6.794L0.492 6.834L0.507 6.873L0.521 6.912L0.535 6.951L0.548 6.990L0.561 7.029L0.573 7.067L0.584 7.106L0.595 7.146L0.605 7.185L0.614 7.224L0.622 7.264L0.630 7.303L0.636 7.343L0.642 7.383L0.646 7.424L0.650 7.465L0.652 7.506L0.653 7.548L0.654 7.590L0.652 7.633L0.650 7.676L0.646 7.719L0.640 7.763L0.633 7.808L0.625 7.853L0.614 7.898L0.626 7.902L0.640 7.857L0.652 7.812L0.664 7.768L0.674 7.724L0.682 7.680L0.690 7.637L0.696 7.593L0.702 7.550L0.706 7.507L0.709 7.465L0.711 7.422L0.712 7.380L0.711 7.337L0.710 7.295L0.708 7.253L0.705 7.210L0.702 7.168L0.697 7.126L0.692 7.084L0.686 7.042L0.679 7.000L0.672 6.958L0.664 6.916L0.656 6.874L0.647 6.832L0.638 6.790L0.629 6.748L0.619 6.705L0.609 6.663L0.598 6.620L0.588 6.578L0.577 6.535L0.566 6.492L0.556 6.449L0.545 6.405L0.534 6.362L0.523 6.318L0.513 6.274L0.503 6.230L0.493 6.186L0.483 6.141L0.473 6.096L0.464 6.051L0.455 6.005L0.447 5.959L0.439 5.913L0.432 5.866L0.425 5.819L0.419 5.772L0.413 5.724L0.409 5.675L0.404 5.627L0.401 5.577L0.398 5.527L0.396 5.477L0.395 5.425Z"/><path d="M-0.076 5.481L-0.073 5.541L-0.069 5.600L-0.065 5.659L-0.061 5.718L-0.056 5.775L-0.051 5.831L-0.045 5.887L-0.040 5.942L-0.034 5.996L-0.028 6.050L-0.021 6.102L-0.015 6.154L-0.008 6.205L-0.001 6.256L0.006 6.306L0.013 6.355L0.020 6.404L0.027 6.451L0.035 6.499L0.042 6.545L0.049 6.591L0.057 6.637L0.064 6.682L0.071 6.726L0.078 6.770L0.085 6.813L0.092 6.856L0.099 6.898L0.106 6.940L0.112 6.981L0.119 7.022L0.125 7.063L0.131 7.103L0.136 7.142L0.142 7.182L0.147 7.221L0.152 7.259L0.156 7.297L0.160 7.335L0.164 7.373L0.167 7.410L0.170 7.448L0.173 7.484L0.175 7.521L0.176 7.557L0.177 7.594L0.178 7.630L0.178 7.666L0.177 7.701L0.176 7.737L0.174 7.773L0.172 7.808L0.168 7.843L0.165 7.879L0.160 7.914L0.154 7.949L0.166 7.951L0.174 7.917L0.183 7.882L0.191 7.847L0.198 7.812L0.205 7.776L0.211 7.741L0.216 7.705L0.222 7.669L0.226 7.633L0.231 7.596L0.234 7.559L0.238 7.522L0.241 7.485L0.243 7.447L0.245 7.409L0.247 7.371L0.248 7.332L0.249 7.293L0.250 7.254L0.250 7.215L0.251 7.175L0.251 7.134L0.250 7.094L0.250 7.053L0.249 7.011L0.248 6.969L0.247 6.927L0.246 6.884L0.244 6.841L0.243 6.798L0.242 6.754L0.240 6.709L0.238 6.664L0.237 6.619L0.235 6.573L0.234 6.527L0.232 6.480L0.231 6.433L0.229 6.385L0.228 6.337L0.227 6.288L0.226 6.238L0.225 6.188L0.224 6.137L0.223 6.086L0.223 6.034L0.223 5.982L0.223 5.929L0.224 5.875L0.224 5.821L0.225 5.766L0.227 5.710L0.229 5.653L0.231 5.596L0.233 5.539L0.236 5.479Z"/><path d="M-0.525 5.318L-0.534 5.352L-0.543 5.384L-0.553 5.416L-0.565 5.447L-0.577 5.478L-0.590 5.510L-0.604 5.541L-0.619 5.572L-0.634 5.603L-0.651 5.634L-0.668 5.665L-0.686 5.696L-0.704 5.727L-0.723 5.758L-0.742 5.789L-0.762 5.820L-0.782 5.852L-0.802 5.883L-0.823 5.914L-0.844 5.945L-0.865 5.976L-0.886 6.008L-0.907 6.039L-0.928 6.071L-0.948 6.102L-0.969 6.134L-0.989 6.167L-1.009 6.199L-1.029 6.231L-1.048 6.264L-1.066 6.297L-1.084 6.330L-1.102 6.364L-1.118 6.398L-1.134 6.432L-1.149 6.467L-1.163 6.502L-1.176 6.537L-1.188 6.573L-1.199 6.609L-1.209 6.645L-1.217 6.682L-1.225 6.719L-1.231 6.757L-1.235 6.795L-1.238 6.834L-1.240 6.873L-1.241 6.913L-1.239 6.953L-1.237 6.993L-1.232 7.035L-1.226 7.077L-1.219 7.119L-1.209 7.163L-1.198 7.207L-1.186 7.251L-1.174 7.249L-1.183 7.203L-1.190 7.159L-1.195 7.116L-1.198 7.074L-1.199 7.033L-1.199 6.992L-1.196 6.953L-1.192 6.915L-1.187 6.878L-1.180 6.842L-1.172 6.806L-1.162 6.772L-1.152 6.738L-1.140 6.705L-1.126 6.672L-1.112 6.641L-1.097 6.610L-1.081 6.579L-1.064 6.549L-1.046 6.520L-1.027 6.491L-1.007 6.462L-0.987 6.434L-0.966 6.406L-0.944 6.378L-0.922 6.351L-0.899 6.323L-0.876 6.296L-0.852 6.269L-0.828 6.242L-0.803 6.215L-0.778 6.189L-0.752 6.162L-0.727 6.135L-0.701 6.108L-0.675 6.081L-0.649 6.053L-0.623 6.026L-0.596 5.998L-0.570 5.970L-0.544 5.941L-0.518 5.912L-0.492 5.883L-0.466 5.853L-0.441 5.823L-0.415 5.792L-0.391 5.760L-0.366 5.728L-0.342 5.695L-0.319 5.661L-0.296 5.627L-0.274 5.591L-0.253 5.555L-0.232 5.517L-0.213 5.479L-0.195 5.442Z"/><path d="M-0.395 5.425L-0.396 5.477L-0.398 5.527L-0.401 5.577L-0.404 5.627L-0.409 5.675L-0.413 5.724L-0.419 5.772L-0.425 5.819L-0.432 5.866L-0.439 5.913L-0.447 5.959L-0.455 6.005L-0.464 6.051L-0.473 6.096L-0.483 6.141L-0.493 6.186L-0.503 6.230L-0.513 6.274L-0.523 6.318L-0.534 6.362L-0.545 6.405L-0.556 6.449L-0.566 6.492L-0.577 6.535L-0.588 6.578L-0.598 6.620L-0.609 6.663L-0.619 6.705L-0.629 6.748L-0.638 6.790L-0.647 6.832L-0.656 6.874L-0.664 6.916L-0.672 6.958L-0.679 7.000L-0.686 7.042L-0.692 7.084L-0.697 7.126L-0.702 7.168L-0.705 7.210L-0.708 7.253L-0.710 7.295L-0.711 7.337L-0.712 7.380L-0.711 7.422L-0.709 7.465L-0.706 7.507L-0.702 7.550L-0.696 7.593L-0.690 7.637L-0.682 7.680L-0.674 7.724L-0.664 7.768L-0.652 7.812L-0.640 7.857L-0.626 7.902L-0.614 7.898L-0.625 7.853L-0.633 7.808L-0.640 7.763L-0.646 7.719L-0.650 7.676L-0.652 7.633L-0.654 7.590L-0.653 7.548L-0.652 7.506L-0.650 7.465L-0.646 7.424L-0.642 7.383L-0.636 7.343L-0.630 7.303L-0.622 7.264L-0.614 7.224L-0.605 7.185L-0.595 7.146L-0.584 7.106L-0.573 7.067L-0.561 7.029L-0.548 6.990L-0.535 6.951L-0.521 6.912L-0.507 6.873L-0.492 6.834L-0.477 6.794L-0.461 6.755L-0.445 6.715L-0.429 6.675L-0.413 6.635L-0.396 6.594L-0.379 6.554L-0.362 6.512L-0.345 6.471L-0.328 6.429L-0.311 6.386L-0.294 6.343L-0.277 6.300L-0.260 6.256L-0.243 6.211L-0.227 6.166L-0.210 6.120L-0.195 6.074L-0.179 6.026L-0.164 5.978L-0.149 5.930L-0.135 5.880L-0.121 5.830L-0.108 5.779L-0.095 5.727L-0.084 5.674L-0.073 5.621L-0.062 5.566L-0.053 5.510L-0.045 5.455Z"/><path d="M-0.236 5.479L-0.233 5.539L-0.231 5.596L-0.229 5.653L-0.227 5.710L-0.225 5.766L-0.224 5.821L-0.224 5.875L-0.223 5.929L-0.223 5.982L-0.223 6.034L-0.223 6.086L-0.224 6.137L-0.225 6.188L-0.226 6.238L-0.227 6.288L-0.228 6.337L-0.229 6.385L-0.231 6.433L-0.232 6.480L-0.234 6.527L-0.235 6.573L-0.237 6.619L-0.238 6.664L-0.240 6.709L-0.242 6.754L-0.243 6.798L-0.244 6.841L-0.246 6.884L-0.247 6.927L-0.248 6.969L-0.249 7.011L-0.250 7.053L-0.250 7.094L-0.251 7.134L-0.251 7.175L-0.250 7.215L-0.250 7.254L-0.249 7.293L-0.248 7.332L-0.247 7.371L-0.245 7.409L-0.243 7.447L-0.241 7.485L-0.238 7.522L-0.234 7.559L-0.231 7.596L-0.226 7.633L-0.222 7.669L-0.216 7.705L-0.211 7.741L-0.205 7.776L-0.198 7.812L-0.191 7.847L-0.183 7.882L-0.174 7.917L-0.166 7.951L-0.154 7.949L-0.160 7.914L-0.165 7.879L-0.168 7.843L-0.172 7.808L-0.174 7.773L-0.176 7.737L-0.177 7.701L-0.178 7.666L-0.178 7.630L-0.177 7.594L-0.176 7.557L-0.175 7.521L-0.173 7.484L-0.170 7.448L-0.167 7.410L-0.164 7.373L-0.160 7.335L-0.156 7.297L-0.152 7.259L-0.147 7.221L-0.142 7.182L-0.136 7.142L-0.131 7.103L-0.125 7.063L-0.119 7.022L-0.112 6.981L-0.106 6.940L-0.099 6.898L-0.092 6.856L-0.085 6.813L-0.078 6.770L-0.071 6.726L-0.064 6.682L-0.057 6.637L-0.049 6.591L-0.042 6.545L-0.035 6.499L-0.027 6.451L-0.020 6.404L-0.013 6.355L-0.006 6.306L0.001 6.256L0.008 6.205L0.015 6.154L0.021 6.102L0.028 6.050L0.034 5.996L0.040 5.942L0.045 5.887L0.051 5.831L0.056 5.775L0.061 5.718L0.065 5.659L0.069 5.600L0.073 5.541L0.076 5.481Z"/><circle cx="0.64" cy="5.08" r="0.33"/><circle cx="-0.64" cy="5.08" r="0.33"/><circle cx="0.68" cy="5.08" r="0.15" fill="#000"/><circle cx="-0.68" cy="5.08" r="0.15" fill="#000"/></g></mask><rect x="-1.6" y="-.4" width="3.2" height="8.5" fill="currentColor" mask="url(#ksqc-m)"/></symbol>
+  
+  <symbol id="toothfish" viewBox="0 0 420 150">
+    <defs>
+      <linearGradient id="tf-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c3a55"/><stop offset=".45" stop-color="#3f6682"/><stop offset=".8" stop-color="#8fb0c2"/><stop offset="1" stop-color="#c3d8e2"/></linearGradient>
+      <linearGradient id="tf-f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb4cc" stop-opacity=".5"/><stop offset="1" stop-color="#7fb4cc" stop-opacity=".14"/></linearGradient>
+      <linearGradient id="tf-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2f6fc" stop-opacity=".5"/><stop offset=".35" stop-color="#e2f6fc" stop-opacity="0"/></linearGradient>
+      <pattern id="tf-sc" width="9" height="7" patternUnits="userSpaceOnUse"><path d="M0 0a4.500 4.500 0 0 0 9 0M-4.500 3.500a4.500 4.500 0 0 0 9 0M4.500 3.500a4.500 4.500 0 0 0 9 0" fill="none" stroke="#d2eef8" stroke-opacity=".2" stroke-width=".5"/></pattern>
+      <clipPath id="tf-c"><path d="M12 84C22 66 44 54 70 48C104 39 150 36 200 40C250 44 305 58 346 68L346 88C305 96 250 108 200 112C150 116 104 114 72 108C48 104 26 98 12 90Z"/></clipPath>
+    </defs>
+    <g stroke-linejoin="round" stroke-linecap="round">
+      
+      <g><animateTransform attributeName="transform" type="rotate" values="-7 344 78;7 344 78;-7 344 78" dur="1.7s" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" repeatCount="indefinite"/>
+        <path d="M340 67C354 62 376 48 398 38C406 56 406 100 398 118C376 108 354 94 340 89Z" fill="url(#tf-f)" stroke="#bfe8f6" stroke-opacity=".6" stroke-width="1"/>
+        <path d="M348 72L398 46M350 75L402 58M351 78L404 72M351 81L404 86M350 84L402 100M348 87L398 111" fill="none" stroke="#d2eef8" stroke-opacity=".34" stroke-width=".7"/></g>
+      
+      <path d="M116 41L121 15L130 25L137 10L146 22L153 13L163 38Z" fill="url(#tf-f)" stroke="#bfe8f6" stroke-opacity=".6" stroke-width="1"/>
+      <path d="M121 15L124 40M137 10L138 39M153 13L152 38" fill="none" stroke="#d2eef8" stroke-opacity=".4" stroke-width=".7"/>
+      <path d="M170 38C180 14 200 11 216 14C254 21 302 43 334 62C292 52 232 42 170 40Z" fill="url(#tf-f)" stroke="#bfe8f6" stroke-opacity=".6" stroke-width="1"/>
+      <path d="M186 20L190 40M202 13L208 40M220 15L228 42M240 21L250 44M260 28L272 47M280 36L294 51M300 45L314 56" fill="none" stroke="#d2eef8" stroke-opacity=".36" stroke-width=".7"/>
+      <path d="M196 112C206 134 226 139 242 136C274 130 308 108 332 92C292 100 242 110 196 112Z" fill="url(#tf-f)" stroke="#bfe8f6" stroke-opacity=".55" stroke-width="1"/>
+      <path d="M212 112L216 134M230 110L238 136M250 108L262 131M270 105L284 122M290 101L304 112" fill="none" stroke="#d2eef8" stroke-opacity=".32" stroke-width=".7"/>
+      <path d="M98 108C104 123 116 130 126 128C122 119 114 110 110 106Z" fill="url(#tf-f)" stroke="#bfe8f6" stroke-opacity=".5" stroke-width=".9"/>
+      
+      <path d="M12 84C22 66 44 54 70 48C104 39 150 36 200 40C250 44 305 58 346 68L346 88C305 96 250 108 200 112C150 116 104 114 72 108C48 104 26 98 12 90Z" fill="url(#tf-b)"/>
+      <g clip-path="url(#tf-c)">
+        <rect x="88" y="30" width="262" height="90" fill="url(#tf-sc)"/>
+        <g fill="#0f2438" fill-opacity=".34"><ellipse cx="128" cy="52" rx="20" ry="9"/><ellipse cx="182" cy="50" rx="24" ry="8"/><ellipse cx="240" cy="57" rx="22" ry="8"/><ellipse cx="296" cy="66" rx="18" ry="6"/><ellipse cx="156" cy="72" rx="15" ry="6"/><ellipse cx="214" cy="76" rx="17" ry="6"/><ellipse cx="270" cy="80" rx="14" ry="5"/><ellipse cx="62" cy="58" rx="16" ry="7"/></g>
+        <rect x="0" y="30" width="360" height="90" fill="url(#tf-l)"/>
+      </g>
+      <path d="M12 84C22 66 44 54 70 48C104 39 150 36 200 40C250 44 305 58 346 68M346 88C305 96 250 108 200 112C150 116 104 114 72 108C48 104 26 98 12 90" fill="none" stroke="#c9ecf8" stroke-opacity=".7" stroke-width="1.1"/>
+      
+      <path d="M92 62C150 54 250 60 344 74" fill="none" stroke="#d8f2fa" stroke-opacity=".4" stroke-width=".8"/>
+      <path d="M150 90C220 92 290 88 344 82" fill="none" stroke="#d8f2fa" stroke-opacity=".3" stroke-width=".8" stroke-dasharray="1 4"/>
+      
+      <path d="M86 52C99 65 101 89 88 106M78 56C88 68 90 86 80 100" fill="none" stroke="#0d2134" stroke-opacity=".6" stroke-width="1.2"/>
+      <path d="M12 84C22 66 44 54 70 48" fill="none" stroke="#e6f8fd" stroke-opacity=".5" stroke-width="1.2"/>
+      <path d="M8 89C24 88 44 90 66 96C48 101 28 100 14 95C10 93 7 91 8 89Z" fill="#a9c4d2" fill-opacity=".5" stroke="#0d2134" stroke-opacity=".5" stroke-width=".8"/>
+      <path d="M10 87C26 86 46 88 68 96" fill="none" stroke="#0a1a2a" stroke-opacity=".85" stroke-width="1.4"/><path d="M16 87.500l1.500 2.500 1.500-2.300 1.500 2.500 1.500-2.200 1.500 2.500 1.500-2.100 1.500 2.500 1.500-2" fill="none" stroke="#e6f8fd" stroke-opacity=".6" stroke-width=".5"/>
+      <circle cx="52" cy="64" r="7.200" fill="#10283c"/><circle cx="52" cy="64" r="7.200" fill="none" stroke="#bfe2ee" stroke-opacity=".7" stroke-width="1"/><circle cx="52" cy="64" r="4.200" fill="#02080e"/><circle cx="50" cy="62" r="1.100" fill="#fff" fill-opacity=".8"/>
+      <circle cx="26" cy="74" r="1.300" fill="#0a1a2a" fill-opacity=".7"/>
+      
+      <g><animateTransform attributeName="transform" type="rotate" values="-5 98 82;6 98 82;-5 98 82" dur="2.3s" calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1" repeatCount="indefinite"/>
+        <path d="M96 74C122 62 154 72 166 96C154 114 124 114 106 100C99 92 95 82 96 74Z" fill="#6da2bd" fill-opacity=".42" stroke="#d2eef8" stroke-opacity=".7" stroke-width="1"/>
+        <path d="M100 80L160 92M100 82L156 102M101 84L144 108M102 86L128 109M100 79L150 78M100 78L132 70" fill="none" stroke="#e2f6fc" stroke-opacity=".4" stroke-width=".7"/></g>
+    </g>
+  </symbol>
+</svg>
+
+<header class="bar">
+  <a class="back" href="../" aria-label="Back to the Kolossal case study">←</a>
+  <a class="logo" href="#top" aria-label="Kolossal, back to the surface"><svg aria-hidden="true"><use href="#ksqc"/></svg>Kolossal</a>
+  <a class="give" href="#join">Donate</a>
+</header>
+<div class="gauge" aria-hidden="true"><i id="pin" style="top:0"></i></div>
+<div class="reading" aria-hidden="true"><b id="rd">0 m</b><span id="rz">Surface</span></div>
+<canvas id="snow" aria-hidden="true"></canvas>
+<figure class="peek" id="peek" aria-hidden="true"><img alt="" decoding="async"></figure>
+
+<main id="top">
+  <section class="surface" id="surface" data-depth="0" aria-label="Kolossal">
+    <div class="view" id="view">
+      <div class="sun"></div>
+      <div class="under">
+        <i class="ray" style="left:8%;width:9vw"></i><i class="ray" style="left:27%;width:5vw;animation-delay:-3s"></i><i class="ray" style="left:46%;width:13vw;animation-delay:-5s"></i><i class="ray" style="left:71%;width:6vw;animation-delay:-1.5s"></i><i class="ray" style="left:86%;width:10vw;animation-delay:-7s"></i>
+      </div>
+      <svg class="berg" viewBox="0 0 600 900" aria-hidden="true">
+        <defs>
+          <linearGradient id="keel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9f6f6" stop-opacity=".8"/><stop offset=".45" stop-color="#8fd3da" stop-opacity=".42"/><stop offset="1" stop-color="#4ea3b5" stop-opacity="0"/></linearGradient>
+          <linearGradient id="keel2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        </defs>
+        <path d="M112 300C92 372 128 442 104 538c-10 62 44 96 72 146 30 54 62 150 118 190 40-20 62-74 110-112 50-40 66-108 112-166 34-44-10-104 20-170 14-40 4-86-14-126z" fill="url(#keel)"/>
+        <path d="M112 300C92 372 128 442 104 538c-10 62 44 96 72 146l62-196-50-110 44-78z" fill="url(#keel2)"/>
+        <path d="M232 300l-44 78 50 110-62 196M330 300l42 150-56 130 88 182M522 300l-30 122 44 176" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="2"/>
+        <path d="M150 300l40-62 44 18 34-94 62-52 44 60 46-28 40 86 46 72z" fill="#f6f9f9"/>
+        <path d="M330 110l44 60 46-28 40 86 46 72H330l-24-88z" fill="#bfd0d8"/>
+        <path d="M234 256l34-94 62-52-24 102 24 88h-66z" fill="#e2eaed"/>
+      </svg>
+      <div class="wm below" aria-hidden="true"><span>Kolossal</span></div>
+      <svg class="wave b" id="waveB" viewBox="0 0 3600 72" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <h1 class="wm above"><span>Kolossal</span></h1>
+      <svg class="wave f" id="waveF" viewBox="0 0 3600 72" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <p class="label tag">Ocean exploration &amp; conservation<br>Venice, California</p>
+      <a class="plunge" href="#mission"><span class="label">Take the plunge</span><i></i></a>
+    </div>
+  </section>
+
+  <section class="sec z1" id="mission" data-depth="10">
+    <canvas id="jelly" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <p class="label rv">01 · Sunlight zone · 0 to 200 m</p>
+      <h2 class="display rv">We go big to explore &amp; protect our oceans.</h2>
+      <div class="copy rv">
+        <p>KOLOSSAL is an ocean exploration and conservation nonprofit in Venice, CA. Situated at the nexus of cutting-edge technology, marine conservation, and ambitious ocean exploration that would hopefully make Jacques Cousteau smile, KOLOSSAL contains multitudes. And we’re proud of it.</p>
+        <p>We are working on high-profile expeditions to find and film exotic sea creatures in their natural habitats, shining light on these amazing (and rarely seen) species to inspire excitement and pique the public’s interest.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec z2" id="ninety" data-depth="120">
+    <div class="wrap">
+      <div class="ninety">
+        <div class="ruler" id="ruler" aria-hidden="true"></div>
+        <div class="rv">
+          <p class="say">95% of our oceans remain unexplored, which is about 95% too much for us.</p>
+          <p class="label keys"><span>Explored</span><span>Not yet explored</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec z3" id="story" data-depth="200">
+    <div class="wrap">
+      <p class="label rv">02 · Twilight zone · 200 to 1,000 m</p>
+      <h2 class="say rv">What do you get when a scientist, a salesman, an accountant, a screenwriter, a speech pathologist, and a research analyst walk into a bar?</h2>
+      <div class="copy rv">
+        <p>When they all happen to be friends, and when they all have a shared passion for the ocean, you get KOLOSSAL. Established in 2016, we envisioned an environmental organization whose primary message was based in optimism and hope to inspire the world to protect our most valuable resource: the ocean.</p>
+        <p>Ambitious but with a grassroots mentality, we want to prove that ocean exploration isn’t exclusively reserved for the select few.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec z4" id="expedition" data-depth="450">
+    <div class="wrap">
+      <p class="label rv">03 · The expedition</p>
+      <h2 class="display rv">Let’s get kraken.</h2>
+      <div class="two">
+        <div class="copy rv">
+          <p>The barriers to deep-sea research have been historically high. KOLOSSAL wants to change that: we want to use this expedition to develop easy and low-cost deep-sea research platforms that can be readily shipped in a research “toolkit” and easily deployed by volunteers on any seagoing vessel.</p>
+          <p>The centerpiece technology is an innovative deep-sea platform called the Autonomous Camera for Kraken Baiting and Recording, or ACKBAR, for short. And yes, in reference to that ACKBAR.</p>
+        </div>
+        <figure class="rig rv">
+          <svg viewBox="0 0 640 400" role="img" aria-label="Drawing of the ACKBAR camera trap: two slotted plates bolted into a frame with carry handles, an instrument tube between them, a float below, and a glass dome camera on a boom, its light reaching into the dark where a squid drifts in">
+            <defs>
+              <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9fe9ff" stop-opacity=".42"/><stop offset=".55" stop-color="#8fe6ff" stop-opacity=".12"/><stop offset="1" stop-color="#8fe6ff" stop-opacity="0"/></linearGradient>
+              <radialGradient id="rg-dome" cx=".36" cy=".32" r=".8"><stop offset="0" stop-color="#eafaff" stop-opacity=".5"/><stop offset=".5" stop-color="#9fdcf0" stop-opacity=".14"/><stop offset="1" stop-color="#9fdcf0" stop-opacity=".3"/></radialGradient>
+              <radialGradient id="rg-float" cx=".36" cy=".3" r=".85"><stop offset="0" stop-color="#d6f1f6" stop-opacity=".34"/><stop offset=".6" stop-color="#7fb9cc" stop-opacity=".12"/><stop offset="1" stop-color="#0a2233" stop-opacity=".5"/></radialGradient>
+              <linearGradient id="rg-tube" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a76" stop-opacity=".75"/><stop offset=".45" stop-color="#ff6b4a" stop-opacity=".5"/><stop offset="1" stop-color="#7a2415" stop-opacity=".6"/></linearGradient>
+              <pattern id="rg-h" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><path d="M0 0v6" stroke="#d6f1f6" stroke-opacity=".16" stroke-width="1"/></pattern>
+              <path id="rg-plate" fill-rule="evenodd" d="M86 122h278a26 26 0 0 1 26 26v98a26 26 0 0 1-26 26H86a26 26 0 0 1-26-26v-98a26 26 0 0 1 26-26zM101 144a13 13 0 0 0 0 26h104a13 13 0 0 0 0-26zM245 144a13 13 0 0 0 0 26h104a13 13 0 0 0 0-26zM101 224a13 13 0 0 0 0 26h248a13 13 0 0 0 0-26z"/>
+            </defs>
+            
+            <path class="rig-beam" d="M508 138L640 44v236L508 164z" fill="url(#beam)"/>
+            <path d="M470 204l170 44v62L470 214z" fill="url(#beam)" opacity=".5"/>
+            <g class="rig-visitor" color="#ff6b4a"><use href="#ksq" x="590" y="96" width="24" height="72" transform="rotate(58 602 132)"/></g>
+            <g fill="none" stroke="#d6f1f6" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round">
+              
+              <use href="#rg-plate" transform="translate(20 -18)" opacity=".34"/>
+              <path d="M72 132l20-18M378 132l20-18M378 262l20-18M72 262l20-18" stroke-width="2.4" opacity=".5"/>
+              
+              <path d="M112 182h236a15 15 0 0 1 0 30H112a15 15 0 0 1 0-30z" fill="url(#rg-tube)" stroke="#ffb199" stroke-opacity=".8"/>
+              <path d="M150 182v30M158 182v30M300 182v30M308 182v30" stroke="#ffd2c2" stroke-opacity=".6" stroke-width="1"/><ellipse cx="112" cy="197" rx="6" ry="15" stroke="#ffb199" stroke-opacity=".7"/>
+              
+              <use href="#rg-plate" fill="rgba(214,241,246,.07)"/><use href="#rg-plate" fill="url(#rg-h)" stroke="none"/>
+              <g fill="#06141f" stroke-width="1"><circle cx="78" cy="140" r="4"/><circle cx="372" cy="140" r="4"/><circle cx="78" cy="254" r="4"/><circle cx="372" cy="254" r="4"/><circle cx="225" cy="134" r="3"/><circle cx="225" cy="262" r="3"/></g>
+              <path d="M66 150v94M384 150v94" stroke-width=".8" opacity=".4"/>
+              
+              <path d="M362 190l84-34M362 204l84-34" stroke-width="1.6"/><path d="M398 172l6 14M424 161l6 14" stroke-width="1" opacity=".7"/>
+              <path d="M440 198h26a6 6 0 0 1 6 6v6a6 6 0 0 1-6 6h-26z" fill="rgba(214,241,246,.1)"/><path d="M440 198v18M446 216l-8 12" stroke-width="1"/>
+              
+              <path d="M440 132h10v38h-10z" fill="rgba(214,241,246,.12)"/>
+              <circle cx="478" cy="151" r="34" fill="url(#rg-dome)"/><circle cx="478" cy="151" r="34"/>
+              <circle cx="476" cy="151" r="15" fill="#06141f"/><circle cx="476" cy="151" r="15" stroke-width="1"/><circle cx="476" cy="151" r="8.500" stroke="#9fe9ff" stroke-width="1"/><circle cx="476" cy="151" r="3.200" fill="#9fe9ff" stroke="none"/>
+              <path d="M455 131a30 30 0 0 1 17-11M452 140a28 28 0 0 1 3-6" stroke="#fff" stroke-opacity=".8" stroke-width="1.6"/><path d="M500 172a30 30 0 0 0 9-14" stroke-width="1" opacity=".5"/>
+              
+              <path d="M142 272v10h16v-10" stroke-width="1.2"/>
+              <circle cx="150" cy="322" r="40" fill="url(#rg-float)"/><circle cx="150" cy="322" r="40"/>
+              <path d="M110.500 316c26 9 53 9 79 0M112 330c25 8 51 8 76 0" stroke-width="1" opacity=".7"/><path d="M128 298a32 32 0 0 1 16-11" stroke="#fff" stroke-opacity=".7" stroke-width="1.6"/>
+              
+              <g stroke-width="1" stroke-dasharray="2 4" opacity=".75"><path d="M168 144V84"/><path d="M478 190v82"/><path d="M196 322h56"/></g>
+              <g fill="#d6f1f6" stroke="none"><circle cx="168" cy="146" r="2.200"/><circle cx="478" cy="188" r="2.200"/><circle cx="194" cy="322" r="2.200"/></g>
+            </g>
+            <text x="168" y="74" text-anchor="middle">Frame, carry handles</text><text x="478" y="292" text-anchor="middle">Glass dome camera</text><text x="262" y="327">Float</text>
+          </svg>
+          <figcaption class="label">ACKBAR, deep-sea camera trap. Drawing, not to scale.</figcaption>
+        </figure>
+      </div>
+      <div class="prize rv">
+        <b>$20,000</b>
+        <p class="label">Grand Prize Winner, Con X Tech Prize for breakthrough conservation technologies</p>
+      </div>
+      <ul class="rows rv">
+        <li tabindex="0" data-img="../../../assets/img/work/kolossal/ackbar.webp" data-r=".5625" data-alt="The ACKBAR camera trap being lowered over the side of a boat"><b>Developed by KOLOSSAL, SubC Imaging and Global Ocean Design</b><span class="label">Partners</span></li>
+        <li><b>Kraken the code... of squid. Where We Live, WNPR</b><span class="label">January 2019</span></li>
+        <li><b>Newfoundland company hopes to catch colossal squid on film. The Weather Network</b><span class="label">December 2018</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sec z5" id="conservation" data-depth="800">
+    <svg class="fish" style="top:7%;--fw:230px;--fo:.5;--fd:48s" aria-hidden="true" viewBox="0 0 420 150"><use href="#toothfish"/></svg>
+    <svg class="fish" style="top:54%;--fw:clamp(300px, 40vw, 600px);--fo:.92;--fd:40s;--fl:-17s" aria-hidden="true" viewBox="0 0 420 150"><use href="#toothfish"/></svg>
+    <svg class="fish" style="top:86%;--fw:170px;--fo:.36;--fd:56s;--fl:-30s" aria-hidden="true" viewBox="0 0 420 150"><use href="#toothfish"/></svg>
+    <div class="wrap">
+      <p class="label rv">04 · Conservation campaign</p>
+      <h2 class="display rv">Take a pass on Chilean sea bass.</h2>
+      <div class="copy rv">
+        <p>Southern Ocean fishing has been controversial since Patagonian toothfish was rebranded as “Chilean sea bass” in the 1990s and exploded in popularity. The rush to harvest this “white gold” devastated one of Earth’s last pristine marine ecosystems, home to the colossal squid.</p>
+        <p>Our organization is working to remove Chilean sea bass from menus for good. We partner with restaurants and retailers to promote local, sustainable alternatives, and encourage consumers to make environmentally-conscious seafood choices.</p>
+      </div>
+      <div class="rv"><button class="btn" type="button">Sign the petition</button></div>
+    </div>
+  </section>
+
+  <section class="sec z6" id="squid" data-depth="1000" aria-labelledby="h-squid">
+    <div class="wrap">
+      <p class="label rv">05 · Midnight zone · below 1,000 m</p>
+      <h2 class="display rv" id="h-squid">In the deep sea off of Antarctica is the colossal squid.</h2>
+      <div class="copy rv">
+        <p>While the colossal squid is likely prehistoric, it wasn’t until 1925 that humans knew of its existence. Fishermen discovered two colossal squid arms in the stomach of a sperm whale, and thus birthed the species <i>Mesonychoteuthis hamiltoni</i>.</p>
+        <p>Because of the mystery surrounding this enormous creature, the colossal squid is the perfect animal to ignite the public imagination and inspire people to explore and protect the deep sea.</p>
+      </div>
+    </div>
+    <div class="stage" id="stage">
+      <canvas id="sq" role="img" aria-label="A colossal squid, drawn head down: broad fins, a heavy red mantle, two very large eyes, eight arms and two long tentacles. A lamp lights the part on screen."></canvas>
+      <div class="co l" style="top:calc(var(--u) * .55)"><span class="label">Size</span><b>World’s largest invertebrate</b></div>
+      <div class="scale" aria-hidden="true"><span class="label">A diver, 1.8 m, for scale</span></div>
+      <div class="co r" style="top:calc(var(--u) * 2.9)"><span class="label">Weight</span><b>500 kg</b></div>
+      <div class="co l" style="top:calc(var(--u) * 5.1)"><span class="label">Sight</span><b>Biggest eye in the animal kingdom</b></div>
+      <div class="co r" style="top:calc(var(--u) * 6.1)"><span class="label">Light</span><b>Glows in the dark</b></div>
+      <div class="co l" style="top:calc(var(--u) * 7.5)"><span class="label">Arms</span><b>Hooked tentacles</b></div>
+      <div class="co r" style="top:calc(var(--u) * 10)"><span class="label">Length</span><b>10 to 12 m</b></div>
+    </div>
+    <div class="wrap" style="margin-top:14svh">
+      <p class="say rv">As we approach the 100th anniversary of the colossal squid’s initial discovery, we want to celebrate this amazing species by giving the world an up-close and intimate introduction.</p>
+    </div>
+    <i data-depth="2000" style="position:absolute;bottom:0;left:0"></i>
+  </section>
+
+  <section class="sec z7" id="join" data-depth="2000">
+    <div class="wrap">
+      <p class="label rv">06 · Come along</p>
+      <h2 class="display rv">Ready to join us?</h2>
+      <div class="acts rv"><button class="btn hot" type="button">Donate</button><button class="btn" type="button">Get in touch</button><a class="btn" href="#top">Resurface ↑</a></div>
+      <ul class="crew rv" aria-label="The team">
+        <li tabindex="0" data-img="../../../assets/img/work/kolossal/matthew.webp" data-r="1.417"><b>Matthew Mulrennan</b><span class="label">Co-founder, Chief Exploring Officer</span></li>
+        <li tabindex="0" data-img="../../../assets/img/work/kolossal/howard.webp" data-r="1.417"><b>Howard Miller</b><span class="label">Co-founder, President</span></li>
+        <li tabindex="0" data-img="../../../assets/img/work/kolossal/tatiana.webp" data-r="1.417"><b>Tatiana Maldonado</b><span class="label">Social Media Director</span></li>
+        <li tabindex="0" data-img="../../../assets/img/work/kolossal/justin.webp" data-r="1.417"><b>Justin McElroy</b><span class="label">Treasurer</span></li>
+        <li tabindex="0" data-img="../../../assets/img/work/kolossal/jared.webp" data-r="1.417"><b>Jared Beck</b><span class="label">Secretary</span></li>
+      </ul>
+      <div class="lockup rv" aria-hidden="true"><svg><use href="#ksq"/></svg><span>Kolossal</span></div>
+      <p class="label foot"><span>Venice, California · 501(c)(3) nonprofit · Est. 2016</span><span>Branding and website by <a href="../">JCG Studio</a></span></p>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const root = document.documentElement, reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (/[?&]embed\b/.test(location.search)) root.classList.add('is-embed');
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v)), lerp = (a, b, t) => a + (b - a) * t;
+  const ease = (t) => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  let vw = innerWidth, vh = innerHeight, depth = 0, T = 0;
+
+  /* reveal */
+  const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  const ruler = $('#ruler'); for (let i = 0; i < 100; i++) { const t = document.createElement('i'); t.style.setProperty('--i', i); ruler.appendChild(t); }
+  $$('.rv, #ruler').forEach(el => io.observe(el));
+
+  /* the waves: two periodic lines, slid sideways by CSS */
+  const wavePath = (a1, l1, a2, l2, ph) => { let d = 'M0 72V16'; for (let x = 0; x <= 3600; x += 12) d += 'L' + x + ' ' + (16 + a1 * Math.sin(x / l1 * Math.PI * 2) + a2 * Math.sin(x / l2 * Math.PI * 2 + ph)).toFixed(1); return d + 'V72Z'; };
+  const waveSvg = (id, d, top, o) => { $(id).innerHTML = `<defs><linearGradient id="g${id.slice(1)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${top}" stop-opacity="${o}"/><stop offset="1" stop-color="${top}" stop-opacity="0"/></linearGradient></defs><path d="${d}" fill="url(#g${id.slice(1)})"/><path d="${d.replace('M0 72V16', 'M0 16').replace('V72Z', '')}" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.5"/>`; };
+  waveSvg('#waveB', wavePath(5, 360, 2.5, 150, 1), '#b8e3e4', .9);
+  waveSvg('#waveF', wavePath(6.5, 300, 3, 200, 0), '#8ed0d3', 1);
+
+  /* depth: every [data-depth] is an anchor; the reading is read at the middle of the screen */
+  const view = $('#view'), surface = $('#surface'), wm = $('.wm.above span'), pin = $('#pin'), rd = $('#rd'), rz = $('#rz');
+  let anchors = [], wl0 = vh * .54;
+  function measure() {
+    vw = innerWidth; vh = innerHeight;
+    anchors = $$('[data-depth]').map(el => ({ y: el.getBoundingClientRect().top + scrollY, d: +el.dataset.depth }));
+    const r = wm.getBoundingClientRect(), vr = view.getBoundingClientRect();
+    wl0 = (r.top - vr.top) + r.height * .66;
+  }
+  function onScroll() {
+    const y = scrollY, sh = surface.offsetHeight - vh, p = clamp(y / sh);
+    view.style.setProperty('--wl', lerp(wl0, -vh * .16, ease(p)).toFixed(1) + 'px');
+    view.style.setProperty('--fade', clamp(1 - p * 3.2).toFixed(2));
+    document.body.classList.toggle('deep', p > .62);
+    const m = y + vh * .5; let d = 0;
+    for (let i = 0; i < anchors.length; i++) { const a = anchors[i], b = anchors[i + 1]; if (!b || m < b.y) { d = b ? lerp(a.d, b.d, clamp((m - a.y) / (b.y - a.y))) : a.d; break; } }
+    if (p < .5) d = 0; depth = d;
+    const shown = d < 20 ? Math.round(d) : Math.round(d / 10) * 10;
+    rd.textContent = shown.toLocaleString('en-US') + ' m';
+    rz.textContent = d < 1 ? 'Surface' : d < 200 ? 'Sunlight zone' : d < 1000 ? 'Twilight zone' : 'Midnight zone';
+    pin.style.top = (clamp(d / 2000) * 100).toFixed(1) + '%';
+  }
+  const bar = $('.bar'); let py = scrollY;
+  addEventListener('scroll', () => { const y = scrollY; if (Math.abs(y - py) > 6) { bar.classList.toggle('away', y > py && y > vh * 1.4); py = y; } }, { passive: true });
+  let tick = false; addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(() => { tick = false; onScroll(); }); } }, { passive: true });
+
+  /* canvases */
+  const fit = (c, w, h, cap = 2) => { const dpr = Math.min(devicePixelRatio || 1, cap); c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); const x = c.getContext('2d'); x.setTransform(dpr, 0, 0, dpr, 0, 0); return x; };
+  const seen = new Map(), watch = new IntersectionObserver((es) => es.forEach(e => seen.set(e.target, e.isIntersecting)), { rootMargin: '10% 0px' });
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  /* marine snow, and sparks below 600 m */
+  const snow = $('#snow'); let sx, flakes = [], sparks = [], lastY = scrollY;
+  function snowInit() { sx = fit(snow, vw, vh, 1.5); const n = vw < 700 ? 34 : 64; flakes = Array.from({ length: n }, () => ({ x: Math.random(), y: Math.random(), z: .4 + Math.random() * 1.6, p: Math.random() * 6 })); sparks = Array.from({ length: 6 }, () => ({ x: Math.random(), y: Math.random(), t: Math.random() * 5, l: 2.5 + Math.random() * 3 })); }
+  function snowDraw(dt) {
+    sx.clearRect(0, 0, vw, vh); const dy = scrollY - lastY; lastY = scrollY; const a = clamp((depth - 4) / 260);
+    if (a <= 0) return;
+    for (const f of flakes) {
+      f.y -= (dy * .32 * f.z) / vh; f.y += dt * .006 * f.z; f.x += Math.sin(T * .3 + f.p) * .00012;
+      f.y = ((f.y % 1) + 1) % 1; f.x = ((f.x % 1) + 1) % 1;
+      sx.globalAlpha = a * (.1 + .16 * f.z); sx.fillStyle = '#dff3f7'; sx.beginPath(); sx.arc(f.x * vw, f.y * vh, .5 + f.z * .7, 0, 7); sx.fill();
+    }
+    const b = clamp((depth - 600) / 500); if (b > 0) for (const s of sparks) {
+      s.t += dt; if (s.t > s.l) { s.t = 0; s.x = Math.random(); s.y = Math.random(); s.l = 2.5 + Math.random() * 3; }
+      s.y -= (dy * .5) / vh; const k = Math.sin(s.t / s.l * Math.PI); const g = sx.createRadialGradient(s.x * vw, s.y * vh, 0, s.x * vw, s.y * vh, 9);
+      g.addColorStop(0, 'rgba(160,238,255,' + (.6 * k * b).toFixed(3) + ')'); g.addColorStop(1, 'rgba(160,238,255,0)'); sx.globalAlpha = 1; sx.fillStyle = g; sx.beginPath(); sx.arc(s.x * vw, s.y * vh, 9, 0, 7); sx.fill();
+    }
+    sx.globalAlpha = 1;
+  }
+
+  /* jellies, drawn as sea nettles: a ribbed, spotted bell with a scalloped rim, four ruffled oral arms and a curtain of fine
+     tentacles. The bell snaps shut and eases open; the arms and tentacles follow a beat behind, and each stroke lifts it. */
+  const jc = $('#jelly'), jsec = $('#mission'); let jx, jw, jh, jellies = [];
+  function jellyInit() { jw = jsec.offsetWidth; jh = jsec.offsetHeight; jx = fit(jc, jw, jh, 1.5); const wide = jw > 900;
+    jellies = [{ x: wide ? .8 : .78, y: .34, r: wide ? 150 : 84, v: 8, ph: 0, tilt: -.2, q: 1 }, { x: wide ? .6 : .14, y: .86, r: wide ? 78 : 50, v: 11, ph: .37, tilt: .22, q: .8 },
+      { x: wide ? .93 : .66, y: 1.02, r: wide ? 50 : 32, v: 14, ph: .7, tilt: -.1, q: .6 }, { x: wide ? .5 : .92, y: .62, r: wide ? 28 : 20, v: 17, ph: .2, tilt: .3, q: .42 }, { x: wide ? .7 : .4, y: 1.15, r: wide ? 20 : 15, v: 19, ph: .55, tilt: -.26, q: .34 }];
+    let sd = 11; const R = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+    for (const J of jellies) J.spots = Array.from({ length: 46 }, () => ({ s: .12 + R() * .8, f: R() * Math.PI, a: .5 + R() * .9 })); }
+  const beat = (u) => { u = ((u % 1) + 1) % 1; return u < .26 ? Math.sin(u / .26 * Math.PI / 2) : .5 + .5 * Math.cos((u - .26) / .74 * Math.PI); };   // 0 open, 1 shut: quick in, slow out
+  function jelly(c, J, t) { const r = J.r, u = t * .36 + J.ph, pu = beat(u), w = r * (1 - .2 * pu), h = r * (.92 + .2 * pu), HP = Math.PI / 2;
+    const rho = (s) => w * Math.pow(Math.sin(s * HP), .86), yy = (s) => -h * 1.04 * Math.cos(s * HP) - r * .05 * pu * s, fine = J.q > .55;
+    c.lineCap = 'round'; c.lineJoin = 'round';
+    // light behind the bell
+    let g = c.createRadialGradient(0, -h * .4, 0, 0, -h * .4, r * 2.1); g.addColorStop(0, 'rgba(170,236,255,.16)'); g.addColorStop(1, 'rgba(170,236,255,0)'); c.fillStyle = g; c.fillRect(-r * 2.2, -r * 2.6, r * 4.4, r * 4.4);
+    // tentacles: a curtain from the rim, each wave running down it a beat late
+    g = c.createLinearGradient(0, 0, 0, r * 4.4); g.addColorStop(0, 'rgba(214,246,255,.42)'); g.addColorStop(.55, 'rgba(214,246,255,.2)'); g.addColorStop(1, 'rgba(214,246,255,0)'); c.strokeStyle = g; c.lineWidth = Math.max(.5, r * .008);
+    for (let k = 0, n = fine ? 26 : 14; k < n; k++) { const f = (k + .5) / n * Math.PI, x0 = Math.cos(f) * rho(1) * .97, len = r * (2.6 + 1.7 * Math.abs(Math.sin(k * 2.7 + J.ph * 9))), N = 20; c.beginPath(); c.moveTo(x0, 0);
+      for (let m = 1; m <= N; m++) { const q = m / N, p2 = beat(u - q * .34); c.lineTo(x0 * (1 - .32 * q - .2 * p2 * (1 - q)) + Math.sin(t * 1.2 + k * .9 - q * 5) * r * .1 * q, q * len * (1 - .06 * p2)); } c.stroke(); }
+    // oral arms: four ruffled ribbons, two layers each
+    for (let a = 0; a < 4; a++) for (let lay = 0; lay < (fine ? 2 : 1); lay++) { const x0 = (a - 1.5) * w * .17, len = r * (2.5 + .5 * Math.sin(a * 2.2 + 1) + lay * .3), N = 48, L = [], Rr = [];
+      for (let m = 0; m <= N; m++) { const q = m / N, p2 = beat(u - q * .3), cx = x0 * (1 - .4 * q) + Math.sin(t * .9 + a * 1.4 + lay - q * 3.6) * r * .2 * q - x0 * .5 * p2 * (1 - q), cy = -h * .3 + q * len * (1 - .05 * p2),
+          wd = r * (.105 - lay * .03) * Math.pow(1 - q, .7) + r * .012, fr = 1 + .55 * Math.sin(m * .62 + a * 2 + lay * 1.7 + t * 1.6), fl = 1 + .55 * Math.sin(m * .74 + a + lay * 2.3 - t * 1.4);
+        L.push([cx - wd * fl, cy]); Rr.push([cx + wd * fr, cy]); }
+      c.beginPath(); L.forEach((p, m) => m ? c.lineTo(p[0], p[1]) : c.moveTo(p[0], p[1])); for (let m = N; m >= 0; m--) c.lineTo(Rr[m][0], Rr[m][1]); c.closePath();
+      c.fillStyle = lay ? 'rgba(255,206,188,.1)' : 'rgba(255,216,200,.16)'; c.fill(); c.strokeStyle = 'rgba(255,236,226,' + (lay ? .22 : .34) + ')'; c.lineWidth = Math.max(.5, r * .007); c.stroke(); }
+    // the bell: thick jelly between an outer dome and the hollow under it
+    const dome = () => { c.moveTo(-rho(1), yy(1)); for (let m = 39; m >= 0; m--) c.lineTo(-rho(m / 40), yy(m / 40)); for (let m = 1; m <= 40; m++) c.lineTo(rho(m / 40), yy(m / 40)); };
+    c.beginPath(); dome(); for (let k = 0; k < 8; k++) { const xa = Math.cos(k / 8 * Math.PI) * rho(1), xb = Math.cos((k + 1) / 8 * Math.PI) * rho(1); c.quadraticCurveTo((xa + xb) / 2, yy(1) + r * (.075 + .03 * pu), xb, yy(1)); } c.closePath();
+    g = c.createRadialGradient(0, -h * .5, r * .05, 0, -h * .42, r * 1.1); g.addColorStop(0, 'rgba(226,250,255,.34)'); g.addColorStop(.62, 'rgba(150,220,240,.12)'); g.addColorStop(1, 'rgba(222,250,255,.5)'); c.fillStyle = g; c.fill();
+    c.strokeStyle = 'rgba(236,253,255,.62)'; c.lineWidth = Math.max(.7, r * .012); c.stroke();
+    c.beginPath(); c.moveTo(-rho(1) * .9, yy(1)); c.bezierCurveTo(-w * .86, -h * .74, w * .86, -h * .74, rho(1) * .9, yy(1)); c.strokeStyle = 'rgba(236,253,255,.26)'; c.lineWidth = Math.max(.6, r * .008); c.stroke();
+    c.save(); c.beginPath(); dome(); c.closePath(); c.clip();
+    // ribs: sixteen wedges from the crown to the rim, the far side fainter
+    for (let side = 0; side < 2; side++) for (let k = 0; k < 8; k++) { const f = (k + .5) / 8 * Math.PI, d = .1, kx = side ? .9 : 1, ky = side ? .86 : 1; c.beginPath();
+      for (let m = 3; m <= 40; m++) { const q = m / 40; c.lineTo(Math.cos(f - d * q) * rho(q) * kx, yy(q) * ky); } for (let m = 40; m >= 3; m--) { const q = m / 40; c.lineTo(Math.cos(f + d * q) * rho(q) * kx, yy(q) * ky); }
+      c.fillStyle = side ? 'rgba(255,170,140,.07)' : 'rgba(255,176,146,.2)'; c.fill(); }
+    // spots
+    if (fine) for (const sp of J.spots) { c.beginPath(); c.arc(Math.cos(sp.f) * rho(sp.s), yy(sp.s), r * .011 * sp.a, 0, 7); c.fillStyle = 'rgba(255,244,236,.4)'; c.fill(); }
+    // the stomach pouches under the crown
+    c.strokeStyle = 'rgba(255,196,174,.3)'; c.lineWidth = Math.max(.7, r * .02);
+    for (let k = 0; k < 4; k++) { c.beginPath(); c.ellipse((k - 1.5) * w * .25, -h * .5 + Math.abs(k - 1.5) * h * .06, w * .095, h * .16, 0, Math.PI * .12, Math.PI * .88, true); c.stroke(); }
+    // the crown's shine
+    g = c.createRadialGradient(-w * .3, -h * .8, 0, -w * .3, -h * .8, r * .5); g.addColorStop(0, 'rgba(255,255,255,.3)'); g.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = g; c.fillRect(-r, -r * 1.2, r * 2, r * 1.3);
+    c.restore();
+    return pu; }
+  function jellyDraw(dt) { jx.clearRect(0, 0, jw, jh); jx.globalCompositeOperation = 'lighter';
+    for (const j of jellies) { jx.save(); jx.globalAlpha = j.q; jx.translate(j.x * jw + Math.sin(T * .2 + j.ph * 9) * 16, j.y * jh); jx.rotate(j.tilt + Math.sin(T * .3 + j.ph * 9) * .06);
+      const pu = jelly(jx, j, T); jx.restore(); j.y -= (j.v * (.35 + 1.5 * pu) * dt) / jh; if (j.y < -.35) j.y = 1.25; } }
+
+  /* the squid. Units are metres: fin tip at y 0, tentacle tips near y 10. Drawn head down. */
+  const sq = $('#sq'), stage = $('#stage'); let qx, qw, qh, U = 100, ptr = null;
+  const C = { dark: '#3a0c08', deep: '#7a2415', base: '#a8351f', mid: '#cf5334', hi: '#f08a61', pale: '#ffd9c4' };
+  const arms = [-.66, -.45, -.26, -.09, .09, .26, .45, .66].map((a, i) => ({ a, len: [2, 2.25, 2.45, 2.35, 2.35, 2.45, 2.25, 2][i], w: .17, ph: i * 1.9, x: a * .52, y: 5.42, n: 34, front: i > 1 && i < 6 }));
+  const tents = [-.07, .07].map((a, i) => ({ a, len: 4.5, w: .075, ph: 3 + i * 2.6, x: a * 1.6, y: 5.46, n: 64, club: true }));
+  const specks = Array.from({ length: 320 }, () => ({ x: rnd() * 2 - 1, y: rnd() * 4.7, r: .005 + rnd() * .016, l: rnd() > .5 }));
+  // the mantle's skin, drawn once: muscle bands that curve with the body, mottling, chromatophores (thicker down the back), wet glints
+  let skin = null;
+  function skinInit() { const k = U * (vw < 700 ? 2 : 1.5), cv = document.createElement('canvas'); cv.width = Math.ceil(2 * k); cv.height = Math.ceil(4.9 * k); const c = cv.getContext('2d'); c.scale(k, k); c.translate(1, 0);
+    let sd = 23; const R = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+    for (let y = .35, i = 0; y < 4.7; y += .085, i++) { c.beginPath(); c.moveTo(-1, y - .1); c.quadraticCurveTo(0, y + .16, 1, y - .1); c.strokeStyle = i % 2 ? 'rgba(50,8,4,.1)' : 'rgba(255,196,160,.05)'; c.lineWidth = .03; c.stroke(); }
+    for (let i = 0; i < 70; i++) { const x = R() * 2 - 1, y = R() * 4.8, a = .12 + R() * .32, g = c.createRadialGradient(x, y, 0, x, y, a), d = R() < .55; g.addColorStop(0, d ? 'rgba(64,10,5,.22)' : 'rgba(255,176,130,.14)'); g.addColorStop(1, d ? 'rgba(64,10,5,0)' : 'rgba(255,176,130,0)'); c.fillStyle = g; c.fillRect(x - a, y - a, a * 2, a * 2); }
+    for (let i = 0; i < 2600; i++) { const x = (R() + R() - 1) * .98, y = R() * 4.8, r = .003 + R() * R() * .017, v = R(); c.beginPath(); c.arc(x, y, r, 0, 7); c.fillStyle = v < .45 ? 'rgba(58,8,4,.42)' : v < .85 ? 'rgba(255,170,128,.3)' : 'rgba(255,228,206,.5)'; c.fill(); }
+    for (let i = 0; i < 12; i++) { const x = -.45 + R() * .5, y = .5 + R() * 3.8; c.beginPath(); c.ellipse(x, y, .005 + R() * .006, .02 + R() * .05, 0, 0, 7); c.fillStyle = 'rgba(255,236,220,.13)'; c.fill(); }
+    skin = cv; }
+  function limb(c, L, t) {
+    const pts = []; let x = L.x, y = L.y;
+    for (let i = 0; i <= L.n; i++) { const s = i / L.n, ang = L.a * (1 - .4 * s) + Math.sin(t * .7 + L.ph - s * 3.3) * (.05 + .34 * s) * (L.club ? .5 : 1) + Math.sin(t * .23 + L.ph) * .1 * s;
+      pts.push([x, y, s]); x += Math.sin(ang) * L.len / L.n; y += Math.cos(ang) * L.len / L.n; }
+    const wAt = (s) => (L.club ? L.w * (1 - .45 * s) + (s > .82 ? Math.sin((s - .82) / .18 * Math.PI) * .09 : 0) : L.w * Math.pow(1 - s, 1.15)) + .012;
+    c.lineCap = 'round';
+    for (let pass = 0; pass < 2; pass++) for (let i = 0; i < L.n; i++) { const a = pts[i], b = pts[i + 1], w = wAt(a[2]);
+      c.beginPath(); c.moveTo(a[0] - (pass ? w * .16 : 0), a[1]); c.lineTo(b[0] - (pass ? w * .16 : 0), b[1]);
+      c.strokeStyle = pass ? (L.front ? C.hi : C.mid) : (L.front ? C.base : C.deep); c.globalAlpha = pass ? .55 : 1; c.lineWidth = w * (pass ? .42 : 1); c.stroke(); }
+    c.globalAlpha = 1;
+    if (L.front || L.club) for (let i = L.club ? Math.round(L.n * .8) : 2; i < L.n - 1; i++) { const a = pts[i], w = wAt(a[2]), side = i % 2 ? 1 : -1, r = Math.max(.007, w * (L.club ? .2 : .17)), sx = a[0] + side * w * .21, sy = a[1];
+      c.beginPath(); c.arc(sx, sy, r, 0, 7); c.fillStyle = L.club ? 'rgba(255,236,220,.9)' : 'rgba(255,214,190,.5)'; c.fill();
+      c.beginPath(); c.arc(sx, sy, r * .45, 0, 7); c.fillStyle = 'rgba(70,14,8,.75)'; c.fill();
+      if (L.club ? i % 2 === 0 : (a[2] > .3 && a[2] < .74 && i % 3 === 0)) { c.beginPath(); c.moveTo(sx, sy - r * .2); c.quadraticCurveTo(sx + side * r * 1.6, sy - r * .5, sx + side * r * 1.35, sy + r * 1.4); c.strokeStyle = 'rgba(255,244,232,.85)'; c.lineWidth = r * .42; c.stroke(); } }
+  }
+  const mantle = (c) => { c.beginPath(); c.moveTo(0, 0); c.bezierCurveTo(.36, .26, .98, 1.2, .98, 2.3); c.bezierCurveTo(.98, 3.3, .78, 4.1, .64, 4.62); c.quadraticCurveTo(0, 4.9, -.64, 4.62); c.bezierCurveTo(-.78, 4.1, -.98, 3.3, -.98, 2.3); c.bezierCurveTo(-.98, 1.2, -.36, .26, 0, 0); c.closePath(); };
+  function fin(c, side, t) { c.save(); c.scale(side * (1 + .045 * Math.sin(t * 1.1 + side)), 1);
+    c.beginPath(); c.moveTo(.02, .03); c.bezierCurveTo(.72, -.3, 1.6, .28, 1.52, .98); c.bezierCurveTo(1.46, 1.56, 1.02, 1.98, .7, 2.04); c.lineTo(.5, 1); c.closePath();
+    const g = c.createLinearGradient(.2, 0, 1.55, 0); g.addColorStop(0, C.mid); g.addColorStop(.55, 'rgba(176,58,34,.9)'); g.addColorStop(1, 'rgba(120,34,20,.55)'); c.fillStyle = g; c.fill();
+    c.strokeStyle = 'rgba(255,198,168,.34)'; c.lineWidth = .012; c.stroke(); c.strokeStyle = 'rgba(255,190,160,.15)'; c.lineWidth = .008; for (let i = 0; i < 26; i++) { const k = i / 25; c.beginPath(); c.moveTo(.3 + k * .32, .25 + k * 1.6); c.quadraticCurveTo(.9 + k * .2, .1 + k * 1.5, 1.42 - Math.abs(k - .45) * .9, .3 + k * 1.55); c.stroke(); }
+    c.restore(); }
+  function eye(c, side, t) { const ex = side * .62, ey = 5.02, r = .3; c.save(); c.translate(ex, ey);
+    c.beginPath(); c.arc(0, 0, r, 0, 7); c.fillStyle = '#120302'; c.fill();
+    const g = c.createRadialGradient(0, 0, r * .35, 0, 0, r); g.addColorStop(0, '#080101'); g.addColorStop(.62, '#4a140a'); g.addColorStop(.9, '#e98a62'); g.addColorStop(1, '#5a1a0e'); c.fillStyle = g; c.beginPath(); c.arc(0, 0, r * .96, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(255,180,140,.22)'; c.lineWidth = .006; for (let i = 0; i < 30; i++) { const a = i / 30 * 6.283; c.beginPath(); c.moveTo(Math.cos(a) * r * .54, Math.sin(a) * r * .54); c.lineTo(Math.cos(a) * r * .9, Math.sin(a) * r * .9); c.stroke(); }
+    c.beginPath(); c.arc(0, 0, r * .5, 0, 7); c.fillStyle = '#000'; c.fill();
+    c.beginPath(); c.ellipse(side * r * .42, -r * .4, r * .1, r * .045, side * .7, 0, 7); c.fillStyle = 'rgba(255,255,255,.5)'; c.fill();
+    c.beginPath(); c.arc(0, 0, r * .8, (side > 0 ? -.2 : .7) * Math.PI, (side > 0 ? .3 : 1.2) * Math.PI); c.strokeStyle = 'rgba(170,240,255,.6)'; c.lineWidth = .014; c.lineCap = 'round'; c.stroke();
+    c.restore(); }
+  function squid(c, t) {
+    tents.forEach(L => limb(c, L, t)); arms.filter(a => !a.front).forEach(L => limb(c, L, t)); eye(c, -1, t); eye(c, 1, t);
+    c.beginPath(); c.moveTo(-.5, 4.5); c.bezierCurveTo(-.62, 4.8, -.6, 5.2, -.4, 5.5); c.quadraticCurveTo(0, 5.66, .4, 5.5); c.bezierCurveTo(.6, 5.2, .62, 4.8, .5, 4.5); c.closePath();
+    let g = c.createLinearGradient(-.6, 0, .6, 0); g.addColorStop(0, C.dark); g.addColorStop(.3, C.base); g.addColorStop(.5, C.mid); g.addColorStop(.72, C.deep); g.addColorStop(1, C.dark); c.fillStyle = g; c.fill();
+    arms.filter(a => a.front).forEach(L => limb(c, L, t));
+    fin(c, -1, t); fin(c, 1, t);
+    mantle(c); g = c.createLinearGradient(-1, 0, 1, 0); g.addColorStop(0, C.dark); g.addColorStop(.2, '#9c2f1b'); g.addColorStop(.38, '#d95c39'); g.addColorStop(.5, '#e97850'); g.addColorStop(.64, C.mid); g.addColorStop(.86, '#7c2212'); g.addColorStop(1, '#330a07'); c.fillStyle = g; c.fill();
+    c.save(); mantle(c); c.clip();
+    g = c.createLinearGradient(0, 0, 0, 4.7); g.addColorStop(0, 'rgba(40,6,4,.7)'); g.addColorStop(.26, 'rgba(40,6,4,0)'); g.addColorStop(.8, 'rgba(40,6,4,0)'); g.addColorStop(1, 'rgba(40,6,4,.45)'); c.fillStyle = g; c.fillRect(-1, 0, 2, 4.9);
+    if (skin) c.drawImage(skin, -1, 0, 2, 4.9);
+    c.restore(); mantle(c); c.strokeStyle = 'rgba(255,198,168,.3)'; c.lineWidth = .012; c.stroke();
+    c.beginPath(); c.moveTo(.64, 4.62); c.quadraticCurveTo(0, 4.9, -.64, 4.62); c.strokeStyle = 'rgba(255,200,170,.45)'; c.lineWidth = .016; c.stroke();
+    c.beginPath(); c.ellipse(0, 4.83, .15, .085, 0, 0, 7); c.fillStyle = '#6f2011'; c.fill();
+  }
+  function squidInit() { qw = sq.clientWidth; qh = sq.clientHeight; qx = fit(sq, qw, qh, vw < 700 ? 2 : 1.5); U = parseFloat(getComputedStyle(stage).height) / 11.4; skinInit(); }
+  function squidDraw(t) {
+    const off = stage.getBoundingClientRect().top - sq.getBoundingClientRect().top, c = qx;
+    c.globalCompositeOperation = 'source-over'; c.clearRect(0, 0, qw, qh);
+    const cx = qw / 2 + Math.sin(t * .22) * U * .05, lx = ptr ? ptr.x : qw * .5 + Math.sin(t * .37) * qw * .07, ly = ptr ? ptr.y : qh * .46 + Math.cos(t * .29) * qh * .04, R = Math.max(qw, qh) * (ptr ? .5 : .62);
+    c.save(); c.translate(cx, off + U * .7); c.rotate(Math.sin(t * .18) * .012); c.scale(U, U); squid(c, t); c.restore();
+    c.globalCompositeOperation = 'destination-in'; let g = c.createRadialGradient(lx, ly, 0, lx, ly, R); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(.5, 'rgba(0,0,0,.82)'); g.addColorStop(1, 'rgba(0,0,0,.07)'); c.fillStyle = g; c.fillRect(0, 0, qw, qh);
+    c.globalCompositeOperation = 'destination-over'; g = c.createRadialGradient(lx, ly, 0, lx, ly, R * 1.05); g.addColorStop(0, 'rgba(46,118,150,.3)'); g.addColorStop(.6, 'rgba(20,60,84,.12)'); g.addColorStop(1, 'rgba(0,0,0,0)'); c.fillStyle = g; c.fillRect(0, 0, qw, qh);
+    c.globalCompositeOperation = 'lighter'; const k = .55 + .45 * Math.sin(t * 1.4);
+    for (const s of [-1, 1]) { const ex = cx + s * .7 * U, ey = off + U * .7 + 5.02 * U; g = c.createRadialGradient(ex, ey, 0, ex, ey, U * .62); g.addColorStop(0, 'rgba(150,236,255,' + (.2 * k).toFixed(3) + ')'); g.addColorStop(1, 'rgba(150,236,255,0)'); c.fillStyle = g; c.fillRect(ex - U, ey - U, U * 2, U * 2); }
+  }
+  sq.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') { const r = sq.getBoundingClientRect(); ptr = { x: e.clientX - r.left, y: e.clientY - r.top }; } });
+  sq.addEventListener('pointerleave', () => ptr = null);
+
+  /* the peek: one floating photo for every [data-img] row */
+  const peek = $('#peek'), pimg = $('img', peek); let pk = null, tx = 0, ty = 0, cx0 = 0, cy0 = 0, pw = 240, ph = 340, shownAt = 0, moving = false;
+  const size = (el) => { const r = +el.dataset.r || 1.417, wide = r < 1; pw = Math.min(wide ? 340 : 250, vw * (wide ? .62 : .44)); ph = pw * r; peek.style.setProperty('--pw', pw + 'px'); peek.style.height = ph + 'px'; };
+  const place = () => { cx0 += (tx - cx0) * .16; cy0 += (ty - cy0) * .16; peek.style.transform = `translate3d(${cx0.toFixed(1)}px,${cy0.toFixed(1)}px,0) rotate(${((tx - cx0) * .03).toFixed(2)}deg)`; if (pk && (Math.abs(tx - cx0) > .3 || Math.abs(ty - cy0) > .3)) requestAnimationFrame(place); else moving = false; };
+  const aim = (x, y, snap) => { tx = clamp(x, 12, vw - pw - 12); ty = clamp(y, 12, vh - ph - 12); if (snap || reduce) { cx0 = tx; cy0 = ty; } if (!moving) { moving = true; requestAnimationFrame(place); } };
+  const show = (el, x, y, snap) => { if (pk !== el) { pimg.src = el.dataset.img; pimg.alt = el.dataset.alt || $('b', el).textContent; size(el); } pk && pk.classList.remove('open'); pk = el; el.classList.add('open'); peek.classList.add('on'); shownAt = scrollY; aim(x, y, snap); };
+  const hide = () => { if (pk) pk.classList.remove('open'); pk = null; peek.classList.remove('on'); };
+  const beside = (el) => { const r = el.getBoundingClientRect(); size(el); return [vw - pw - 20, vw < 700 ? r.bottom + 8 : r.top + r.height / 2 - ph / 2]; };
+  $$('[data-img]').forEach(el => {
+    el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { size(el); show(el, e.clientX + 28, e.clientY - ph / 2, !pk); } });
+    el.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && pk === el) aim(e.clientX + 28, e.clientY - ph / 2); });
+    el.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hide(); });
+    el.addEventListener('click', (e) => { if (e.pointerType === 'mouse') return; e.stopPropagation(); if (pk === el) hide(); else show(el, ...beside(el), true); });
+    el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (pk === el) hide(); else show(el, ...beside(el), true); } });
+    el.addEventListener('blur', () => { if (pk === el) hide(); });
+  });
+  document.addEventListener('click', () => hide());
+  addEventListener('scroll', () => { if (pk && Math.abs(scrollY - shownAt) > 140) hide(); }, { passive: true });
+  const warm = () => $$('[data-img]').forEach(el => { new Image().src = el.dataset.img; }); ('requestIdleCallback' in window) ? requestIdleCallback(warm) : setTimeout(warm, 2500);
+
+  /* ?cover: the card on the Work grid */
+  function coverMode() {
+    const cv = document.createElement('canvas'); cv.id = 'coverfx'; view.insertBefore(cv, $('#waveB'));
+    if (!/[?&]bare\b/.test(location.search)) [['tl', 'Ocean nonprofit'], ['tr', 'Website'], ['bl', 'Southern Ocean'], ['br', '2,000 m']].forEach(([k, t]) => { const e = document.createElement('p'); e.className = 'cov-l ' + k; e.textContent = t; view.appendChild(e); });
+    let c, cw = 1, ch = 1, base = 0, hov = 0, hovT = 0, last = performance.now();
+    const cj = [{ x: .22, y: .5, r: .075, ph: 0, tilt: .22, v: .012 }, { x: .76, y: .62, r: .045, ph: 2.2, tilt: -.25, v: .017 }];
+    const size = () => { vw = cw = innerWidth; vh = ch = innerHeight; c = fit(cv, cw, ch, 2); const r = wm.getBoundingClientRect(); base = r.top + r.height * .66; };
+    addEventListener('message', (e) => { if (e.origin === location.origin && e.data && e.data.type === 'cover:hover') hovT = e.data.on ? 1 : 0; });
+    addEventListener('resize', size); size(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(size);
+    function frame(now) {
+      const dt = Math.min(.05, (now - last) / 1000); last = now; T += dt; hov += (hovT - hov) * Math.min(1, dt * 2.6);
+      const k = ease(hov);
+      view.style.setProperty('--wl', (lerp(base, ch * .1, k) + Math.sin(T * .7) * ch * .005).toFixed(1) + 'px');
+      c.globalCompositeOperation = 'source-over'; c.clearRect(0, 0, cw, ch);
+      const U = Math.min(cw * .13, ch * .1), Y = ch + U * (4.72 - .7 * k);          // the squid, head up from below the card; it rises when the card is hovered
+      c.save(); c.translate(cw / 2 + Math.sin(T * .2) * U * .1, Y); c.rotate(Math.PI + Math.sin(T * .17) * .02); c.scale(U, U); squid(c, T); c.restore();
+      c.globalCompositeOperation = 'destination-in'; let g = c.createLinearGradient(0, ch * .42, 0, ch); g.addColorStop(0, 'rgba(0,0,0,' + (.5 + .4 * k).toFixed(2) + ')'); g.addColorStop(.5, 'rgba(0,0,0,' + (.8 + .2 * k).toFixed(2) + ')'); g.addColorStop(1, 'rgba(0,0,0,' + (.55 + .4 * k).toFixed(2) + ')'); c.fillStyle = g; c.fillRect(0, 0, cw, ch);
+      c.globalCompositeOperation = 'lighter'; const pu = (.55 + .45 * Math.sin(T * 1.4)) * (.6 + .7 * k);
+      for (const sd of [-1, 1]) { const ex = cw / 2 - sd * .68 * U, ey = Y - 5.02 * U; g = c.createRadialGradient(ex, ey, 0, ex, ey, U * .7); g.addColorStop(0, 'rgba(150,236,255,' + (.3 * pu).toFixed(3) + ')'); g.addColorStop(1, 'rgba(150,236,255,0)'); c.fillStyle = g; c.fillRect(ex - U, ey - U, U * 2, U * 2); }
+      for (const j of cj) { j.y -= j.v * dt; if (j.y < .3) j.y = .86; const a = clamp((j.y - .3) / .08) * clamp((.9 - j.y) / .1);
+        c.save(); c.globalAlpha = a; c.translate(j.x * cw + Math.sin(T * .25 + j.ph) * cw * .02, j.y * ch); c.rotate(j.tilt + Math.sin(T * .3 + j.ph) * .06); const J = j.J || (j.J = { ph: j.ph / 6.283, q: .5 }); J.r = j.r * Math.min(cw, ch * .75); jelly(c, J, T); c.restore(); }
+      c.globalAlpha = 1;
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  if (root.classList.contains('is-cover')) { coverMode(); return; }
+
+  /* one loop for everything that moves */
+  [jsec, stage].forEach(el => watch.observe(el));
+  function init() { measure(); snowInit(); jellyInit(); squidInit(); onScroll(); if (reduce) { jellyDraw(0); squidDraw(0); document.querySelectorAll('svg.fish').forEach((f) => f.pauseAnimations && f.pauseAnimations()); } }
+  let last = performance.now();
+  function loop(now) { const dt = Math.min(.05, (now - last) / 1000); last = now; T += dt;
+    if (!document.hidden) { snowDraw(dt); if (seen.get(jsec)) jellyDraw(dt); if (seen.get(stage)) squidDraw(T); }
+    requestAnimationFrame(loop); }
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(init, 150); });
+  init(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { measure(); onScroll(); });
+  addEventListener('load', () => { measure(); onScroll(); });
+  if (reduce) addEventListener('scroll', () => { if (seen.get(stage)) squidDraw(0); }, { passive: true }); else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

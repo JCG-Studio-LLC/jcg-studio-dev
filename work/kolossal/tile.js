@@ -1,0 +1,3 @@
+// the Kolossal grid tile: the dive's own opening scene (waterline, jellies, the squid rising), live in a frame over the card picture
+export const html = "<iframe class=\"kol-live\" src=\"@R@work/kolossal/site/?cover&amp;bare&amp;v=20261127a\" title=\"\" tabindex=\"-1\" loading=\"lazy\" onload=\"setTimeout(() => this.classList.add('on'), 600)\"></iframe>";
+export const css = "[data-tile] .tl .kol-live { inset: 0; width: 100%; height: 100%; border: 0; opacity: 0; transition: opacity .5s ease; pointer-events: none; } [data-tile] .tl .kol-live.on { opacity: 1; } @media (prefers-reduced-motion: reduce) { [data-tile] .tl .kol-live { display: none; } }";
